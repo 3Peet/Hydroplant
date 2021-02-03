@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HYDROPLANT | Dashboard</title>
+    <link href="/image/fern.png" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/style.css" />
+
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+    />
+
+    <!-- Bulma -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css"
+    />
+
+    <!-- Chart JS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+    <!-- APEX Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  </head>
+
+  <body>
+    <!-- display_ct() Set time clock-->
+
+    <div class="grid">
+      <header class="page-header content">
+        <!-- <h3>Header</h3> -->
+        <nav class="menu-bar">
+          <div class="group">
+            <a class="item title" href="/">🌱 HYDROPLANT</a>
+          </div>
+          <div class="group">
+            <a href="/" class="item">Home</a>
+            <a href="/control" class="item">Control</a>
+            <a href="/chart" class="item">Charts</a>
+            <a href="/market" class="item">Market</a>
+            <a href="/about" class="item">About</a>
+          </div>
+        </nav>
+      </header>
+
+      <footer class="page-footer content"></footer>
+
+      <div class="page-leftbar content">
+        <!-- <h3>Sidebar</h3> -->
+      </div>
+
+      <div class="page-main content">
+        <div class="env-title">
+          <h1>Dashboard</h1>
+          <P id="ct"></P>
+        </div>
+
+        <div class="env-card temp">
+          <h4 class="env-name">Tempurature</h4>
+          <h1 class="env-value" id="env-temp"></h1>
+        </div>
+
+        <div class="env-card hum">
+          <h4 class="env-name">Humidity</h4>
+          <h1 class="env-value" id="env-hum"></h1>
+        </div>
+
+        <div class="env-card light">
+          <h4 class="env-name">Light</h4>
+          <h1 class="env-value" id="env-light"></h1>
+        </div>
+
+        <div class="env-card ec">
+          <h4 class="env-name">EC</h4>
+          <h1 class="env-value" id="env-ec"></h1>
+        </div>
+
+        <div class="env-card ph">
+          <h4 class="env-name">pH</h4>
+          <h1 class="env-value" id="env-ph"></h1>
+        </div>
+
+        <div class="env-card water">
+          <h4 class="env-name">Water Level</h4>
+          <h1 class="env-value" id="env-water"></h1>
+        </div>
+
+        <div class="env-card graph">
+          <div id="graph_chart"></div>
+        </div>
+
+        <div class="topic1">
+          <h2>Harvest Schedule</h2>
+        </div>
+
+        <div class="env-card process">
+          <h4 class="env-name">Harvest Goal</h4>
+          <div id="process_chart"></div>
+        </div>
+
+        <div class="env-card process-data">
+          <div id="start-date-data">
+            <div class="count-time">
+              <p style="font-weight: bold">Harvested in</p>
+              <h2 id="days_remaining"></h2>
+              <img
+                class="plant-item-main"
+                src="/image/lettuce.svg"
+                alt="lettuce"
+              />
+
+              <h2 class="plant-name-main">Green Oak Lettuce</h2>
+            </div>
+          </div>
+
+          <div id="btn-start">
+            <a
+              id="button-start"
+              class="button-start"
+              style="background-color: #4e9af1"
+              >Let's Plant !</a
+            >
+          </div>
+
+          <div id="btn-cancel">
+            <a
+              id="button-cancel"
+              class="button-cancel"
+              style="background-color: #4e9af1"
+              >Cancel</a
+            >
+          </div>
+
+          <div id="btn-harvest">
+            <a
+              id="button-harvest"
+              class="button-harvest"
+              style="background-color: #4e9af1"
+              >Harvest</a
+            >
+          </div>
+
+          <iframe
+            name="dummyframe"
+            id="dummyframe"
+            style="display: none"
+          ></iframe>
+
+          <!-- POPUP FORM -->
+
+          <div id="popup-card">
+            <div id="popup-data">
+              <form
+                action="/start_date_data"
+                method="POST"
+                name="plant_form"
+                target="dummyframe"
+              >
+                <h2>Select your plant</h2>
+                <div class="main-card-plant">
+                  <div class="plant-card selected-card">
+                    <img
+                      class="plant-item"
+                      src="/image/lettuce.svg"
+                      alt="lettuce"
+                    />
+                  </div>
+
+                  <div class="plant-card">
+                    <img
+                      class="plant-item-none"
+                      src="/image/broccoli.svg"
+                      alt="broccoli"
+                    />
+                  </div>
+
+                  <div class="plant-card">
+                    <img
+                      class="plant-item-none"
+                      src="/image/celery.svg"
+                      alt="celery"
+                    />
+                  </div>
+
+                  <div class="plant-card">
+                    <img
+                      class="plant-item-none"
+                      src="/image/salad1.svg"
+                      alt="salad1"
+                    />
+                  </div>
+
+                  <div class="plant-card">
+                    <img
+                      class="plant-item-none"
+                      src="/image/spinach.svg"
+                      alt="salad2"
+                    />
+                  </div>
+
+                  <div class="plant-card">
+                    <img
+                      class="plant-item-none"
+                      src="/image/salad2.svg"
+                      alt="celery"
+                    />
+                  </div>
+
+                  <div class="plant-card none">
+                    <h2>X</h2>
+                  </div>
+
+                  <div class="plant-card none">
+                    <h2>X</h2>
+                  </div>
+
+                  <div class="plant-card none">
+                    <h2>X</h2>
+                  </div>
+                </div>
+
+                <div class="date-start">
+                  <label for="dateofstarted">Start date : </label>
+                  <input
+                    type="date"
+                    name="start_date"
+                    class="plant-input"
+                    id="plant-input-form"
+                  />
+                  <div class="button-popup">
+                    <input
+                      class="submit"
+                      id="submit-and-close"
+                      type="submit"
+                      value="Submit"
+                    />
+                    <button id="close-popup" class="close">Close</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script type="text/javascript">
+      // Socket.io
+      
+      var socket = io();
+
+      socket.on("dht_data", (data1, data2, data3, data4) => {
+        var temp_data = Number(data1.temp_data);
+        var hum_data = Number(data2.hum_data);
+        var ec_data = Number(data3.ec_data);
+        var ph_data = Number(data4.ph_data);
+
+        graph_chart.appendData([
+          {
+            data: [temp_data],
+          },
+          {
+            data: [ph_data],
+          },
+          {
+            data: [ec_data],
+          },
+          {
+            data: [hum_data],
+          },
+        ]);
+      });
+
+      socket.on("tempdata", (data) => {
+        document.getElementById("env-temp").innerHTML = data.value;
+      });
+
+      socket.on("humdata", (data) => {
+        document.getElementById("env-hum").innerHTML = data.value;
+      });
+
+      socket.on("lightdata", (data) => {
+        document.getElementById("env-light").innerHTML = data.value;
+      });
+
+      socket.on("ecdata", (data) => {
+        document.getElementById("env-ec").innerHTML = data.value;
+      });
+
+      socket.on("phdata", (data) => {
+        document.getElementById("env-ph").innerHTML = data.value;
+      });
+
+      socket.on("water_lvl", (data) => {
+        document.getElementById("env-water").innerHTML = data.value;
+      });
+
+      
+
+      //Set Clock | timezone
+      display_ct(); // <- Call function
+      function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout("display_ct()", refresh);
+      }
+
+      function display_ct() {
+        var x = new Date();
+
+        var hour = x.getHours();
+        var minute = x.getMinutes();
+        var second = x.getSeconds();
+        if (hour < 10) {
+          hour = "0" + hour;
+        }
+        if (minute < 10) {
+          minute = "0" + minute;
+        }
+        if (second < 10) {
+          second = "0" + second;
+        }
+
+        var x1 = x.getDate() + " " + month_now() + " " + x.getFullYear();
+        x1 = x1 + " | " + day_now() + " " + hour + ":" + minute + ":" + second;
+        document.getElementById("ct").innerHTML = x1;
+        display_c();
+      }
+
+      function month_now() {
+        var my_month = new Date();
+        var month_name = new Array(12);
+        month_name[0] = "January";
+        month_name[1] = "February";
+        month_name[2] = "March";
+        month_name[3] = "April";
+        month_name[4] = "May";
+        month_name[5] = "June";
+        month_name[6] = "July";
+        month_name[7] = "August";
+        month_name[8] = "September";
+        month_name[9] = "October";
+        month_name[10] = "November";
+        month_name[11] = "December";
+        return month_name[my_month.getMonth()];
+      }
+      function day_now() {
+        var my_day = new Date();
+        var day_name = new Array(7);
+
+        day_name[0] = "Sunday";
+        day_name[1] = "Monday";
+        day_name[2] = "Tuesday";
+        day_name[3] = "Wednesday";
+        day_name[4] = "Thursday";
+        day_name[5] = "Friday";
+        day_name[6] = "Saturday";
+        return day_name[my_day.getDay()];
+      }
+
+      // Calculate Percent time remaining plant for process charts.
+      function convert_days_remaining_to_percent(days_remaining) {
+        duration = 45; // Duration of Saland 45 days
+        var result = Math.round(((duration - days_remaining) * 100) / duration);
+        if (result >= 100) return 100;
+        else return result;
+      }
+
+      // Chart Process
+      function chart_process_circle(percent) {
+        var process_options = {
+          chart: {
+            height: 280,
+            type: "radialBar",
+            fontFamily: "Nunito, sans-serif",
+          },
+          series: [percent],
+
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                margin: 15,
+                size: "70%",
+              },
+
+              dataLabels: {
+                showOn: "always",
+                name: {
+                  offsetY: -10,
+                  show: true,
+                  color: "#888",
+                  fontSize: "13px",
+                },
+                value: {
+                  color: "#111",
+                  fontSize: "30px",
+                  fontWeight: "bold",
+                  show: true,
+                },
+              },
+            },
+          },
+
+          stroke: {
+            lineCap: "round",
+          },
+          labels: ["Progress"],
+        };
+        var process_chart = new ApexCharts(
+          document.querySelector("#process_chart"),
+          process_options
+        );
+        process_chart.render();
+      }
+
+      // Chart Realtime
+      var graph_options = {
+        chart: {
+          height: 350,
+          type: "line",
+          fontFamily: "Nunito, sans-serif",
+          animations: {
+            easing: "linear",
+            dynamicAnimation: {
+              speed: 1510,
+            },
+          },
+          toolbar: {
+            show: false,
+          },
+          zoom: {
+            enabled: false,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "smooth",
+        },
+        series: [
+          {
+            name: "Tempurature",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+          {
+            name: "pH",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+          {
+            name: "EC",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+          {
+            name: "Humidity",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+        ],
+        title: {
+          text: " Sensors data",
+          align: "left",
+        },
+        markers: {
+          size: 0,
+        },
+        xaxis: {
+          range: 10,
+          tickAmount: 10,
+        },
+        legend: {
+          show: true,
+        },
+      };
+
+      var graph_chart = new ApexCharts(
+        document.querySelector("#graph_chart"),
+        graph_options
+      );
+      graph_chart.render();
+
+      // POP-UP
+      var date = new Date(document.getElementById("plant-input-form").value);
+
+      socket.on("schedule", (data1, data2, data3) => {
+
+        var plant_status = data1.status;
+        var plant_start_date = data2.start_date;
+        var plant_day_remaining = data3.days_remaining;
+
+        document.getElementById("days_remaining").innerHTML =
+          String(plant_day_remaining) + " Days";
+
+        var start_btn = document.getElementById("btn-start");
+        var cancel_btn = document.getElementById("btn-cancel");
+        var start_date_data = document.getElementById("start-date-data");
+
+        if (plant_status == "ready") {
+          start_btn.style.display = "block";
+          cancel_btn.style.display = "none";
+          start_date_data.style.display = "none";
+          chart_process_circle(0);
+
+          document
+            .getElementById("button-start")
+            .addEventListener("click", () => {
+              var popup_main = document.getElementById("popup-card");
+              popup_main.style.display = "block";
+            });
+        } else if (plant_status == "planting") {
+          start_btn.style.display = "none";
+          cancel_btn.style.display = "block";
+          start_date_data.style.display = "block";
+          chart_process_circle(
+            convert_days_remaining_to_percent(plant_day_remaining)
+          );
+        } // <-- End else if here
+
+        document.getElementById("close-popup").addEventListener("click", () => {
+          var popup_main = document.getElementById("popup-card");
+          popup_main.style.display = "none";
+        });
+
+        document
+          .getElementById("submit-and-close")
+          .addEventListener("click", () => {
+            var popup_main = document.getElementById("popup-card");
+            var start_btn = document.getElementById("btn-start");
+            var cancel_btn = document.getElementById("btn-cancel");
+            var start_date_data = document.getElementById("start-date-data");
+            var plant_form_data =
+              document.forms["plant_form"]["start_date"].value;
+
+            // Check null form
+            if (plant_form_data == "") {
+              alert("Start date must be filled out !");
+              return false;
+            }
+
+            popup_main.style.display = "none";
+            start_btn.style.display = "none";
+            cancel_btn.style.display = "block";
+            start_date_data.style.display = "block";
+            // document.getElementById("start-date-data").innerHTML= plant_start_date;
+
+            socket.emit("schedule_status", "planting");
+            socket.emit("schedule", "planting");
+          });
+
+        document
+          .getElementById("button-cancel")
+          .addEventListener("click", () => {
+            var start_btn = document.getElementById("btn-start");
+            var cancel_btn = document.getElementById("btn-cancel");
+
+            start_btn.style.display = "block";
+            cancel_btn.style.display = "none";
+
+            socket.emit("schedule_status", "ready");
+            socket.emit("schedule", "ready");
+          });
+      });
+    </script>
+  </body>
+</html>

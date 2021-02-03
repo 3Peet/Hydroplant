@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HYDROPLANT | Dashboard</title>
+  <link href="/image/fern.png" rel="icon" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
+  <!-- Bulma -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css" />
+
+  <!-- Chart JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+  <!-- APEX Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+
+<body>
+  <div class="grid">
+    <header class="page-header content">
+      <!-- <h3>Header</h3> -->
+      <nav class="menu-bar">
+        <div class="group">
+          <a class="item title" href="/">🌱 HYDROPLANT</a>
+        </div>
+        <div class="group">
+          <a href="/" class="item">Home</a>
+          <a href="/control" class="item">Control</a>
+          <a href="/chart" class="item">Charts</a>
+          <a href="/market" class="item">Market</a>
+          <a href="/about" class="item">About</a>
+        </div>
+      </nav>
+    </header>
+
+    <footer class="page-footer content">
+      <!-- <h3>Footer</h3> -->
+    </footer>
+
+    <div class="page-leftbar content">
+      <!-- <h3>Sidebar</h3> -->
+    </div>
+
+    <div class="control-main content">
+      <div class="light_title">
+        <h2 class="txt_main_color">Light Control</h2>
+      </div>
+
+      <div class="air_pump_title">
+        <h2 class="txt_main_color">Air Pump Control</h2>
+      </div>
+
+      <div class="ph_title">
+        <h2 class="txt_main_color">pH Control</h2>
+      </div>
+
+      <div class="ec_title">
+        <h2 class="txt_main_color">EC Control</h2>
+      </div>
+
+      <div class="sw_light ctrl-card">
+
+        <h4 class="ctrl-name">Light</h4>
+        <div class="field">
+          <input id="btn_light" type="checkbox" name="btn_light" class="switch is-thin is-info" checked="checked"
+            onclick="state_sw()" />
+          <label for="btn_light"></label>
+        </div>
+      </div>
+
+      <div class="sw_nutrient ctrl-card">
+
+        <h4 class="ctrl-name">Nutrient Solution</h4>
+        <a href="#nutrient-btn" class="button6" id="nutrient-btn">ADD</a>
+        <a class="button6_disable" id="nutrient-btn-disable" href="#">ADD</a>
+      </div>
+
+      <div class="sw_water ctrl-card">
+
+        <h4 class="ctrl-name">Water</h4>
+        <a class="button6" id="water-btn" href="#water-btn">ADD</a>
+        <a class="button6_disable" id="water-btn-disable" href="#">ADD</a>
+      </div>
+
+      <div class="sw_ph_up ctrl-card">
+
+        <h4 class="ctrl-name">pH Up</h4>
+        <a href="#" class="button6" id="phup-btn">ADD</a>
+        <a class="button6_disable" id="phup-btn-disable" href="#">ADD</a>
+      </div>
+
+      <div class="sw_ph_down ctrl-card">
+
+        <h4 class="ctrl-name">pH Down</h4>
+        <a href="#" class="button6" id="phdown-btn">ADD</a>
+        <a class="button6_disable" id="phdown-btn-disable" href="#">ADD</a>
+      </div>
+
+      <div class="sw_air_pump ctrl-card">
+
+        <h4 class="ctrl-name">Air Pump</h4>
+        <div class="field">
+          <input id="btn_air_pump" type="checkbox" name="btn_air_pump" class="switch is-thin is-info" checked="checked"
+            onclick="state_air_pump()">
+          <label for="btn_air_pump"></label>
+        </div>
+
+      </div>
+
+      <div class="air_pump_timer ctrl-card">
+
+        <h4 class="ctrl-name" style="margin: 1em 0;">Air Pump Timer</h4>
+        <div class="field">
+          <input id="btn_airpump_timer_on_off" type="checkbox" name="btn_airpump_timer_on_off"
+            class="switch is-thin is-info" checked="checked" onclick="state_airpump_timer()">
+          <label for="btn_airpump_timer_on_off"></label>
+        </div>
+
+        <div class="display_timer">
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_start_timer_1"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="airpump_dat_1" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_end_timer_1"></h1>
+
+          <h1 class="txt_light_color display_light_timer_data" id="airpump_split_1" style="margin: auto .2em;"> | </h1>
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_start_timer_2"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="airpump_dat_2" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_end_timer_2"></h1>
+
+          <h1 class="txt_light_color display_light_timer_data" id="airpump_split_2" style="margin: auto .2em;"> | </h1>
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_start_timer_3"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="airpump_dat_3" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_end_timer_3"></h1>
+
+          <h1 class="txt_light_color display_light_timer_data" id="airpump_split_3" style="margin: auto .2em;"> | </h1>
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_start_timer_4"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="airpump_dat_4" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_airpump_end_timer_4"></h1>
+
+        </div>
+
+        <a href="#" class="button6" id="btn-airpump-timer">Set time</a>
+
+        <div id="airpump_timer_popup">
+          <div id="main_airpump_timer_popup">
+
+            <form id="airpump_timer_form" action="/airpump_timer" method="POST" name="airpump_timer" target="dummyframe"
+              style="padding: 20px 50px;">
+              <h1 class="title_form_light">SETUP AIR PUMP TIMER</h1>
+
+              <div class="timer_airpump" id="timer_airpump_no1">
+                <h4 class="timer_number">Timer #1</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_start_1" name="airpump_start_time_1">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_end_1" name="airpump_end_time_1">
+                <a href="#" class="button6 btn_add_smaller" id="add_airpump_timer_1">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_airpump_timer_1">-</a>
+              </div>
+
+              <div class="timer_airpump" id="timer_airpump_no2">
+                <h4 class="timer_number">Timer #2</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_start_2" name="airpump_start_time_2">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_end_2" name="airpump_end_time_2">
+                <a href="#" class="button6 btn_add_smaller" id="add_airpump_timer_2">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_airpump_timer_2">-</a>
+              </div>
+
+              <div class="timer_airpump" id="timer_airpump_no3">
+                <h4 class="timer_number">Timer #3</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_start_3" name="airpump_start_time_3">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_end_3" name="airpump_end_time_3">
+                <a href="#" class="button6 btn_add_smaller" id="add_airpump_timer_3">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_airpump_timer_3">-</a>
+              </div>
+
+              <div class="timer_airpump" id="timer_airpump_no4">
+                <h4 class="timer_number">Timer #4</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_start_4" name="airpump_start_time_4">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_airpump_space" type="time" id="airpump_end_4" name="airpump_end_time_4">
+                <a href="#" class="button6 btn_add_smaller" id="add_airpump_timer_4">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_airpump_timer_4">-</a>
+
+              </div>
+              <div class="btn_airpump_submit_close">
+                <a href="#" class="button6 btn_form_smaller" id="submit-airpump-timer-popup"
+                  style="background-color: #06d6a0 ;">Submit</a>
+                <a href="#" class="button6 btn_form_smaller" id="close-airpump-timer-popup"
+                  style="background-color:  #ef476f;">Close</a>
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+
+
+
+
+      </div>
+
+      <iframe name="dummyframe" id="dummyframe" style="display: none"></iframe>
+
+
+
+      <div class="light_timer ctrl-card">
+        <h4 class="ctrl-name" style="margin: 1em 0;">Light Timer</h4>
+        <div class="field" id="div_sw_light_timer_debug">
+          <input id="btn_light_timer_on_off" type="checkbox" name="btn_light_timer_on_off"
+            class="switch is-thin is-info" checked="checked" onclick="state_light_timer()">
+          <label for="btn_light_timer_on_off"></label>
+        </div>
+        <div class="display_timer">
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_start_timer_1"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="light_dat_1" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_end_timer_1"></h1>
+
+          <h1 class="txt_light_color display_light_timer_data" id="light_split_1" style="margin: auto .2em;"> | </h1>
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_start_timer_2"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="light_dat_2" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_end_timer_2"></h1>
+
+          <h1 class="txt_light_color display_light_timer_data" id="light_split_2" style="margin: auto .2em;"> | </h1>
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_start_timer_3"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="light_dat_3" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_end_timer_3"></h1>
+
+          <h1 class="txt_light_color display_light_timer_data" id="light_split_3" style="margin: auto .2em;"> | </h1>
+
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_start_timer_4"></h1>
+          <h1 class="txt_main_color display_light_timer_data" id="light_dat_4" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_light_timer_data" id="display_light_end_timer_4"></h1>
+
+        </div>
+
+        <a href="#" class="button6" id="btn-light-timer">Set time</a>
+
+        <div id="light_timer_popup">
+          <div id="main_light_timer_popup">
+
+            <form id="light_timer_form" action="/light_timer" method="POST" name="light_timer" target="dummyframe"
+              style="padding: 20px 50px;">
+              <h1 class="title_form_light">SETUP LIGHT TIMER</h1>
+
+              <div class="timer_light" id="timer_light_no1">
+                <h4 class="timer_number">Timer #1</h4>
+                <input class="timer_light_space" type="time" id="light_start_1" name="light_start_time_1">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_light_space" type="time" id="light_end_1" name="light_end_time_1">
+                <a href="#" class="button6 btn_add_smaller" id="add_light_timer_1">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_light_timer_1">-</a>
+              </div>
+
+              <div class="timer_light" id="timer_light_no2">
+                <h4 class="timer_number">Timer #2</h4>
+                <input class="timer_light_space" type="time" id="light_start_2" name="light_start_time_2">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_light_space" type="time" id="light_end_2" name="light_end_time_2">
+                <a href="#" class="button6 btn_add_smaller" id="add_light_timer_2">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_light_timer_2">-</a>
+              </div>
+
+              <div class="timer_light" id="timer_light_no3">
+                <h4 class="timer_number">Timer #3</h4>
+                <input class="timer_light_space" type="time" id="light_start_3" name="light_start_time_3">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_light_space" type="time" id="light_end_3" name="light_end_time_3">
+                <a href="#" class="button6 btn_add_smaller" id="add_light_timer_3">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_light_timer_3">-</a>
+              </div>
+
+              <div class="timer_light" id="timer_light_no4">
+                <h4 class="timer_number">Timer #4</h4>
+                <input class="timer_light_space" type="time" id="light_start_4" name="light_start_time_4">
+                <h4 class="timer_number">-</h4>
+                <input class="timer_light_space" type="time" id="light_end_4" name="light_end_time_4">
+                <a href="#" class="button6 btn_add_smaller" id="add_light_timer_4">+</a>
+                <a href="#" class="button6 btn_remove_smaller" id="remove_light_timer_4">-</a>
+
+              </div>
+              <div class="btn_light_submit_close">
+                <a href="#" class="button6 btn_form_smaller" id="submit-light-timer-popup"
+                  style="background-color: #06d6a0 ;">Submit</a>
+                <a href="#" class="button6 btn_form_smaller" id="close-light-timer-popup"
+                  style="background-color:  #ef476f;">Close</a>
+              </div>
+
+            </form>
+
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="ph_auto ctrl-card">
+
+        <h4 class="ctrl-name">pH Automation</h4>
+
+      </div>
+
+      <div class="ec_auto ctrl-card">
+
+        <h4 class="ctrl-name">EC Automation</h4>
+
+      </div>
+
+
+
+
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    // Socket.io
+    var socket = io();
+    var status_water = "NULL";
+    var status_fertilizer = "NULL"
+    var fertilizer_delay_counter = 0;
+    var water_delay_counter = 0;
+
+
+    // Socket io FOR light timer data
+    socket.on("display_light_timer", (data1, data2, data3, data4, data5, data6, data7, data8) => {
+      var value_start_timer_1 = data1.light_start_time_1;
+      var value_end_timer_1 = data2.light_end_time_1;
+      var value_start_timer_2 = data3.light_start_time_2;
+      var value_end_timer_2 = data4.light_end_time_2;
+      var value_start_timer_3 = data5.light_start_time_3;
+      var value_end_timer_3 = data6.light_end_time_3;
+      var value_start_timer_4 = data7.light_start_time_4;
+      var value_end_timer_4 = data8.light_end_time_4;
+
+      // Display Timer Light Data
+      if (value_start_timer_2 === "") {
+        document.getElementById("light_split_1").style.display = "none";
+        document.getElementById("light_dat_2").style.display = "none";
+      }
+      else {
+        document.getElementById("light_split_1").style.display = "block";
+        document.getElementById("light_dat_2").style.display = "block";
+      }
+
+      if (value_start_timer_3 === "") {
+        document.getElementById("light_split_2").style.display = "none";
+        document.getElementById("light_dat_3").style.display = "none";
+      }
+      else {
+        document.getElementById("light_split_2").style.display = "block";
+        document.getElementById("light_dat_3").style.display = "block";
+      }
+
+      if (value_start_timer_4 === "") {
+        document.getElementById("light_split_3").style.display = "none";
+        document.getElementById("light_dat_4").style.display = "none";
+      }
+      else {
+        document.getElementById("light_split_3").style.display = "block";
+        document.getElementById("light_dat_4").style.display = "block";
+      }
+      document.getElementById("display_light_start_timer_1").innerHTML = value_start_timer_1;
+      document.getElementById("display_light_end_timer_1").innerHTML = value_end_timer_1;
+      document.getElementById("display_light_start_timer_2").innerHTML = value_start_timer_2;
+      document.getElementById("display_light_end_timer_2").innerHTML = value_end_timer_2;
+      document.getElementById("display_light_start_timer_3").innerHTML = value_start_timer_3;
+      document.getElementById("display_light_end_timer_3").innerHTML = value_end_timer_3;
+      document.getElementById("display_light_start_timer_4").innerHTML = value_start_timer_4;
+      document.getElementById("display_light_end_timer_4").innerHTML = value_end_timer_4;
+
+    });
+
+    // Socket io FOR Air Pump timer data
+    socket.on("display_airpump_timer", (data1, data2, data3, data4, data5, data6, data7, data8) => {
+      var value_start_timer_1 = data1.airpump_start_time_1;
+      var value_end_timer_1 = data2.airpump_end_time_1;
+      var value_start_timer_2 = data3.airpump_start_time_2;
+      var value_end_timer_2 = data4.airpump_end_time_2;
+      var value_start_timer_3 = data5.airpump_start_time_3;
+      var value_end_timer_3 = data6.airpump_end_time_3;
+      var value_start_timer_4 = data7.airpump_start_time_4;
+      var value_end_timer_4 = data8.airpump_end_time_4;
+
+      // Display Timer Air Pump Data
+      if (value_start_timer_2 === "") {
+        document.getElementById("airpump_split_1").style.display = "none";
+        document.getElementById("airpump_dat_2").style.display = "none";
+      }
+      else {
+        document.getElementById("airpump_split_1").style.display = "block";
+        document.getElementById("airpump_dat_2").style.display = "block";
+      }
+
+      if (value_start_timer_3 === "") {
+        document.getElementById("airpump_split_2").style.display = "none";
+        document.getElementById("airpump_dat_3").style.display = "none";
+      }
+      else {
+        document.getElementById("airpump_split_2").style.display = "block";
+        document.getElementById("airpump_dat_3").style.display = "block";
+      }
+
+      if (value_start_timer_4 === "") {
+        document.getElementById("airpump_split_3").style.display = "none";
+        document.getElementById("airpump_dat_4").style.display = "none";
+      }
+      else {
+        document.getElementById("airpump_split_3").style.display = "block";
+        document.getElementById("airpump_dat_4").style.display = "block";
+      }
+      document.getElementById("display_airpump_start_timer_1").innerHTML = value_start_timer_1;
+      document.getElementById("display_airpump_end_timer_1").innerHTML = value_end_timer_1;
+      document.getElementById("display_airpump_start_timer_2").innerHTML = value_start_timer_2;
+      document.getElementById("display_airpump_end_timer_2").innerHTML = value_end_timer_2;
+      document.getElementById("display_airpump_start_timer_3").innerHTML = value_start_timer_3;
+      document.getElementById("display_airpump_end_timer_3").innerHTML = value_end_timer_3;
+      document.getElementById("display_airpump_start_timer_4").innerHTML = value_start_timer_4;
+      document.getElementById("display_airpump_end_timer_4").innerHTML = value_end_timer_4;
+    });
+
+
+    // ----------------------- Switch light Box -----------------------
+    function state_sw() {
+      var checkbox = document.getElementById("btn_light");
+      localStorage.setItem("btn_light", checkbox.checked);
+      socket.emit("state_light_manual", checkbox.checked);
+    }
+    var checked = JSON.parse(localStorage.getItem("btn_light"));
+    document.getElementById("btn_light").checked = checked;
+
+    // ----------------------- Switch Light Timer -----------------------
+    var count_num_light_timer = 1;
+    function state_light_timer() {
+      var checkbox = document.getElementById("btn_light_timer_on_off");
+      localStorage.setItem("btn_light_timer_on_off", checkbox.checked);
+      socket.emit("state_light_timer", checkbox.checked);
+    }
+    var checked = JSON.parse(localStorage.getItem("btn_light_timer_on_off"));
+    document.getElementById("btn_light_timer_on_off").checked = checked;
+
+    // ----------------------- Switch Air Pump -----------------------
+    function state_air_pump() {
+      var checkbox = document.getElementById("btn_air_pump");
+      localStorage.setItem("btn_air_pump", checkbox.checked);
+      socket.emit("state_airpump_manual", checkbox.checked);
+    }
+    var checked = JSON.parse(localStorage.getItem("btn_air_pump"));
+    document.getElementById("btn_air_pump").checked = checked;
+
+    // ----------------------- Switch Air Pump Timer -----------------------
+    var count_num_airpump_timer = 1;
+    function state_airpump_timer() {
+      var checkbox = document.getElementById("btn_airpump_timer_on_off");
+      localStorage.setItem("btn_airpump_timer_on_off", checkbox.checked);
+      socket.emit("state_airpump_timer", checkbox.checked);
+    }
+    var checked = JSON.parse(localStorage.getItem("btn_airpump_timer_on_off"));
+    document.getElementById("btn_airpump_timer_on_off").checked = checked;
+
+
+
+    // -------------------------- Fretilizer pump 5s. --------------------------
+    document.getElementById("nutrient-btn").addEventListener("click", () => {
+      socket.emit("nutrient_pump", true);
+      status_fertilizer = true;
+      fertilizer_delay_counter = 0;
+
+      var fertilizer_btn = document.getElementById("nutrient-btn");
+      var fertilizer_btn_disable = document.getElementById("nutrient-btn-disable")
+
+      fertilizer_btn.style.display = "none";
+      fertilizer_btn_disable.style.display = "block";
+
+
+      var fertilizer_delay = setInterval(start_fertilizer_delay, 1000);
+
+      function stop_fertilizer_delay() {
+        clearInterval(fertilizer_delay);
+      }
+
+      function start_fertilizer_delay() {
+        fertilizer_delay_counter++;
+        if (fertilizer_delay_counter == 5) {
+          socket.emit("nutrient_pump", false);
+          fertilizer_delay_counter = 0;
+          status_fertilizer = false;
+          stop_fertilizer_delay();
+          fertilizer_btn.style.display = "block";
+          fertilizer_btn_disable.style.display = "none";
+        }
+      }
+    });
+
+
+    // -------------------------- water pump 5s. --------------------------
+    document.getElementById("water-btn").addEventListener("click", () => {
+      socket.emit("water_pump", true);
+      status_water = true;
+      water_delay_counter = 0;
+
+      var water_btn = document.getElementById("water-btn");
+      var water_btn_disable = document.getElementById("water-btn-disable")
+
+      water_btn.style.display = "none";
+      water_btn_disable.style.display = "block";
+
+
+      var water_delay = setInterval(start_water_delay, 1000);
+
+      function stop_water_delay() {
+        clearInterval(water_delay);
+      }
+
+      function start_water_delay() {
+        water_delay_counter++;
+        if (water_delay_counter == 5) {
+          socket.emit("water_pump", false);
+          water_delay_counter = 0;
+          status_water = false;
+          stop_water_delay();
+          water_btn.style.display = "block";
+          water_btn_disable.style.display = "none";
+        }
+      }
+    });
+
+    // -------------------------- Light Timer Popup --------------------------
+    document.getElementById("btn-light-timer").addEventListener("click", () => {
+      var light_timer_popup = document.getElementById("light_timer_popup");
+      light_timer_popup.style.display = "block";
+      document.getElementById("timer_light_no2").style.display = "none";
+      document.getElementById("timer_light_no3").style.display = "none";
+      document.getElementById("timer_light_no4").style.display = "none";
+      document.forms["light_timer"]["light_start_time_1"].value = "";
+      document.forms["light_timer"]["light_end_time_1"].value = "";
+      document.forms["light_timer"]["light_start_time_2"].value = "";
+      document.forms["light_timer"]["light_end_time_2"].value = "";
+      document.forms["light_timer"]["light_start_time_3"].value = "";
+      document.forms["light_timer"]["light_end_time_3"].value = "";
+      document.forms["light_timer"]["light_start_time_4"].value = "";
+      document.forms["light_timer"]["light_end_time_4"].value = "";
+    });
+
+    // Close button Light Timer
+    document.getElementById("close-light-timer-popup").addEventListener("click", () => {
+      var light_timer_popup = document.getElementById("light_timer_popup");
+      light_timer_popup.style.display = "none";
+      count_num_light_timer = 1;
+    });
+
+    // Submit Button Light Timer
+    document.getElementById("submit-light-timer-popup").addEventListener("click", () => {
+
+      // Check Timer NULL value 
+      var value_light_start_timer_1 = document.forms["light_timer"]["light_start_time_1"].value;
+      var value_light_end_timer_1 = document.forms["light_timer"]["light_end_time_1"].value;
+      var value_light_start_timer_2 = document.forms["light_timer"]["light_start_time_2"].value;
+      var value_light_end_timer_2 = document.forms["light_timer"]["light_end_time_2"].value;
+      var value_light_start_timer_3 = document.forms["light_timer"]["light_start_time_3"].value;
+      var value_light_end_timer_3 = document.forms["light_timer"]["light_end_time_3"].value;
+      var value_light_start_timer_4 = document.forms["light_timer"]["light_start_time_4"].value;
+      var value_light_end_timer_4 = document.forms["light_timer"]["light_end_time_4"].value;
+
+      if (count_num_light_timer === 1) {
+        if (value_light_start_timer_1 == "" || value_light_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+      else if (count_num_light_timer === 2) {
+        if (value_light_start_timer_2 == "" || value_light_end_timer_2 == "") {
+          alert(" ⏳ Timer #2 must be filled out !");
+          return false;
+        }
+        else if (value_light_start_timer_1 == "" || value_light_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+      else if (count_num_light_timer === 3) {
+        if (value_light_start_timer_3 == "" || value_light_end_timer_3 == "") {
+          alert(" ⏳ Timer #3 must be filled out !");
+          return false;
+        }
+        else if (value_light_start_timer_2 == "" || value_light_end_timer_2 == "") {
+          alert(" ⏳ Timer #2 must be filled out !");
+          return false;
+        }
+        else if (value_light_start_timer_1 == "" || value_light_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+      else if (count_num_light_timer === 4) {
+        if (value_light_start_timer_4 == "" || value_light_end_timer_4 == "") {
+          alert(" ⏳ Timer #4 must be filled out !");
+          return false;
+        }
+        else if (value_light_start_timer_3 == "" || value_light_end_timer_3 == "") {
+          alert(" ⏳ Timer #3 must be filled out !");
+          return false;
+        }
+        else if (value_light_start_timer_2 == "" || value_light_end_timer_2 == "") {
+          alert(" ⏳ Timer #2 must be filled out !");
+          return false;
+        }
+        else if (value_light_start_timer_1 == "" || value_light_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+
+
+      var light_timer_popup = document.getElementById("light_timer_popup");
+      light_timer_popup.style.display = "none";
+      document.getElementById("light_timer_form").submit();
+      count_num_light_timer = 1;
+    });
+
+    // --------------------- Timer 1 2 3 4 FOR Light ---------------------
+    // ------- Timer #1 --------
+    document.getElementById("add_light_timer_1").addEventListener("click", () => {
+      var timer_light_no2 = document.getElementById("timer_light_no2");
+      timer_light_no2.style.display = "flex";
+      count_num_light_timer += 1;
+    });
+    document.getElementById("remove_light_timer_1").addEventListener("click", () => {
+      document.forms["light_timer"]["light_start_time_1"].value = "";
+      document.forms["light_timer"]["light_end_time_1"].value = "";
+      count_num_light_timer = 1;
+    });
+
+    // ------- Timer #2 --------
+    document.getElementById("add_light_timer_2").addEventListener("click", () => {
+      var timer_light_no3 = document.getElementById("timer_light_no3");
+      timer_light_no3.style.display = "flex";
+      count_num_light_timer += 1;
+    });
+    document.getElementById("remove_light_timer_2").addEventListener("click", () => {
+      var timer_light_no2 = document.getElementById("timer_light_no2");
+      timer_light_no2.style.display = "none";
+      document.forms["light_timer"]["light_start_time_2"].value = "";
+      document.forms["light_timer"]["light_end_time_2"].value = "";
+      count_num_light_timer -= 1;
+    });
+
+    // ------- Timer #3 --------
+    document.getElementById("add_light_timer_3").addEventListener("click", () => {
+      var timer_light_no4 = document.getElementById("timer_light_no4");
+      timer_light_no4.style.display = "flex";
+      count_num_light_timer += 1;
+    });
+    document.getElementById("remove_light_timer_3").addEventListener("click", () => {
+      var timer_light_no3 = document.getElementById("timer_light_no3");
+      timer_light_no3.style.display = "none";
+      document.forms["light_timer"]["light_start_time_3"].value = "";
+      document.forms["light_timer"]["light_end_time_3"].value = "";
+      count_num_light_timer -= 1;
+    });
+
+    // ------- Timer #4 --------
+    document.getElementById("remove_light_timer_4").addEventListener("click", () => {
+      var timer_light_no4 = document.getElementById("timer_light_no4");
+      timer_light_no4.style.display = "none";
+      document.forms["light_timer"]["light_start_time_4"].value = "";
+      document.forms["light_timer"]["light_end_time_4"].value = "";
+      count_num_light_timer -= 1;
+    });
+
+    // -------------------------- Air Pump Timer Popup --------------------------
+    document.getElementById("btn-airpump-timer").addEventListener("click", () => {
+      var airpump_timer_popup = document.getElementById("airpump_timer_popup");
+      airpump_timer_popup.style.display = "block";
+      document.getElementById("timer_airpump_no2").style.display = "none";
+      document.getElementById("timer_airpump_no3").style.display = "none";
+      document.getElementById("timer_airpump_no4").style.display = "none";
+      document.forms["airpump_timer"]["airpump_start_time_1"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_1"].value = "";
+      document.forms["airpump_timer"]["airpump_start_time_2"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_2"].value = "";
+      document.forms["airpump_timer"]["airpump_start_time_3"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_3"].value = "";
+      document.forms["airpump_timer"]["airpump_start_time_4"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_4"].value = "";
+      document.getElementById("div_sw_light_timer_debug").style.zIndex = "-1";
+      document.getElementById("btn-light-timer").style.zIndex = "-1";
+    });
+
+    // Close button Air Pump Timer
+    document.getElementById("close-airpump-timer-popup").addEventListener("click", () => {
+      var airpump_timer_popup = document.getElementById("airpump_timer_popup");
+      airpump_timer_popup.style.display = "none";
+      document.getElementById("div_sw_light_timer_debug").style.zIndex = "1";
+      document.getElementById("btn-light-timer").style.zIndex = "1";
+      count_num_airpump_timer = 1;
+    });
+
+
+    // Submit Button Air Pump Timer
+    document.getElementById("submit-airpump-timer-popup").addEventListener("click", () => {
+
+      // Check Timer NULL value 
+      var value_airpump_start_timer_1 = document.forms["airpump_timer"]["airpump_start_time_1"].value;
+      var value_airpump_end_timer_1 = document.forms["airpump_timer"]["airpump_end_time_1"].value;
+      var value_airpump_start_timer_2 = document.forms["airpump_timer"]["airpump_start_time_2"].value;
+      var value_airpump_end_timer_2 = document.forms["airpump_timer"]["airpump_end_time_2"].value;
+      var value_airpump_start_timer_3 = document.forms["airpump_timer"]["airpump_start_time_3"].value;
+      var value_airpump_end_timer_3 = document.forms["airpump_timer"]["airpump_end_time_3"].value;
+      var value_airpump_start_timer_4 = document.forms["airpump_timer"]["airpump_start_time_4"].value;
+      var value_airpump_end_timer_4 = document.forms["airpump_timer"]["airpump_end_time_4"].value;
+
+      if (count_num_airpump_timer === 1) {
+        if (value_airpump_start_timer_1 == "" || value_airpump_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+      else if (count_num_airpump_timer === 2) {
+        if (value_airpump_start_timer_2 == "" || value_airpump_end_timer_2 == "") {
+          alert(" ⏳ Timer #2 must be filled out !");
+          return false;
+        }
+        else if (value_airpump_start_timer_1 == "" || value_airpump_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+      else if (count_num_airpump_timer === 3) {
+        if (value_airpump_start_timer_3 == "" || value_airpump_end_timer_3 == "") {
+          alert(" ⏳ Timer #3 must be filled out !");
+          return false;
+        }
+        else if (value_airpump_start_timer_2 == "" || value_airpump_end_timer_2 == "") {
+          alert(" ⏳ Timer #2 must be filled out !");
+          return false;
+        }
+        else if (value_airpump_start_timer_1 == "" || value_airpump_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+      else if (count_num_airpump_timer === 4) {
+        if (value_airpump_start_timer_4 == "" || value_airpump_end_timer_4 == "") {
+          alert(" ⏳ Timer #4 must be filled out !");
+          return false;
+        }
+        else if (value_airpump_start_timer_3 == "" || value_airpump_end_timer_3 == "") {
+          alert(" ⏳ Timer #3 must be filled out !");
+          return false;
+        }
+        else if (value_airpump_start_timer_2 == "" || value_airpump_end_timer_2 == "") {
+          alert(" ⏳ Timer #2 must be filled out !");
+          return false;
+        }
+        else if (value_airpump_start_timer_1 == "" || value_airpump_end_timer_1 == "") {
+          alert(" ⏳ Timer #1 must be filled out !");
+          return false;
+        }
+      }
+      var airpump_timer_popup = document.getElementById("airpump_timer_popup");
+      airpump_timer_popup.style.display = "none";
+      document.getElementById("airpump_timer_form").submit();
+      document.getElementById("div_sw_light_timer_debug").style.zIndex = "1";
+      document.getElementById("btn-light-timer").style.zIndex = "1";
+      count_num_airpump_timer = 1;
+    });
+
+    // --------------------- Timer 1 2 3 4 FOR AIR PUMP ---------------------
+    // ------- Timer #1 --------
+    document.getElementById("add_airpump_timer_1").addEventListener("click", () => {
+      var timer_airpump_no2 = document.getElementById("timer_airpump_no2");
+      timer_airpump_no2.style.display = "flex";
+      count_num_airpump_timer += 1;
+    });
+    document.getElementById("remove_airpump_timer_1").addEventListener("click", () => {
+      document.forms["airpump_timer"]["airpump_start_time_1"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_1"].value = "";
+      count_num_airpump_timer = 1;
+    });
+
+    // ------- Timer #2 --------
+    document.getElementById("add_airpump_timer_2").addEventListener("click", () => {
+      var timer_airpump_no3 = document.getElementById("timer_airpump_no3");
+      timer_airpump_no3.style.display = "flex";
+      count_num_airpump_timer += 1;
+    });
+    document.getElementById("remove_airpump_timer_2").addEventListener("click", () => {
+      var timer_airpump_no2 = document.getElementById("timer_airpump_no2");
+      timer_airpump_no2.style.display = "none";
+      document.forms["airpump_timer"]["airpump_start_time_2"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_2"].value = "";
+      count_num_airpump_timer -= 1;
+    });
+
+    // ------- Timer #3 --------
+    document.getElementById("add_airpump_timer_3").addEventListener("click", () => {
+      var timer_airpump_no4 = document.getElementById("timer_airpump_no4");
+      timer_airpump_no4.style.display = "flex";
+      count_num_airpump_timer += 1;
+    });
+    document.getElementById("remove_airpump_timer_3").addEventListener("click", () => {
+      var timer_airpump_no3 = document.getElementById("timer_airpump_no3");
+      timer_airpump_no3.style.display = "none";
+      document.forms["airpump_timer"]["airpump_start_time_3"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_3"].value = "";
+      count_num_airpump_timer -= 1;
+    });
+
+    // ------- Timer #4 --------
+    document.getElementById("remove_airpump_timer_4").addEventListener("click", () => {
+      var timer_airpump_no4 = document.getElementById("timer_airpump_no4");
+      timer_airpump_no4.style.display = "none";
+      document.forms["airpump_timer"]["airpump_start_time_4"].value = "";
+      document.forms["airpump_timer"]["airpump_end_time_4"].value = "";
+      count_num_airpump_timer -= 1;
+    });
+
+
+
+  </script>
+</body>
+
+</html>
+
+<!-- TODO Optimize + - (add & remove Timer) -->

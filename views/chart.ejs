@@ -1,0 +1,150 @@
+<!-- TODO เพิ่มจำนวนการวัดผลผลิตต่อ 1 crops -->
+<!-- TODO Optimize write JSON File-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HYDROPLANT | Dashboard</title>
+    <link href="/image/fern.png" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/style.css">
+
+        <!-- Font -->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        />
+    
+        <!-- Bulma -->
+        
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css"
+        />
+    
+        <!-- Chart JS -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    
+        <!-- APEX Chart -->
+        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+</head>
+<body>
+  <div class="grid">
+    <header class="page-header content">
+      <!-- <h3>Header</h3> -->
+      <nav class="menu-bar">
+        <div class="group">
+          <a class="item title" href="/">🌱 HYDROPLANT</a>
+        </div>
+        <div class="group">
+          <a href="/" class="item">Home</a>
+          <a href="/control" class="item">Control</a>
+          <a href="/chart" class="item">Charts</a>
+          <a href="/market" class="item">Market</a>
+          <a href="/about" class="item">About</a>
+        </div>
+      </nav>
+    </header>
+
+    <footer class="page-footer content">
+      <!-- <h3>Footer</h3> -->
+    </footer>
+
+    <div class="page-leftbar content">
+      <!-- <h3>Sidebar</h3> -->
+    </div>
+
+    <div class="chart-main content">
+        <h1>Genertal Stats</h1>
+        <div class="chart_input">
+          <label for="m_name">Select  : </label>
+          <input type="week" name="m_1" id="m_name">
+          <input type="submit">
+        </div>
+        
+        <div id="temp_graph"></div>
+        <div id="hum_graph"></div>
+        <div id="ph_graph"></div>
+        <div id="ec_graph"></div>
+
+
+
+    </div>
+  </div>
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+function gen_graph(graph_name,data,html_id,color){
+  var graph_options = {
+        chart: {
+          height: 350,
+          type: "line",
+          fontFamily: "Nunito, sans-serif",
+          animations: {
+            easing: "linear",
+            dynamicAnimation: {
+              speed: 2000,
+            },
+          },
+          toolbar: {
+            show: false,
+          },
+          zoom: {
+            enabled: false,
+          },
+        },
+        colors: [color],
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "smooth",
+        },
+        series: [
+          {
+            name: graph_name,
+            data: data,
+          }
+        ],
+        title: {
+          text: graph_name,
+          align: "left",
+        },
+        markers: {
+          size: 0,
+        },
+        xaxis: {
+          range: 10,
+          tickAmount: 10,
+        },
+        legend: {
+          show: true,
+        },
+      };
+
+var graph_chart = new ApexCharts(
+document.querySelector(html_id),
+graph_options);
+graph_chart.render();
+
+}
+
+gen_graph("Temperature",[30, 32, 29, 31, 33, 34, 34, 33, 32, 30, 29, 29, 28, 29, 30],"#temp_graph","#ef476f");
+gen_graph("Humidity",[60, 66, 55, 59, 62, 60, 52, 70, 69, 65, 54, 58, 60, 63, 66],"#hum_graph","#ffd166");
+gen_graph("pH",[5.4, 5.6, 5.2, 5.7, 6, 6.3, 6, 6, 5.3, 5.1, 5.5, 5.8, 6, 6.3, 5.1],"#ph_graph","#06d6a0");
+gen_graph("EC",[1.0, 1.4, 1.4, 1.6, 1, 1.5, 1.6, 1.7, 1.5, 1.2, 1.6, 1.7, 1.9, 2.0, 2.1],"#ec_graph","#118ab2");
+
+
+
+
+</script>

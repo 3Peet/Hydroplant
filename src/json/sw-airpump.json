@@ -1,0 +1,14 @@
+{
+  "id": "sw_air_pump",
+  "airpump_start_time_1": "07:00",
+  "airpump_end_time_1": "18:00",
+  "airpump_start_time_2": "",
+  "airpump_end_time_2": "",
+  "airpump_start_time_3": "",
+  "airpump_end_time_3": "",
+  "airpump_start_time_4": "",
+  "airpump_end_time_4": "",
+  "manual_value": false,
+  "timer_value": true,
+  "value": false
+}
