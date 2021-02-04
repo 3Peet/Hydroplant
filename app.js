@@ -374,6 +374,7 @@ async function Check_light_airpump_status_timer_manual() {
       console.log("🧊 Air Pump: Write JSON value : false");
     }
   }
+  console.log("⏰ Update Time : "+hour +":"+minute);
   console.log("<------------------------------------->");
   }, 60000);
 }
@@ -386,6 +387,7 @@ io.on("connect", function (socket) {
     sw_light_json.set("manual_value", data);
     sw_light_json.set("value", data);
     sw_light_json.save();
+    
   });
 
   socket.on("state_light_timer", function (data) {
@@ -422,6 +424,13 @@ io.on("connect", function (socket) {
   io.sockets.emit("ShowGreenOakPrices", {
     prices: market_json.get("green_oak"),
   });
+
+  io.sockets.emit("all_ctrl_sw_data",
+  {light_manual_sw_status: sw_light_json.get("manual_value")},
+  {light_timer_sw_status: sw_light_json.get("timer_value")},
+  {airpump_manual_sw_status: sw_airpump_json.get("manual_value")},
+  {airpump_timer_sw_status: sw_airpump_json.get("timer_value")}
+  );
 
   io.sockets.emit("display_light_timer",
   {light_start_time_1: sw_light_json.get("light_start_time_1")},

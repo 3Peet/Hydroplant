@@ -439,42 +439,43 @@
 
 
     // ----------------------- Switch light Box -----------------------
+    // Countion! : ระวังรันบน Server แล้วไม่ emit เข้ามา ต้องไปแก้ให้ emit ตอนกด switch ด้วย
+    socket.on("all_ctrl_sw_data", (data1,data2,data3,data4) => {
+        var light_manual_sw_status = data1.light_manual_sw_status;
+        var light_timer_sw_status = data2.light_timer_sw_status;
+        var airpump_manual_sw_status = data3.airpump_manual_sw_status;
+        var airpump_timer_sw_status = data4.airpump_timer_sw_status;
+        document.getElementById("btn_light").checked = light_manual_sw_status;
+        document.getElementById("btn_light_timer_on_off").checked = light_timer_sw_status;
+        document.getElementById("btn_air_pump").checked = airpump_manual_sw_status;
+        document.getElementById("btn_airpump_timer_on_off").checked = airpump_timer_sw_status;
+      });
+
     function state_sw() {
-      var checkbox = document.getElementById("btn_light");
-      localStorage.setItem("btn_light", checkbox.checked);
-      socket.emit("state_light_manual", checkbox.checked);
+      var state_light_manual = document.getElementById("btn_light").checked;
+      socket.emit("state_light_manual", state_light_manual);
     }
-    var checked = JSON.parse(localStorage.getItem("btn_light"));
-    document.getElementById("btn_light").checked = checked;
 
     // ----------------------- Switch Light Timer -----------------------
     var count_num_light_timer = 1;
     function state_light_timer() {
-      var checkbox = document.getElementById("btn_light_timer_on_off");
-      localStorage.setItem("btn_light_timer_on_off", checkbox.checked);
-      socket.emit("state_light_timer", checkbox.checked);
+      var state_light_timer = document.getElementById("btn_light_timer_on_off").checked;
+      socket.emit("state_light_timer", state_light_timer);
     }
-    var checked = JSON.parse(localStorage.getItem("btn_light_timer_on_off"));
-    document.getElementById("btn_light_timer_on_off").checked = checked;
 
     // ----------------------- Switch Air Pump -----------------------
     function state_air_pump() {
-      var checkbox = document.getElementById("btn_air_pump");
-      localStorage.setItem("btn_air_pump", checkbox.checked);
-      socket.emit("state_airpump_manual", checkbox.checked);
+      var state_airpump_manual = document.getElementById("btn_air_pump").checked;
+      socket.emit("state_airpump_manual", state_airpump_manual);
     }
-    var checked = JSON.parse(localStorage.getItem("btn_air_pump"));
-    document.getElementById("btn_air_pump").checked = checked;
+
 
     // ----------------------- Switch Air Pump Timer -----------------------
     var count_num_airpump_timer = 1;
     function state_airpump_timer() {
-      var checkbox = document.getElementById("btn_airpump_timer_on_off");
-      localStorage.setItem("btn_airpump_timer_on_off", checkbox.checked);
-      socket.emit("state_airpump_timer", checkbox.checked);
+      var state_airpump_timer = document.getElementById("btn_airpump_timer_on_off").checked;
+      socket.emit("state_airpump_timer", state_airpump_timer);
     }
-    var checked = JSON.parse(localStorage.getItem("btn_airpump_timer_on_off"));
-    document.getElementById("btn_airpump_timer_on_off").checked = checked;
 
 
 
