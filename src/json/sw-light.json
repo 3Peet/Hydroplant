@@ -9,6 +9,6 @@
   "light_start_time_4": "",
   "light_end_time_4": "",
   "manual_value": false,
-  "timer_value": true,
+  "timer_value": false,
   "value": false
 }

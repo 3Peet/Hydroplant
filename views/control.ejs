@@ -438,7 +438,7 @@
     });
 
 
-    // ----------------------- Switch light Box -----------------------
+    // Sync Switch
     // Countion! : ระวังรันบน Server แล้วไม่ emit เข้ามา ต้องไปแก้ให้ emit ตอนกด switch ด้วย
     socket.on("all_ctrl_sw_data", (data1,data2,data3,data4) => {
         var light_manual_sw_status = data1.light_manual_sw_status;
@@ -451,8 +451,11 @@
         document.getElementById("btn_airpump_timer_on_off").checked = airpump_timer_sw_status;
       });
 
+    
+    // ----------------------- Switch light Box -----------------------
     function state_sw() {
       var state_light_manual = document.getElementById("btn_light").checked;
+      document.getElementById("btn_light").checked = state_light_manual;
       socket.emit("state_light_manual", state_light_manual);
     }
 
@@ -460,20 +463,22 @@
     var count_num_light_timer = 1;
     function state_light_timer() {
       var state_light_timer = document.getElementById("btn_light_timer_on_off").checked;
+      document.getElementById("btn_light_timer_on_off").checked = state_light_timer;
       socket.emit("state_light_timer", state_light_timer);
     }
 
     // ----------------------- Switch Air Pump -----------------------
     function state_air_pump() {
       var state_airpump_manual = document.getElementById("btn_air_pump").checked;
+      document.getElementById("btn_air_pump").checked = state_airpump_manual;
       socket.emit("state_airpump_manual", state_airpump_manual);
     }
-
 
     // ----------------------- Switch Air Pump Timer -----------------------
     var count_num_airpump_timer = 1;
     function state_airpump_timer() {
       var state_airpump_timer = document.getElementById("btn_airpump_timer_on_off").checked;
+      document.getElementById("btn_airpump_timer_on_off").checked = state_airpump_timer;
       socket.emit("state_airpump_timer", state_airpump_timer);
     }
 
