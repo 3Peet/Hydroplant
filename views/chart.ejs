@@ -1,40 +1,34 @@
 <!-- TODO เพิ่มจำนวนการวัดผลผลิตต่อ 1 crops -->
 <!-- TODO Optimize write JSON File-->
+<!-- TODO สร้าง timestamp db (Week of Years) -->
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYDROPLANT | Dashboard</title>
-    <link href="/image/fern.png" rel="icon" type="image/x-icon" />
-    <link rel="stylesheet" href="/css/style.css">
 
-        <!-- Font -->
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap"
-        />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-        />
-    
-        <!-- Bulma -->
-        
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css"
-        />
-    
-        <!-- Chart JS -->
-        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    
-        <!-- APEX Chart -->
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HYDROPLANT | Dashboard</title>
+  <link href="/image/fern.png" rel="icon" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
+
+  <!-- Bulma -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css" />
+
+  <!-- Chart JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+  <!-- APEX Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 </head>
+
 <body>
   <div class="grid">
     <header class="page-header content">
@@ -62,89 +56,467 @@
     </div>
 
     <div class="chart-main content">
-        <h1>Genertal Stats</h1>
-        <div class="chart_input">
-          <label for="m_name">Select  : </label>
-          <input type="week" name="m_1" id="m_name">
-          <input type="submit">
+      <div class="chart_main_title">
+        <h1 id="main_charts_title">Genertal Stats</h1>
+        <P id="ct"></P>
+      </div>
+
+      <div class="chart_input">
+
+        <div class="select_query_d_w_m">
+          <h3 id="title_select_query_d_w_m">Showing data for :</h3>
+          <a href="#/" class="button6 btn_form_smaller" id="select-days"
+            style="background-color: #4e9af1 ;">Days</a>
+          <a href="#/" class="button6 btn_form_smaller" id="select-week"
+            style="background-color: #4e9af1 ;">Week</a>
+          <a href="#/" class="button6 btn_form_smaller" id="select-months"
+            style="background-color: #4e9af1 ;">Months</a>
         </div>
+        <h1 style="margin: 0 .5em; color: #97b1ca;">|</h1>
+
+        <iframe name="dummyframe" id="dummyframe" style="display: none"></iframe>
+
+        <div class="select_query_days" id="select_query_days">
+          <form action="/graph_days_process" method="POST" name="days_query_form" id="days_query_form" target="dummyframe">
+            <label for="date_charts" class="label_select_form">Select Days : </label>
+            <input type="date" name="date_charts" id="date_charts">
+            <a href="#/" class="button6 btn_form_smaller" id="submit-days"
+              style="background-color: #38b95c ;">Submit</a>
+          </form>
+        </div>
+
         
-        <div id="temp_graph"></div>
-        <div id="hum_graph"></div>
-        <div id="ph_graph"></div>
-        <div id="ec_graph"></div>
+
+        <div class="select_query_week" id="select_query_week">
+          <form action="/graph_week_process" method="POST" name="week_query_form" id="week_query_form" target="dummyframe">
+            <label for="week_charts" class="label_select_form">Select Week : </label>
+            <input type="week" name="week_charts" id="week_charts">
+            <a href="#/" class="button6 btn_form_smaller" id="submit-week"
+              style="background-color: #38b95c ;">Submit</a>
+          </form>
+        </div>
+
+        <div class="select_query_months" id="select_query_months">
+          <form action="/graph_months_process" method="POST" name="months_query_form" id="months_query_form" target="dummyframe">
+            <label for="months_charts" class="label_select_form">Select Months : </label>
+            <input type="month" name="months_charts" id="months_charts">
+            <a href="#/" class="button6 btn_form_smaller" id="submit-months"
+              style="background-color: #38b95c ;">Submit</a>
+          </form>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
+      <div id="temp_graph"></div>
+      <div id="hum_graph"></div>
+      <div id="ph_graph"></div>
+      <div id="ec_graph"></div>
+      <div id="graph_chart"></div>
+
 
 
 
     </div>
   </div>
 </body>
+
 </html>
 
 
+<script src="/socket.io/socket.io.js"></script>
 <script type="text/javascript">
+  var socket = io();
 
-function gen_graph(graph_name,data,html_id,color){
-  var graph_options = {
-        chart: {
-          height: 350,
-          type: "line",
-          fontFamily: "Nunito, sans-serif",
-          animations: {
-            easing: "linear",
-            dynamicAnimation: {
-              speed: 2000,
-            },
-          },
-          toolbar: {
-            show: false,
-          },
-          zoom: {
-            enabled: false,
-          },
-        },
-        colors: [color],
-        dataLabels: {
-          enabled: false,
-        },
-        stroke: {
-          curve: "smooth",
-        },
-        series: [
-          {
-            name: graph_name,
-            data: data,
-          }
+  socket.on("charts_process", (data) => {
+    var data = data.value
+    console.log(data);
+    graph_temp.appendData([
+      {
+        data: [{ x: '00:00', y: data[0].temp }, { x: '01:00', y: data[1].temp }, { x: '02:00', y: data[2].temp }, { x: '03:00', y: data[3].temp },
+        { x: '04:00', y: data[4].temp }, { x: '05:00', y: data[5].temp }, { x: '06:00', y: data[6].temp }, { x: '07:00', y: data[7].temp },
+        { x: '08:00', y: data[8].temp }, { x: '09:00', y: data[9].temp }, { x: '10:00', y: data[10].temp }, { x: '11:00', y: data[11].temp },
+        { x: '12:00', y: data[12].temp }, { x: '13:00', y: data[13].temp }, { x: '14:00', y: data[14].temp }, { x: '15:00', y: data[15].temp },
+        { x: '16:00', y: data[16].temp }, { x: '17:00', y: data[17].temp }, { x: '18:00', y: data[18].temp }, { x: '19:00', y: data[19].temp },
+        { x: '20:00', y: data[20].temp }, { x: '21:00', y: data[21].temp }, { x: '22:00', y: data[22].temp }, { x: '23:00', y: data[23].temp },
         ],
-        title: {
-          text: graph_name,
-          align: "left",
+      },
+    ]);
+
+    graph_ph.appendData([
+      {
+        data: [{ x: '00:00', y: data[0].ph }, { x: '01:00', y: data[1].ph }, { x: '02:00', y: data[2].ph }, { x: '03:00', y: data[3].ph },
+        { x: '04:00', y: data[4].ph }, { x: '05:00', y: data[5].ph }, { x: '06:00', y: data[6].ph }, { x: '07:00', y: data[7].ph },
+        { x: '08:00', y: data[8].ph }, { x: '09:00', y: data[9].ph }, { x: '10:00', y: data[10].ph }, { x: '11:00', y: data[11].ph },
+        { x: '12:00', y: data[12].ph }, { x: '13:00', y: data[13].ph }, { x: '14:00', y: data[14].ph }, { x: '15:00', y: data[15].ph },
+        { x: '16:00', y: data[16].ph }, { x: '17:00', y: data[17].ph }, { x: '18:00', y: data[18].ph }, { x: '19:00', y: data[19].ph },
+        { x: '20:00', y: data[20].ph }, { x: '21:00', y: data[21].ph }, { x: '22:00', y: data[22].ph }, { x: '23:00', y: data[23].ph },
+        ],
+      },
+    ]);
+    graph_ec.appendData([
+      {
+        data: [{ x: '00:00', y: data[0].ec }, { x: '01:00', y: data[1].ec }, { x: '02:00', y: data[2].ec }, { x: '03:00', y: data[3].ec },
+        { x: '04:00', y: data[4].ec }, { x: '05:00', y: data[5].ec }, { x: '06:00', y: data[6].ec }, { x: '07:00', y: data[7].ec },
+        { x: '08:00', y: data[8].ec }, { x: '09:00', y: data[9].ec }, { x: '10:00', y: data[10].ec }, { x: '11:00', y: data[11].ec },
+        { x: '12:00', y: data[12].ec }, { x: '13:00', y: data[13].ec }, { x: '14:00', y: data[14].ec }, { x: '15:00', y: data[15].ec },
+        { x: '16:00', y: data[16].ec }, { x: '17:00', y: data[17].ec }, { x: '18:00', y: data[18].ec }, { x: '19:00', y: data[19].ec },
+        { x: '20:00', y: data[20].ec }, { x: '21:00', y: data[21].ec }, { x: '22:00', y: data[22].ec }, { x: '23:00', y: data[23].ec },
+        ],
+      },
+    ]);
+    graph_hum.appendData([
+      {
+        data: [{ x: '00:00', y: data[0].hum }, { x: '01:00', y: data[1].hum }, { x: '02:00', y: data[2].hum }, { x: '03:00', y: data[3].hum },
+        { x: '04:00', y: data[4].hum }, { x: '05:00', y: data[5].hum }, { x: '06:00', y: data[6].hum }, { x: '07:00', y: data[7].hum },
+        { x: '08:00', y: data[8].hum }, { x: '09:00', y: data[9].hum }, { x: '10:00', y: data[10].hum }, { x: '11:00', y: data[11].hum },
+        { x: '12:00', y: data[12].hum }, { x: '13:00', y: data[13].hum }, { x: '14:00', y: data[14].hum }, { x: '15:00', y: data[15].hum },
+        { x: '16:00', y: data[16].hum }, { x: '17:00', y: data[17].hum }, { x: '18:00', y: data[18].hum }, { x: '19:00', y: data[19].hum },
+        { x: '20:00', y: data[20].hum }, { x: '21:00', y: data[21].hum }, { x: '22:00', y: data[22].hum }, { x: '23:00', y: data[23].hum },
+        ],
+      },
+    ]);
+
+  });
+
+  //------------------------------------- Setup Graph Option -------------------------------------
+  var graph_options_temp = {
+    chart: {
+      height: 350,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
         },
-        markers: {
-          size: 0,
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Temperature",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ],
+      },
+    ],
+    title: {
+      text: "Temperature",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 23,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+
+  var graph_options_hum = {
+    chart: {
+      height: 350,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
         },
-        xaxis: {
-          range: 10,
-          tickAmount: 10,
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Humidity",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ],
+      },
+    ],
+    title: {
+      text: "Humidity",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 23,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+
+  var graph_options_ph = {
+    chart: {
+      height: 350,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
         },
-        legend: {
-          show: true,
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "pH",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ],
+      },
+    ],
+    title: {
+      text: "pH",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 23,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+
+  var graph_options_ec = {
+    chart: {
+      height: 350,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
         },
-      };
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "EC",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ],
+      },
+    ],
+    title: {
+      text: "EC",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 23,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
 
-var graph_chart = new ApexCharts(
-document.querySelector(html_id),
-graph_options);
-graph_chart.render();
+  // ------------------------------------- Generate Graph -------------------------------------
+  var graph_temp = new ApexCharts(
+    document.querySelector("#temp_graph"),
+    graph_options_temp
+  );
+  graph_temp.render();
 
-}
+  var graph_hum = new ApexCharts(
+    document.querySelector("#hum_graph"),
+    graph_options_hum
+  );
+  graph_hum.render();
 
-gen_graph("Temperature",[30, 32, 29, 31, 33, 34, 34, 33, 32, 30, 29, 29, 28, 29, 30],"#temp_graph","#ef476f");
-gen_graph("Humidity",[60, 66, 55, 59, 62, 60, 52, 70, 69, 65, 54, 58, 60, 63, 66],"#hum_graph","#ffd166");
-gen_graph("pH",[5.4, 5.6, 5.2, 5.7, 6, 6.3, 6, 6, 5.3, 5.1, 5.5, 5.8, 6, 6.3, 5.1],"#ph_graph","#06d6a0");
-gen_graph("EC",[1.0, 1.4, 1.4, 1.6, 1, 1.5, 1.6, 1.7, 1.5, 1.2, 1.6, 1.7, 1.9, 2.0, 2.1],"#ec_graph","#118ab2");
+  var graph_ph = new ApexCharts(
+    document.querySelector("#ph_graph"),
+    graph_options_ph
+  );
+  graph_ph.render();
 
+  var graph_ec = new ApexCharts(
+    document.querySelector("#ec_graph"),
+    graph_options_ec
+  );
+  graph_ec.render();
 
+        //Set Clock | timezone
+        display_ct(); // <- Call function
+      function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout("display_ct()", refresh);
+      }
+
+      function display_ct() {
+        var x = new Date();
+
+        var hour = x.getHours();
+        var minute = x.getMinutes();
+        var second = x.getSeconds();
+        if (hour < 10) {
+          hour = "0" + hour;
+        }
+        if (minute < 10) {
+          minute = "0" + minute;
+        }
+        if (second < 10) {
+          second = "0" + second;
+        }
+
+        var x1 = x.getDate() + " " + month_now() + " " + x.getFullYear();
+        x1 = x1 + " | " + day_now() + " " + hour + ":" + minute + ":" + second;
+        document.getElementById("ct").innerHTML = x1;
+        display_c();
+      }
+
+      function month_now() {
+        var my_month = new Date();
+        var month_name = new Array(12);
+        month_name[0] = "January";
+        month_name[1] = "February";
+        month_name[2] = "March";
+        month_name[3] = "April";
+        month_name[4] = "May";
+        month_name[5] = "June";
+        month_name[6] = "July";
+        month_name[7] = "August";
+        month_name[8] = "September";
+        month_name[9] = "October";
+        month_name[10] = "November";
+        month_name[11] = "December";
+        return month_name[my_month.getMonth()];
+      }
+      function day_now() {
+        var my_day = new Date();
+        var day_name = new Array(7);
+
+        day_name[0] = "Sunday";
+        day_name[1] = "Monday";
+        day_name[2] = "Tuesday";
+        day_name[3] = "Wednesday";
+        day_name[4] = "Thursday";
+        day_name[5] = "Friday";
+        day_name[6] = "Saturday";
+        return day_name[my_day.getDay()];
+      }
+
+document.getElementById("select-days").addEventListener("click",()=>{
+  var div_select_days = document.getElementById("select_query_days");
+  var div_select_week = document.getElementById("select_query_week");
+  var div_select_months = document.getElementById("select_query_months");
+  div_select_days.style.display = "block";
+  div_select_week.style.display = "none";
+  div_select_months.style.display = "none";
+});
+
+document.getElementById("select-week").addEventListener("click",()=>{
+  var div_select_days = document.getElementById("select_query_days");
+  var div_select_week = document.getElementById("select_query_week");
+  var div_select_months = document.getElementById("select_query_months");
+  div_select_days.style.display = "none";
+  div_select_week.style.display = "block";
+  div_select_months.style.display = "none";
+});
+
+document.getElementById("select-months").addEventListener("click",()=>{
+  var div_select_days = document.getElementById("select_query_days");
+  var div_select_week = document.getElementById("select_query_week");
+  var div_select_months = document.getElementById("select_query_months");
+  div_select_days.style.display = "none";
+  div_select_week.style.display = "none";
+  div_select_months.style.display = "block";
+});
+
+document.getElementById("submit-days").addEventListener("click",()=>{
+  document.getElementById("days_query_form").submit();
+});
+
+document.getElementById("submit-week").addEventListener("click",()=>{
+  document.getElementById("week_query_form").submit();
+});
+
+document.getElementById("submit-months").addEventListener("click",()=>{
+  document.getElementById("months_query_form").submit();
+});
 
 
 </script>

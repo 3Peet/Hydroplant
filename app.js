@@ -1,12 +1,19 @@
 var app = require("express")();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
+var mongo = require('mongodb');
 
 // Web scraping
 // const puppeteer = require("puppeteer");
 
 var express = require("express");
 const bodyParser = require("body-parser");
+
+// Mongodb Connection
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://hydroplant_db:UYlrOAh6r0EBjsUH@cluster0.oiq07.mongodb.net/hydroplant?retryWrites=true&w=majority";
+
+
 
 //For write json file
 const editJsonFile = require("edit-json-file");
@@ -219,12 +226,18 @@ app.post('/airpump_timer',(req,res)=>{
 
 // Timer Get time now
 var now_date = new Date();
+var date = now_date.getDate();
+var month = now_date.getMonth()+1;
+var year = now_date.getFullYear();
 var hour = now_date.getHours();
 var minute = now_date.getMinutes();
 
 Check_light_airpump_status_timer_manual();  // Update every 1 Minute.
 async function Check_light_airpump_status_timer_manual() {
   setInterval(async function () {
+    now_date = new Date();
+    hour = now_date.getHours();
+    minute = now_date.getMinutes();
   
   // Light status value
   var manual_light = sw_light_json.get("manual_value");
@@ -245,10 +258,6 @@ async function Check_light_airpump_status_timer_manual() {
     }
   }
   else if(timer_light){
-    now_date = new Date();
-    hour = now_date.getHours();
-    minute = now_date.getMinutes();
-
     now_hr_min = String(hour+":"+minute);
     var light_now_time = now_hr_min;
     var light_start_time_1 = sw_light_json.get("light_start_time_1");
@@ -315,10 +324,7 @@ async function Check_light_airpump_status_timer_manual() {
     }
   }
   else if(timer_airpump){
-    now_date = new Date();
-    hour = now_date.getHours();
-    minute = now_date.getMinutes();
-
+  
     now_hr_min = String(hour+":"+minute);
     var airpump_now_time = now_hr_min;
     var airpump_start_time_1 = sw_airpump_json.get("airpump_start_time_1");
@@ -462,7 +468,7 @@ io.on("connect", function (socket) {
   );
   // console.log("Status : " + schedule_farm.get("status"));
 
-  // Get salad Prices
+  // Get salad Prices XXX DON't DELETE XXX
   // async function getPrice(url, Xpath) {
   //   const browser = await puppeteer.launch();
   //   const page = await browser.newPage();
@@ -567,6 +573,68 @@ async function Update_Day_remaining() {
 
   }, 43200000);
 }
+
+// ---------------------------------------------- Charts Process Route ----------------------------------------------
+app.post("/graph_days_process",(req,res)=>{
+  data_date = req.body.date_charts.split("-");
+  year_charts = data_date[0];
+  month_charts = data_date[1];
+  day_charts = data_date[2];
+  console.log("Year: "+year_charts+" Month: "+month_charts+" Days: "+day_charts);
+  MongoClient.connect(url, function(err, db) {
+    if (err) throw err;
+    var dbo = db.db("hydroplant");
+    var query = { timestamp: new RegExp('^'+Number(day_charts)+"-"+Number(month_charts)+"-"+Number(year_charts)) };
+    console.log(query);
+    var projection = { projection: { _id: 0,temp:1,hum:1,ph:1,ec:1,timestamp: 1} }
+    dbo.collection("sensors").find(query,projection).toArray(function(err, result) {
+      if (err) throw err;
+      console.log(result);
+      io.sockets.emit("charts_process", {
+        value: result
+      });
+      db.close();
+    });
+  });
+  
+});
+
+app.post("/graph_week_process",(req,res)=>{
+  console.log(req.body);
+});
+
+app.post("/graph_months_process",(req,res)=>{
+  console.log(req.body);
+});
+
+
+function getWeekNumber(d) {
+  // Copy date so don't modify original
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+  // Set to nearest Thursday: current date + 4 - current day number
+  // Make Sunday's day number 7
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay()||7));
+  // Get first day of year
+  var yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1));
+  // Calculate full weeks to nearest Thursday
+  var weekNo = Math.ceil(( ( (d - yearStart) / 86400000) + 1)/7);
+  // Return array of year and week number
+  return [d.getUTCFullYear(), weekNo];
+}
+
+var result_get_week = getWeekNumber(new Date());
+console.log(new Date());
+if(result_get_week[1]<10){
+  console.log(String(result_get_week[0]+"-W0"+result_get_week[1]));
+}
+else {
+  console.log(String(result_get_week[0]+"-W"+result_get_week[1]));
+}
+
+
+
+
+
 
 
 http.listen(PORT, () => {

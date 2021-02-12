@@ -5,7 +5,7 @@
   --bg-white:#fff;
   --blue: #4e9af1;
   --red: #ef476f;
-  --green: #06d6a0;
+  --green: #5cb334;
 }
 body {
   font-family: "Nunito", sans-serif !important;
@@ -383,19 +383,79 @@ a.button6{
   grid-area: main;
   margin-right: 10% !important;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-row: 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr 0.5fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 0.1fr 0.1fr 1fr 1fr;
+  gap: .4em 2em;
   grid-template-areas:
-  "temp_title"
-  "temp_graph"
-  "ph_title"
-  "ph_graph"
-  "ec_title"
-  "ec_graph"
-  "hum_title"
-  "hum_graph"
+  "main_title   main_title"
+  "input_form   input_form"
+  "temp_graph   ph_graph"
+  "ec_graph     hum_graph"
 }
+
+.chart_main_title {
+  grid-area: main_title;
+  margin: 0;
+  
+}
+
+.chart_input{
+  grid-area: input_form;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  
+}
+
+#temp_graph{
+  grid-area: temp_graph;
+}
+
+#hum_graph {
+  grid-area: hum_graph;
+}
+
+#ph_graph {
+  grid-area: ph_graph;
+}
+
+#ec_graph {
+  grid-area: ec_graph;
+}
+
+.chart_input{
+  margin-bottom: 2em;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+
+}
+.select_query_d_w_m {
+  display: flex;
+  flex-direction: row;
+}
+
+#title_select_query_d_w_m {
+  color: var(--txt-main);
+  margin: .5em 0 0 0;
+  font-size: 1.2em;
+  font-weight: bolder;
+}
+
+.select_query_week, .select_query_months {
+  display: none;
+} 
+
+.label_select_form {
+  color: var(--txt-main);
+  font-weight: bolder;
+  font-size: 1.2em;
+}
+
+#main_charts_title {
+  color: var(--txt-main) !important;
+}
+
 
 /* ---------------- Market Page ----------------  */
 .market-main {
@@ -690,7 +750,7 @@ div#popup-data {
   margin-left: -202px;
 }
 
-form {
+#popup-data form {
   max-width: 300px;
   min-width: 250px;
   padding: 10px 50px;
