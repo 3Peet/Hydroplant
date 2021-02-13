@@ -331,8 +331,11 @@
     </div>
   </div>
 
+  
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
+
+
     // Socket.io
     var socket = io();
     var status_water = "NULL";
@@ -466,6 +469,7 @@
       var state_light_timer = document.getElementById("btn_light_timer_on_off").checked;
       document.getElementById("btn_light_timer_on_off").checked = state_light_timer;
       socket.emit("state_light_timer", state_light_timer);
+      socket.emit("mqtt_light_timer", state_light_timer);
     }
 
     // ----------------------- Switch Air Pump -----------------------
@@ -481,6 +485,7 @@
       var state_airpump_timer = document.getElementById("btn_airpump_timer_on_off").checked;
       document.getElementById("btn_airpump_timer_on_off").checked = state_airpump_timer;
       socket.emit("state_airpump_timer", state_airpump_timer);
+      socket.emit("mqtt_airpump_timer", state_airpump_timer);
     }
 
 
@@ -580,6 +585,8 @@
 
     // Submit Button Light Timer
     document.getElementById("submit-light-timer-popup").addEventListener("click", () => {
+      // MQTT Publish
+      socket.emit("mqtt_light_timer", "NULL");
 
       // Check Timer NULL value 
       var value_light_start_timer_1 = document.forms["light_timer"]["light_start_time_1"].value;
@@ -730,6 +737,8 @@
 
     // Submit Button Air Pump Timer
     document.getElementById("submit-airpump-timer-popup").addEventListener("click", () => {
+
+      socket.emit("mqtt_airpump_timer", "NULL");
 
       // Check Timer NULL value 
       var value_airpump_start_timer_1 = document.forms["airpump_timer"]["airpump_start_time_1"].value;
