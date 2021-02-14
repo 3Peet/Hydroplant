@@ -445,11 +445,13 @@ io.on("connect", function (socket) {
   });
 
   socket.on("water_pump", function (data) {
+    client.publish("web/control/waterpump", data ? "ON" : "OFF");
     water_pump_json.set("status", data);
     water_pump_json.save();
   });
 
   socket.on("nutrient_pump", function (data) {
+    client.publish("web/control/nutrientpump", data ? "ON" : "OFF");
     nutrient_pump_json.set("status", data);
     nutrient_pump_json.save();
   });
@@ -544,34 +546,34 @@ app.get("/nutrient-pump", (req, res) => {
   res.json(nutrient_pump_json);
 });
 
-app.post("/", (req, res) => {
-  if (req.body.id == "postman") {
-    io.sockets.emit("tempdata", { value: req.body.temp + "  °C" });
-    io.sockets.emit("humdata", { value: req.body.hum + " %" });
-    io.sockets.emit("lightdata", { value: req.body.light + " lux" });
-    io.sockets.emit("ecdata", { value: req.body.ec + " uS/cm" });
-    io.sockets.emit("phdata", { value: req.body.ph });
-  }
+// app.post("/", (req, res) => {
+//   if (req.body.id == "postman") {
+//     io.sockets.emit("tempdata", { value: req.body.temp + "  °C" });
+//     io.sockets.emit("humdata", { value: req.body.hum + " %" });
+//     io.sockets.emit("lightdata", { value: req.body.light + " lux" });
+//     io.sockets.emit("ecdata", { value: req.body.ec + " uS/cm" });
+//     io.sockets.emit("phdata", { value: req.body.ph });
+//   }
 
-  if (req.body.id == "dht") {
-    io.sockets.emit("tempdata", { value: req.body.temp + "  °C" });
-    io.sockets.emit("humdata", { value: req.body.hum + " %" });
-    io.sockets.emit("ecdata", { value: req.body.ec + " mS/cm" });
-    io.sockets.emit("phdata", { value: req.body.ph });
-    io.sockets.emit("water_lvl", { value: req.body.water + " %" });
+//   if (req.body.id == "dht") {
+//     io.sockets.emit("tempdata", { value: req.body.temp + "  °C" });
+//     io.sockets.emit("humdata", { value: req.body.hum + " %" });
+//     io.sockets.emit("ecdata", { value: req.body.ec + " mS/cm" });
+//     io.sockets.emit("phdata", { value: req.body.ph });
+//     io.sockets.emit("water_lvl", { value: req.body.water + " %" });
 
-  if (req.body.id == "ldr") {
-    io.sockets.emit("lightdata", { value: req.body.light + " lux" });
-  }
+//   if (req.body.id == "ldr") {
+//     io.sockets.emit("lightdata", { value: req.body.light + " lux" });
+//   }
 
-  if (req.body.id == "dfrobot") {
-    io.sockets.emit("ecdata", { value: req.body.ec + " μS/cm" });
-    io.sockets.emit("phdata", { value: req.body.ph });
-  }
+//   if (req.body.id == "dfrobot") {
+//     io.sockets.emit("ecdata", { value: req.body.ec + " μS/cm" });
+//     io.sockets.emit("phdata", { value: req.body.ph });
+//   }
 
-  console.log("Got body:", req.body);
-  res.sendStatus(200);
-});
+//   console.log("Got body:", req.body);
+//   res.sendStatus(200);
+// });
 
 // Update Every 12hr
 Update_Day_remaining();
@@ -849,7 +851,8 @@ client.on('connect', function () {
 client.on('message', function (topic, message) {
   // message is Buffer
   // console.log('Topic='+'['+ topic+']' + '  Message=' +'['+message.toString()+']');
-  var esp32_obj = JSON.parse(message);
+  try {
+    var esp32_obj = JSON.parse(message);
   console.log("Temp:" + esp32_obj.temp+ " Hum:"+esp32_obj.hum+" EC:"+esp32_obj.ec+" WaterTemp:"+esp32_obj.watertemp);
   io.sockets.emit(
     "Update_Realtime_charts",
@@ -858,6 +861,19 @@ client.on('message', function (topic, message) {
     { ec_data: esp32_obj.ec },
     { ph_data: esp32_obj.watertemp }
   );
+
+    io.sockets.emit("tempdata", { value: esp32_obj.temp + "  °C" });
+    io.sockets.emit("humdata", { value: esp32_obj.hum + " %" });
+    io.sockets.emit("ecdata", { value: esp32_obj.ec + " mS/cm" });
+    io.sockets.emit("phdata", { value: 6.5 });
+    io.sockets.emit("water_lvl", { value: 100 + " %" });
+    io.sockets.emit("lightdata", { value :esp32_obj.watertemp + "  °C" });
+    
+  } catch (error) {
+    console.log(error);
+  }
+  
+    
 
 });
 

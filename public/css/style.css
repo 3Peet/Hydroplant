@@ -7,6 +7,7 @@
   --red: #ef476f;
   --green: #5cb334;
 }
+
 body {
   font-family: "Nunito", sans-serif !important;
   background-color: var(--bg-light);
