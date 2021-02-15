@@ -419,7 +419,6 @@ io.on("connect", function (socket) {
     sw_light_json.set("manual_value", data);
     sw_light_json.set("value", data);
     sw_light_json.save();
-
   });
 
   socket.on("state_light_timer", function (data) {

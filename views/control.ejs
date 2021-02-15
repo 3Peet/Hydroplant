@@ -461,6 +461,7 @@
       var state_light_manual = document.getElementById("btn_light").checked;
       document.getElementById("btn_light").checked = state_light_manual;
       socket.emit("state_light_manual", state_light_manual);
+      location.reload(true);
     }
 
     // ----------------------- Switch Light Timer -----------------------
@@ -470,6 +471,7 @@
       document.getElementById("btn_light_timer_on_off").checked = state_light_timer;
       socket.emit("state_light_timer", state_light_timer);
       socket.emit("mqtt_light_timer", state_light_timer);
+      location.reload(true);
     }
 
     // ----------------------- Switch Air Pump -----------------------
@@ -477,6 +479,7 @@
       var state_airpump_manual = document.getElementById("btn_air_pump").checked;
       document.getElementById("btn_air_pump").checked = state_airpump_manual;
       socket.emit("state_airpump_manual", state_airpump_manual);
+      location.reload(true);
     }
 
     // ----------------------- Switch Air Pump Timer -----------------------
@@ -486,11 +489,13 @@
       document.getElementById("btn_airpump_timer_on_off").checked = state_airpump_timer;
       socket.emit("state_airpump_timer", state_airpump_timer);
       socket.emit("mqtt_airpump_timer", state_airpump_timer);
+      location.reload(true);
     }
 
 
 
     // -------------------------- Fretilizer pump 5s. --------------------------
+    // EMIT DON't Reload page !
     document.getElementById("nutrient-btn").addEventListener("click", () => {
       socket.emit("nutrient_pump", true);
       status_fertilizer = true;
@@ -524,6 +529,7 @@
 
 
     // -------------------------- water pump 5s. --------------------------
+    // EMIT DON't Reload page !
     document.getElementById("water-btn").addEventListener("click", () => {
       socket.emit("water_pump", true);
       status_water = true;
@@ -587,6 +593,7 @@
     document.getElementById("submit-light-timer-popup").addEventListener("click", () => {
       // MQTT Publish
       socket.emit("mqtt_light_timer", "NULL");
+      location.reload(true);
 
       // Check Timer NULL value 
       var value_light_start_timer_1 = document.forms["light_timer"]["light_start_time_1"].value;
@@ -739,6 +746,7 @@
     document.getElementById("submit-airpump-timer-popup").addEventListener("click", () => {
 
       socket.emit("mqtt_airpump_timer", "NULL");
+      location.reload(true);
 
       // Check Timer NULL value 
       var value_airpump_start_timer_1 = document.forms["airpump_timer"]["airpump_start_time_1"].value;

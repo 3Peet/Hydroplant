@@ -100,7 +100,7 @@
 
       <div class="env-card process-data">
         <div id="start-date-data">
-          <div class="count-time">
+          <div class="count-time" id="display_day_remaining">
             <p style="font-weight: bold">Harvested in</p>
             <h2 id="days_remaining"></h2>
             <img class="plant-item-main" src="/image/lettuce.svg" alt="lettuce" />
@@ -422,11 +422,13 @@
     // POP-UP
     var date = new Date(document.getElementById("plant-input-form").value);
 
+    var plant_day_remaining = 0;
+
     socket.on("schedule", (data1, data2, data3) => {
 
       var plant_status = data1.status;
       var plant_start_date = data2.start_date;
-      var plant_day_remaining = data3.days_remaining;
+      plant_day_remaining = data3.days_remaining;
 
       document.getElementById("days_remaining").innerHTML =
         String(plant_day_remaining) + " Days";
@@ -434,6 +436,7 @@
       var start_btn = document.getElementById("btn-start");
       var cancel_btn = document.getElementById("btn-cancel");
       var start_date_data = document.getElementById("start-date-data");
+      var display_day_remaining = document.getElementById("display_day_remaining");
 
       if (plant_status == "ready") {
         start_btn.style.display = "block";
@@ -449,6 +452,7 @@
           });
       } else if (plant_status == "planting") {
         start_btn.style.display = "none";
+        display_day_remaining.style.display = "block";
         cancel_btn.style.display = "block";
         start_date_data.style.display = "block";
         chart_process_circle(
@@ -469,6 +473,7 @@
           var cancel_btn = document.getElementById("btn-cancel");
           var start_date_data = document.getElementById("start-date-data");
           var plant_form_data = document.forms["plant_form"]["start_date"].value;
+          var display_day_remaining = document.getElementById("display_day_remaining");
 
           // Check null 
 
@@ -497,12 +502,12 @@
 
           popup_main.style.display = "none";
           start_btn.style.display = "none";
-          cancel_btn.style.display = "block";
-          start_date_data.style.display = "block";
+          display_day_remaining.style.display = "block"
           // document.getElementById("start-date-data").innerHTML= plant_start_date;
-
+          chart_process_circle(convert_days_remaining_to_percent(plant_day_remaining));
           socket.emit("schedule_status", "planting");
           socket.emit("schedule", "planting");
+          location.reload(true);
         });
 
       document
@@ -510,12 +515,16 @@
         .addEventListener("click", () => {
           var start_btn = document.getElementById("btn-start");
           var cancel_btn = document.getElementById("btn-cancel");
+          var display_day_remaining = document.getElementById("display_day_remaining");
 
+          display_day_remaining.style.display = "none";
           start_btn.style.display = "block";
           cancel_btn.style.display = "none";
+          chart_process_circle(0);
 
           socket.emit("schedule_status", "ready");
           socket.emit("schedule", "ready");
+          location.reload(true);
         });
     });
 
