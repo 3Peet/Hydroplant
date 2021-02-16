@@ -1,7 +1,6 @@
 var app = require("express")();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
-var mongo = require('mongodb');
 
 var mqtt = require('mqtt');
 
@@ -18,9 +17,8 @@ var express = require("express");
 const bodyParser = require("body-parser");
 
 // Mongodb Connection
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = "mongodb+srv://hydroplant_db:UYlrOAh6r0EBjsUH@cluster0.oiq07.mongodb.net/hydroplant?retryWrites=true&w=majority";
-
+var MongoClient = require('mongodb').MongoClient;
+var url = "mongodb://localhost:27017/";
 
 
 //For write json file
@@ -232,13 +230,14 @@ app.post('/airpump_timer', (req, res) => {
 
 });
 
-// Timer Get time now
+// Global variable Timer Get time now
 var now_date = new Date();
 var date = now_date.getDate();
 var month = now_date.getMonth() + 1;
 var year = now_date.getFullYear();
 var hour = now_date.getHours();
 var minute = now_date.getMinutes();
+var second = now_date.getSeconds();
 
 // Global variable Light status value
 var manual_light = sw_light_json.get("manual_value");
@@ -250,13 +249,50 @@ var manual_airpump = sw_airpump_json.get("manual_value");
 var timer_airpump = sw_airpump_json.get("timer_value");
 var result_airpump = sw_airpump_json.get("value");
 
-Check_light_airpump_status_timer_manual();  // Update every 1 Minute.
+
+// Function Update timer + MongoDB Process [Update every 1 minutes.]
+Check_light_airpump_status_timer_manual();
 async function Check_light_airpump_status_timer_manual() {
   setInterval(async function () {
     now_date = new Date();
     hour = now_date.getHours();
     minute = now_date.getMinutes();
+    timestamp = String(now_date);
+    console.log(timestamp);
+    result_get_week = getWeekNumber(new Date());
+    if (result_get_week[1] < 10) {
+      weekstamp = (String(result_get_week[0] + "-W0" + result_get_week[1]));
+    }
+    else {
+      weekstamp = (String(result_get_week[0] + "-W" + result_get_week[1]));
+    }
 
+    // ---------------------------------------------- MongoDB Management ----------------------------------------------
+    if (minute === 0) {
+      console.log("🧔 Database :" + temp_db + " - " + hum_db + " - " + ec_ppm_db + " - " + ec_mscm_db + " - " + water_temp_db + " - " + water_temp_db + " - " + water_level_db + " - " + light_db);
+      MongoClient.connect(url, function (err, db) {
+        if (err) throw err;
+        var dbo = db.db("hydroplant");
+        var myobj = {
+          temp: temp_db,
+          hum: hum_db,
+          ec_ppm: ec_ppm_db,
+          ec_mscm: ec_mscm_db,
+          water_temp: water_temp_db,
+          water_level: water_level_db,
+          light: light_db, timestamp: timestamp,
+          weekstamp: weekstamp
+        };
+        dbo.collection("Test_insert_sensors").insertOne(myobj, function (err, res) {
+          if (err) throw err;
+          console.log("1 document inserted");
+          db.close();
+        });
+      });
+    }
+
+
+    // ---------------------------------------------- Timer Proess ----------------------------------------------
     // Light status value
     manual_light = sw_light_json.get("manual_value");
     timer_light = sw_light_json.get("timer_value");
@@ -545,35 +581,6 @@ app.get("/nutrient-pump", (req, res) => {
   res.json(nutrient_pump_json);
 });
 
-// app.post("/", (req, res) => {
-//   if (req.body.id == "postman") {
-//     io.sockets.emit("tempdata", { value: req.body.temp + "  °C" });
-//     io.sockets.emit("humdata", { value: req.body.hum + " %" });
-//     io.sockets.emit("lightdata", { value: req.body.light + " lux" });
-//     io.sockets.emit("ecdata", { value: req.body.ec + " uS/cm" });
-//     io.sockets.emit("phdata", { value: req.body.ph });
-//   }
-
-//   if (req.body.id == "dht") {
-//     io.sockets.emit("tempdata", { value: req.body.temp + "  °C" });
-//     io.sockets.emit("humdata", { value: req.body.hum + " %" });
-//     io.sockets.emit("ecdata", { value: req.body.ec + " mS/cm" });
-//     io.sockets.emit("phdata", { value: req.body.ph });
-//     io.sockets.emit("water_lvl", { value: req.body.water + " %" });
-
-//   if (req.body.id == "ldr") {
-//     io.sockets.emit("lightdata", { value: req.body.light + " lux" });
-//   }
-
-//   if (req.body.id == "dfrobot") {
-//     io.sockets.emit("ecdata", { value: req.body.ec + " μS/cm" });
-//     io.sockets.emit("phdata", { value: req.body.ph });
-//   }
-
-//   console.log("Got body:", req.body);
-//   res.sendStatus(200);
-// });
-
 // Update Every 12hr
 Update_Day_remaining();
 async function Update_Day_remaining() {
@@ -650,14 +657,6 @@ function getWeekNumber(d) {
   return [d.getUTCFullYear(), weekNo];
 }
 
-var result_get_week = getWeekNumber(new Date());
-console.log(new Date());
-if (result_get_week[1] < 10) {
-  console.log(String(result_get_week[0] + "-W0" + result_get_week[1]));
-}
-else {
-  console.log(String(result_get_week[0] + "-W" + result_get_week[1]));
-}
 
 function control_timer(timer_light_data, timer_airpump_data) {
   now_date = new Date();
@@ -837,7 +836,7 @@ var client = mqtt.connect({
 
 client.on('connect', function () {
   // Subscribe any topic
-  console.log("MQTT Connect");
+  console.log("MQTT Connect 🦟 ");
   client.subscribe('esp32/#', function (err) {
     if (err) {
       console.log(err);
@@ -846,35 +845,49 @@ client.on('connect', function () {
 
 });
 
+var temp_db, hum_db, ec_ppm_db, ec_mscm_db, water_temp_db, water_level_db, light_db = 0;
+
 // Receive Message and print on terminal
 client.on('message', function (topic, message) {
-  // message is Buffer
-  // console.log('Topic='+'['+ topic+']' + '  Message=' +'['+message.toString()+']');
   try {
     var esp32_obj = JSON.parse(message);
-  console.log("Temp:" + esp32_obj.temp+ " Hum:"+esp32_obj.hum+" EC:"+esp32_obj.ec+" WaterTemp:"+esp32_obj.watertemp);
-  io.sockets.emit(
-    "Update_Realtime_charts",
-    { temp_data: esp32_obj.temp },
-    { hum_data: esp32_obj.hum },
-    { ec_data: esp32_obj.ec },
-    { ph_data: esp32_obj.watertemp }
-  );
+    console.log("[Topic => " + topic + "] [Date => Temp:" + esp32_obj.temp + " Hum:" + esp32_obj.hum + " EC:" + esp32_obj.ec + " WaterTemp:" + esp32_obj.watertemp + "]");
+    temp_db = Number(esp32_obj.temp);
+    hum_db = Number(esp32_obj.hum);
+    ec_ppm_db = Number(esp32_obj.ec) * 500 / 1000;
+    ec_mscm_db = Number(esp32_obj.ec) / 1000;
+    water_temp_db = Number(esp32_obj.watertemp);
+    water_level_db = 100;
+    light_db = 1200;
+
+
+    io.sockets.emit(
+      "Update_Realtime_charts",
+      { temp_data: esp32_obj.temp },
+      { hum_data: esp32_obj.hum },
+      { ec_data: esp32_obj.ec },
+      { ph_data: 6.5 }
+    );
 
     io.sockets.emit("tempdata", { value: esp32_obj.temp + "  °C" });
     io.sockets.emit("humdata", { value: esp32_obj.hum + " %" });
-    io.sockets.emit("ecdata", { value: esp32_obj.ec + " mS/cm" });
+    io.sockets.emit("ecdata", { value: ((Number(esp32_obj.ec)) / 1000).toFixed(2) + " mS/cm" });
     io.sockets.emit("phdata", { value: 6.5 });
     io.sockets.emit("water_lvl", { value: 100 + " %" });
-    io.sockets.emit("lightdata", { value :esp32_obj.watertemp + "  °C" });
-    
+    io.sockets.emit("lightdata", { value: esp32_obj.watertemp + "  °C" });
+
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    console.log("ESP32 Read Sensors ERROR !");
   }
-  
-    
+
+
 
 });
+
+
+
+
 
 
 

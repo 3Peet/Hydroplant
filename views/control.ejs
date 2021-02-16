@@ -593,7 +593,6 @@
     document.getElementById("submit-light-timer-popup").addEventListener("click", () => {
       // MQTT Publish
       socket.emit("mqtt_light_timer", "NULL");
-      location.reload(true);
 
       // Check Timer NULL value 
       var value_light_start_timer_1 = document.forms["light_timer"]["light_start_time_1"].value;
@@ -661,6 +660,7 @@
       document.getElementById("div_sw_light_timer_debug").style.zIndex = "1";
       document.getElementById("btn-light-timer").style.zIndex = "1";
       count_num_light_timer = 1;
+      location.reload(true);
     });
 
     // --------------------- Timer 1 2 3 4 FOR Light ---------------------

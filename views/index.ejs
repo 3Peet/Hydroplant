@@ -66,7 +66,7 @@
       </div>
 
       <div class="env-card light">
-        <h4 class="env-name">Light</h4>
+        <h4 class="env-name">Water Temp</h4>
         <h1 class="env-value" id="env-light"></h1>
       </div>
 
@@ -192,7 +192,7 @@
     socket.on("Update_Realtime_charts",(data1,data2,data3,data4)=>{
       var temp_data = Number(data1.temp_data).toFixed(2);
       var hum_data = Number(data2.hum_data).toFixed(2);
-      var ec_data = (Number(data3.ec_data)).toFixed(2);
+      var ec_data = ((Number(data3.ec_data))/1000).toFixed(2);
       var ph_data = Number(data4.ph_data).toFixed(2);
 
       graph_chart.appendData([
