@@ -8,6 +8,8 @@
   --green: #5cb334;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+
 body {
   font-family: "Nunito", sans-serif !important;
   background-color: var(--bg-light);

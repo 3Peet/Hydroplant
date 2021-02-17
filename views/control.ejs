@@ -203,7 +203,7 @@
                 <a href="#/" class="button6 btn_form_smaller" id="close-airpump-timer-popup"
                   style="background-color:  #ef476f;">Close</a>
               </div>
-
+              <input type="submit">
             </form>
 
 
@@ -461,7 +461,6 @@
       var state_light_manual = document.getElementById("btn_light").checked;
       document.getElementById("btn_light").checked = state_light_manual;
       socket.emit("state_light_manual", state_light_manual);
-      location.reload(true);
     }
 
     // ----------------------- Switch Light Timer -----------------------
@@ -471,7 +470,6 @@
       document.getElementById("btn_light_timer_on_off").checked = state_light_timer;
       socket.emit("state_light_timer", state_light_timer);
       socket.emit("mqtt_light_timer", state_light_timer);
-      location.reload(true);
     }
 
     // ----------------------- Switch Air Pump -----------------------
@@ -479,7 +477,6 @@
       var state_airpump_manual = document.getElementById("btn_air_pump").checked;
       document.getElementById("btn_air_pump").checked = state_airpump_manual;
       socket.emit("state_airpump_manual", state_airpump_manual);
-      location.reload(true);
     }
 
     // ----------------------- Switch Air Pump Timer -----------------------
@@ -489,7 +486,6 @@
       document.getElementById("btn_airpump_timer_on_off").checked = state_airpump_timer;
       socket.emit("state_airpump_timer", state_airpump_timer);
       socket.emit("mqtt_airpump_timer", state_airpump_timer);
-      location.reload(true);
     }
 
 

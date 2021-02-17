@@ -283,7 +283,7 @@ async function Check_light_airpump_status_timer_manual() {
           light: light_db, timestamp: timestamp,
           weekstamp: weekstamp
         };
-        dbo.collection("Test_insert_sensors").insertOne(myobj, function (err, res) {
+        dbo.collection("sensors").insertOne(myobj, function (err, res) {
           if (err) throw err;
           console.log("1 document inserted");
           db.close();
@@ -447,9 +447,25 @@ async function Check_light_airpump_status_timer_manual() {
 }
 
 // ---------------------------------------------- Socket io ----------------------------------------------
-
+var user_coonect_counter = 0;
 io.on("connect", function (socket) {
-  console.log("A User connected 👋");
+  // Powermode ESP32
+  user_coonect_counter++;
+  console.log("Number of users 🙋‍♂️: "+ user_coonect_counter);
+  if(user_coonect_counter === 1){
+    client.publish("web/powermode", "HighPower");
+    console.log("ESP32 MODE : HIGH POWER 🔋")
+  }
+  // Powermode ESP32
+  socket.on('disconnect', () => {
+    user_coonect_counter--;
+    console.log("Number of users 🙋‍♂️: "+ user_coonect_counter);
+    if(user_coonect_counter < 1){
+      client.publish("web/powermode", "LowPower");
+      console.log("ESP32 MODE : LOW POWER 🔋")
+    }
+  });
+
   socket.on("state_light_manual", function (data) {
     client.publish("web/control/light", data ? "ON" : "OFF");
     sw_light_json.set("manual_value", data);
@@ -564,6 +580,7 @@ io.on("connect", function (socket) {
     console.log(market_json.get("green_oak"));
   });
 });
+
 
 app.get("/sw-light", (req, res) => {
   res.json(sw_light_json);
@@ -851,14 +868,17 @@ var temp_db, hum_db, ec_ppm_db, ec_mscm_db, water_temp_db, water_level_db, light
 client.on('message', function (topic, message) {
   try {
     var esp32_obj = JSON.parse(message);
-    console.log("[Topic => " + topic + "] [Date => Temp:" + esp32_obj.temp + " Hum:" + esp32_obj.hum + " EC:" + esp32_obj.ec + " WaterTemp:" + esp32_obj.watertemp + "]");
-    temp_db = Number(esp32_obj.temp);
-    hum_db = Number(esp32_obj.hum);
-    ec_ppm_db = Number(esp32_obj.ec) * 500 / 1000;
-    ec_mscm_db = Number(esp32_obj.ec) / 1000;
-    water_temp_db = Number(esp32_obj.watertemp);
-    water_level_db = 100;
-    light_db = 1200;
+    if(topic === "esp32/sensors") {
+      console.log("[Topic => " + topic + "] [Date =>"+ message)+"]";
+      temp_db = Number(esp32_obj.temp);
+      hum_db = Number(esp32_obj.hum);
+      ec_ppm_db = Number(esp32_obj.ec) * 500 / 1000;
+      ec_mscm_db = Number(esp32_obj.ec) / 1000;
+      water_temp_db = Number(esp32_obj.watertemp);
+      water_level_db = 100;
+      light_db = 1200;
+    }
+    
 
 
     io.sockets.emit(
