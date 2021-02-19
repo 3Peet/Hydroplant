@@ -31,9 +31,10 @@ let sw_airpump_json = editJsonFile(`${__dirname}/src/json/sw-airpump.json`);
 let schedule_farm = editJsonFile(`${__dirname}/src/json/schedule.json`);
 let market_json = editJsonFile(`${__dirname}/src/json/market.json`);
 let water_pump_json = editJsonFile(`${__dirname}/src/json/water_pump.json`);
-let nutrient_pump_json = editJsonFile(
-  `${__dirname}/src/json/nutrient_pump.json`
-);
+let nutrient_pump_json = editJsonFile(`${__dirname}/src/json/nutrient_pump.json`);
+let ph_auto_json = editJsonFile(`${__dirname}/src/json/ph_auto.json`);
+let ec_auto_json = editJsonFile(`${__dirname}/src/json/ec_auto.json`);
+
 
 function timeConverter(UNIX_timestamp) {
   // Use to calculate End date.
@@ -230,6 +231,32 @@ app.post('/airpump_timer', (req, res) => {
 
 });
 
+app.post('/ph_auto',(req,res)=> {
+  try {
+    ph_start_range = Number(req.body.ph_start_decimal_select + req.body.ph_start_dot_select);
+    ph_end_range = Number(req.body.ph_end_decimal_select + req.body.ph_end_dot_select);
+    ph_auto_json.set("ph_start_range",ph_start_range);
+    ph_auto_json.set("ph_end_range",ph_end_range);
+    ph_auto_json.save();
+    
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.post('/ec_auto',(req,res)=> {
+  try {
+    ec_start_range = Number(req.body.ec_start_decimal_select + req.body.ec_start_dot_select);
+    ec_end_range = Number(req.body.ec_end_decimal_select + req.body.ec_end_dot_select);
+    ec_auto_json.set("ec_start_range",ec_start_range);
+    ec_auto_json.set("ec_end_range",ec_end_range);
+    ec_auto_json.save();
+    
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 // Global variable Timer Get time now
 var now_date = new Date();
 var date = now_date.getDate();
@@ -268,7 +295,14 @@ async function Check_light_airpump_status_timer_manual() {
     }
 
     // ---------------------------------------------- MongoDB Management ----------------------------------------------
+    if(minute === 59) {
+      client.publish("web/powermode", "HighPower");
+    }
+
     if (minute === 0) {
+      if(user_connect_counter < 1 ){
+        client.publish("web/powermode", "LowPower");
+      }
       console.log("🧔 Database :" + temp_db + " - " + hum_db + " - " + ec_ppm_db + " - " + ec_mscm_db + " - " + water_temp_db + " - " + water_temp_db + " - " + water_level_db + " - " + light_db);
       MongoClient.connect(url, function (err, db) {
         if (err) throw err;
@@ -291,6 +325,32 @@ async function Check_light_airpump_status_timer_manual() {
       });
     }
 
+  // ----------------------------------------------  Update Process Schedule ----------------------------------------------
+  // Update At midnight
+  if(hour === 0 && minute === 0){
+    var start_date_for_update = schedule_farm.get("start_date");
+    var plant_status = schedule_farm.get("status");
+
+    if (plant_status == "planting") {
+      console.log("Updated Day remaining");
+      schedule_farm.set(
+        "day_remaining",
+        cal_days_remaining(cal_unix_harvest_time(start_date_for_update))
+      );
+      schedule_farm.save();
+
+      io.sockets.emit(
+        "schedule",
+        { status: schedule_farm.get("status") },
+        { start_date: schedule_farm.get("start_date") },
+        { days_remaining: schedule_farm.get("day_remaining") }
+      );
+    }
+  }
+
+
+
+    
 
     // ---------------------------------------------- Timer Proess ----------------------------------------------
     // Light status value
@@ -447,20 +507,20 @@ async function Check_light_airpump_status_timer_manual() {
 }
 
 // ---------------------------------------------- Socket io ----------------------------------------------
-var user_coonect_counter = 0;
+var user_connect_counter = 0;
 io.on("connect", function (socket) {
   // Powermode ESP32
-  user_coonect_counter++;
-  console.log("Number of users 🙋‍♂️: "+ user_coonect_counter);
-  if(user_coonect_counter === 1){
+  user_connect_counter++;
+  console.log("Number of users 🙋‍♂️: "+ user_connect_counter);
+  if(user_connect_counter === 1){
     client.publish("web/powermode", "HighPower");
     console.log("ESP32 MODE : HIGH POWER 🔋")
   }
   // Powermode ESP32
   socket.on('disconnect', () => {
-    user_coonect_counter--;
-    console.log("Number of users 🙋‍♂️: "+ user_coonect_counter);
-    if(user_coonect_counter < 1){
+    user_connect_counter--;
+    console.log("Number of users 🙋‍♂️: "+ user_connect_counter);
+    if(user_connect_counter < 1){
       client.publish("web/powermode", "LowPower");
       console.log("ESP32 MODE : LOW POWER 🔋")
     }
@@ -507,6 +567,17 @@ io.on("connect", function (socket) {
     nutrient_pump_json.save();
   });
 
+  
+  socket.on("state_ph_auto", function (data) {
+    ph_auto_json.set("status", data);
+    ph_auto_json.save();
+  });
+
+  socket.on("state_ec_auto", function (data) {
+    ec_auto_json.set("status", data);
+    ec_auto_json.save();
+  });
+
   // MQTT Light Timer
   socket.on("mqtt_light_timer", function (data) {
     control_timer(data, "NULL");
@@ -524,7 +595,19 @@ io.on("connect", function (socket) {
     { light_manual_sw_status: sw_light_json.get("manual_value") },
     { light_timer_sw_status: sw_light_json.get("timer_value") },
     { airpump_manual_sw_status: sw_airpump_json.get("manual_value") },
-    { airpump_timer_sw_status: sw_airpump_json.get("timer_value") }
+    { airpump_timer_sw_status: sw_airpump_json.get("timer_value") },
+    { auto_ph_status: ph_auto_json.get("status") },
+    { auto_ec_status: ec_auto_json.get("status") }
+  );
+
+  io.sockets.emit("display_ph_auto",
+    { ph_start_range: ph_auto_json.get("ph_start_range") },
+    { ph_end_range: ph_auto_json.get("ph_end_range") }
+  );
+
+  io.sockets.emit("display_ec_auto",
+    { ec_start_range: ec_auto_json.get("ec_start_range") },
+    { ec_end_range: ec_auto_json.get("ec_end_range") }
   );
 
   io.sockets.emit("display_light_timer",
@@ -599,32 +682,32 @@ app.get("/nutrient-pump", (req, res) => {
 });
 
 // Update Every 12hr
-Update_Day_remaining();
-async function Update_Day_remaining() {
-  setInterval(function () {
-    console.log("Update Day remaining");
+// Update_Day_remaining();
+// async function Update_Day_remaining() {
+//   setInterval(function () {
+//     console.log("Update Day remaining");
 
-    var start_date_for_update = schedule_farm.get("start_date");
-    var plant_status = schedule_farm.get("status");
+//     var start_date_for_update = schedule_farm.get("start_date");
+//     var plant_status = schedule_farm.get("status");
 
-    if (plant_status == "planting") {
-      console.log("Updated Day remaining");
-      schedule_farm.set(
-        "day_remaining",
-        cal_days_remaining(cal_unix_harvest_time(start_date_for_update))
-      );
-      schedule_farm.save();
+//     if (plant_status == "planting") {
+//       console.log("Updated Day remaining");
+//       schedule_farm.set(
+//         "day_remaining",
+//         cal_days_remaining(cal_unix_harvest_time(start_date_for_update))
+//       );
+//       schedule_farm.save();
 
-      io.sockets.emit(
-        "schedule",
-        { status: schedule_farm.get("status") },
-        { start_date: schedule_farm.get("start_date") },
-        { days_remaining: schedule_farm.get("day_remaining") }
-      );
-    };
+//       io.sockets.emit(
+//         "schedule",
+//         { status: schedule_farm.get("status") },
+//         { start_date: schedule_farm.get("start_date") },
+//         { days_remaining: schedule_farm.get("day_remaining") }
+//       );
+//     };
 
-  }, 43200000);
-}
+//   }, 43200000);
+// }
 
 // ---------------------------------------------- Charts Process Route ----------------------------------------------
 app.post("/graph_days_process", (req, res) => {
@@ -869,14 +952,18 @@ client.on('message', function (topic, message) {
   try {
     var esp32_obj = JSON.parse(message);
     if(topic === "esp32/sensors") {
-      console.log("[Topic => " + topic + "] [Date =>"+ message)+"]";
+      console.log("[Topic 🎐 => " + topic + "] [Date =>"+ message)+"]";
       temp_db = Number(esp32_obj.temp);
       hum_db = Number(esp32_obj.hum);
       ec_ppm_db = Number(esp32_obj.ec) * 500 / 1000;
       ec_mscm_db = Number(esp32_obj.ec) / 1000;
       water_temp_db = Number(esp32_obj.watertemp);
-      water_level_db = 100;
+      water_level_db = ultrasonic_mm_percent(esp32_obj.ultrasonic);
       light_db = 1200;
+    }
+
+    else {
+      console.log("[Topic => " + topic + "] [Date =>"+ message)+"]";
     }
     
 
@@ -893,17 +980,27 @@ client.on('message', function (topic, message) {
     io.sockets.emit("humdata", { value: esp32_obj.hum + " %" });
     io.sockets.emit("ecdata", { value: ((Number(esp32_obj.ec)) / 1000).toFixed(2) + " mS/cm" });
     io.sockets.emit("phdata", { value: 6.5 });
-    io.sockets.emit("water_lvl", { value: 100 + " %" });
-    io.sockets.emit("lightdata", { value: esp32_obj.watertemp + "  °C" });
+    io.sockets.emit("water_lvl", { value: ultrasonic_mm_percent(esp32_obj.ultrasonic) + " %" });
+    io.sockets.emit("lightdata", { value: esp32_obj.watertemp.toFixed(1) + "  °C" });
 
   } catch (error) {
     // console.log(error);
     console.log("ESP32 Read Sensors ERROR !");
   }
 
-
-
 });
+
+function ultrasonic_mm_percent(mm) {
+  if(mm <= 40) {
+    return 100
+  }
+
+  else if(mm>=130){
+    return 0
+  }
+
+  else return(140 - mm)
+}
 
 
 

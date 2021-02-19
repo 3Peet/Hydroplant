@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -197,7 +196,7 @@
                 <a href="#/" class="button6 btn_remove_smaller" id="remove_airpump_timer_4">-</a>
 
               </div>
-              <div class="btn_airpump_submit_close">
+              <div class="btn_form_submit_close">
                 <a href="#/" class="button6 btn_form_smaller" id="submit-airpump-timer-popup"
                   style="background-color: #38b95c ;">Submit</a>
                 <a href="#/" class="button6 btn_form_smaller" id="close-airpump-timer-popup"
@@ -256,7 +255,6 @@
 
         <div id="light_timer_popup">
           <div id="main_light_timer_popup">
-
             <form id="light_timer_form" action="/light_timer" method="POST" name="light_timer" target="dummyframe"
               style="padding: 20px 50px;">
               <h1 class="title_form_light">SETUP LIGHT TIMER</h1>
@@ -297,7 +295,7 @@
                 <a href="#/" class="button6 btn_remove_smaller" id="remove_light_timer_4">-</a>
 
               </div>
-              <div class="btn_light_submit_close">
+              <div class="btn_form_submit_close">
                 <a href="#/" class="button6 btn_form_smaller" id="submit-light-timer-popup"
                   style="background-color: #38b95c ;">Submit</a>
                 <a href="#/" class="button6 btn_form_smaller" id="close-light-timer-popup"
@@ -316,12 +314,183 @@
       <div class="ph_auto ctrl-card">
 
         <h4 class="ctrl-name">pH Automation</h4>
+        <div class="field">
+          <input id="btn_ph_auto" type="checkbox" name="btn_ph_auto" class="switch is-thin is-info" checked="checked"
+            onclick="state_ph_auto()">
+          <label for="btn_ph_auto"></label>
+        </div>
 
+        <div class="display_ph_auto">
+          <h1 class="txt_main_color display_ph_auto_data" id="ph_auto_start_range"></h1>
+          <h1 class="txt_main_color display_ph_auto_data" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_ph_auto_data" id="ph_auto_end_range"></h1>
+        </div>
+
+        <a href="#/" class="button6" id="btn-ph-auto">Set PH</a>
+      </div>
+
+      <div id="ph_auto_popup">
+        <div id="main_ph_auto_popup">
+          <form id="ph_auto_form" action="/ph_auto" method="POST" name="ph_auto" target="dummyframe">
+            <h1 class="title_form_ph_auto">SET PH RANGE</h1>
+            <div class="select_menu">
+              <h3 style="margin: 0 .5em;">PH :</h3>
+
+              <select name="ph_start_decimal_select" id="ph_start_decimal_select" class="input_box">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+              </select>
+              <select name="ph_start_dot_select" id="ph_start_dot_select" class="input_box">
+                <option value=".0">.0</option>
+                <option value=".1">.1</option>
+                <option value=".2">.2</option>
+                <option value=".3">.3</option>
+                <option value=".4">.4</option>
+                <option value=".5">.5</option>
+                <option value=".6">.6</option>
+                <option value=".7">.7</option>
+                <option value=".8">.8</option>
+                <option value=".9">.9</option>
+              </select>
+
+              <h3 style="margin: 0 .2em;"> - </h3>
+
+              <select name="ph_end_decimal_select" id="ph_end_decimal_select" class="input_box">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                <option value="13">13</option>
+                <option value="14">14</option>
+              </select>
+              <select name="ph_end_dot_select" id="ph_end_dot_select" class="input_box">
+                <option value=".0">.0</option>
+                <option value=".1">.1</option>
+                <option value=".2">.2</option>
+                <option value=".3">.3</option>
+                <option value=".4">.4</option>
+                <option value=".5">.5</option>
+                <option value=".6">.6</option>
+                <option value=".7">.7</option>
+                <option value=".8">.8</option>
+                <option value=".9">.9</option>
+              </select>
+
+
+            </div>
+
+            <div class="btn_form_submit_close">
+              <a href="#/" class="button6 btn_form_smaller" id="submit-ph-auto-popup"
+                style="background-color: #38b95c ;">Submit</a>
+              <a href="#/" class="button6 btn_form_smaller" id="close-ph-auto-popup"
+                style="background-color:  #ef476f;">Close</a>
+            </div>
+            </form> 
+        </div>
       </div>
 
       <div class="ec_auto ctrl-card">
 
         <h4 class="ctrl-name">EC Automation</h4>
+        <div class="field">
+          <input id="btn_ec_auto" type="checkbox" name="btn_ec_auto" class="switch is-thin is-info" checked="checked"
+            onclick="state_ec_auto()">
+          <label for="btn_ec_auto"></label>
+        </div>
+
+        <div class="display_ec_auto">
+          <h1 class="txt_main_color display_ec_auto_data" id ="ec_auto_start_range"></h1>
+          <h1 class="txt_main_color display_ec_auto_data" style="margin: auto .2em;"> - </h1>
+          <h1 class="txt_main_color display_ec_auto_data" id="ec_auto_end_range"></h1>
+        </div>
+        <h4 style="color: #97b1ca; margin:0 0 1em 0; font-size: .8em;" >(mS/cm)</h4>
+
+
+        <a href="#/" class="button6" id="btn-ec-auto">Set EC</a>
+      </div>
+
+      <div id="ec_auto_popup">
+        <div id="main_ec_auto_popup">
+          <form id="ec_auto_form" action="/ec_auto" method="POST" name="ec_auto" target="dummyframe">
+            <h1 class="title_form_ec_auto">SET EC RANGE</h1>
+            
+            <div class="select_menu">
+              <h3 style="margin: 0 .5em;">EC :</h3>
+
+              <select name="ec_start_decimal_select" id="ec_start_decimal_select" class="input_box">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+
+              </select>
+              <select name="ec_start_dot_select" id="ec_start_dot_select" class="input_box">
+                <option value=".0">.0</option>
+                <option value=".1">.1</option>
+                <option value=".2">.2</option>
+                <option value=".3">.3</option>
+                <option value=".4">.4</option>
+                <option value=".5">.5</option>
+                <option value=".6">.6</option>
+                <option value=".7">.7</option>
+                <option value=".8">.8</option>
+                <option value=".9">.9</option>
+              </select>
+
+              <h3 style="margin: 0 .2em;"> - </h3>
+
+              <select name="ec_end_decimal_select" id="ec_end_decimal_select" class="input_box">
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+
+              </select>
+              <select name="ec_end_dot_select" id="ec_end_dot_select" class="input_box">
+                <option value=".0">.0</option>
+                <option value=".1">.1</option>
+                <option value=".2">.2</option>
+                <option value=".3">.3</option>
+                <option value=".4">.4</option>
+                <option value=".5">.5</option>
+                <option value=".6">.6</option>
+                <option value=".7">.7</option>
+                <option value=".8">.8</option>
+                <option value=".9">.9</option>
+              </select>
+              <h4 style="color: #97b1ca; margin: .3em 0 0 .3em; font-size: .8em;" >(mS/cm)</h4>
+
+
+
+            </div>
+
+            <div class="btn_form_submit_close">
+              <a href="#/" class="button6 btn_form_smaller" id="submit-ec-auto-popup"
+                style="background-color: #38b95c ;">Submit</a>
+              <a href="#/" class="button6 btn_form_smaller" id="close-ec-auto-popup"
+                style="background-color:  #ef476f;">Close</a>
+            </div>
+            </form>
+        </div>
+
 
       </div>
 
@@ -331,7 +500,7 @@
     </div>
   </div>
 
-  
+
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
 
@@ -441,21 +610,39 @@
       document.getElementById("display_airpump_end_timer_4").innerHTML = value_end_timer_4;
     });
 
+    socket.on("display_ph_auto", (data1, data2) => {
+      var ph_start_range = data1.ph_start_range;
+      var ph_end_range = data2.ph_end_range;
+      document.getElementById("ph_auto_start_range").innerHTML = ph_start_range;
+      document.getElementById("ph_auto_end_range").innerHTML = ph_end_range;
 
+    });
+
+    socket.on("display_ec_auto", (data1, data2) => {
+      var ec_start_range = data1.ec_start_range;
+      var ec_end_range = data2.ec_end_range;
+      document.getElementById("ec_auto_start_range").innerHTML = ec_start_range;
+      document.getElementById("ec_auto_end_range").innerHTML = ec_end_range;
+
+    });
     // Sync Switch
-    // Countion! : ระวังรันบน Server แล้วไม่ emit เข้ามา ต้องไปแก้ให้ emit ตอนกด switch ด้วย
-    socket.on("all_ctrl_sw_data", (data1,data2,data3,data4) => {
-        var light_manual_sw_status = data1.light_manual_sw_status;
-        var light_timer_sw_status = data2.light_timer_sw_status;
-        var airpump_manual_sw_status = data3.airpump_manual_sw_status;
-        var airpump_timer_sw_status = data4.airpump_timer_sw_status;
-        document.getElementById("btn_light").checked = light_manual_sw_status;
-        document.getElementById("btn_light_timer_on_off").checked = light_timer_sw_status;
-        document.getElementById("btn_air_pump").checked = airpump_manual_sw_status;
-        document.getElementById("btn_airpump_timer_on_off").checked = airpump_timer_sw_status;
-      });
 
-    
+    socket.on("all_ctrl_sw_data", (data1, data2, data3, data4, data5, data6) => {
+      var light_manual_sw_status = data1.light_manual_sw_status;
+      var light_timer_sw_status = data2.light_timer_sw_status;
+      var airpump_manual_sw_status = data3.airpump_manual_sw_status;
+      var airpump_timer_sw_status = data4.airpump_timer_sw_status;
+      var ph_auto_status = data5.auto_ph_status;
+      var ec_auto_status = data6.auto_ec_status;
+      document.getElementById("btn_light").checked = light_manual_sw_status;
+      document.getElementById("btn_light_timer_on_off").checked = light_timer_sw_status;
+      document.getElementById("btn_air_pump").checked = airpump_manual_sw_status;
+      document.getElementById("btn_airpump_timer_on_off").checked = airpump_timer_sw_status;
+      document.getElementById("btn_ph_auto").checked = ph_auto_status;
+      document.getElementById("btn_ec_auto").checked = ec_auto_status;
+    });
+
+
     // ----------------------- Switch light Box -----------------------
     function state_sw() {
       var state_light_manual = document.getElementById("btn_light").checked;
@@ -487,6 +674,28 @@
       socket.emit("state_airpump_timer", state_airpump_timer);
       socket.emit("mqtt_airpump_timer", state_airpump_timer);
     }
+
+
+    // ----------------------- Switch pH automation -----------------------
+    function state_ph_auto() {
+      var state_ph_auto = document.getElementById("btn_ph_auto").checked;
+      document.getElementById("btn_ph_auto").checked = state_ph_auto;
+      console.log(state_ph_auto);
+      socket.emit("state_ph_auto", state_ph_auto);
+      // socket.emit("mqtt_pH_auto", state_ph_auto);
+    }
+
+    // ----------------------- Switch EC automation -----------------------
+    function state_ec_auto() {
+      var state_ec_auto = document.getElementById("btn_ec_auto").checked;
+      document.getElementById("btn_ec_auto").checked = state_ec_auto;
+      console.log(state_ec_auto);
+      socket.emit("state_ec_auto", state_ec_auto);
+      // socket.emit("mqtt_pH_auto", state_ph_auto);
+    }
+
+
+
 
 
 
@@ -574,6 +783,7 @@
       document.forms["light_timer"]["light_end_time_4"].value = "";
       document.getElementById("div_sw_light_timer_debug").style.zIndex = "-1";
       document.getElementById("btn-light-timer").style.zIndex = "-1";
+      light_timer_popup.style.zIndex = "2";
     });
 
     // Close button Light Timer
@@ -582,6 +792,7 @@
       document.getElementById("div_sw_light_timer_debug").style.zIndex = "1";
       document.getElementById("btn-light-timer").style.zIndex = "1";
       light_timer_popup.style.display = "none";
+      light_timer_popup.style.zIndex = "1";
       count_num_light_timer = 1;
     });
 
@@ -655,6 +866,7 @@
       document.getElementById("light_timer_form").submit();
       document.getElementById("div_sw_light_timer_debug").style.zIndex = "1";
       document.getElementById("btn-light-timer").style.zIndex = "1";
+      light_timer_popup.style.zIndex = "1";
       count_num_light_timer = 1;
       location.reload(true);
     });
@@ -726,6 +938,7 @@
       document.forms["airpump_timer"]["airpump_end_time_4"].value = "";
       document.getElementById("div_sw_light_timer_debug").style.zIndex = "-1";
       document.getElementById("btn-light-timer").style.zIndex = "-1";
+      airpump_timer_popup.style.zIndex = "2";
     });
 
     // Close button Air Pump Timer
@@ -735,6 +948,7 @@
       document.getElementById("div_sw_light_timer_debug").style.zIndex = "1";
       document.getElementById("btn-light-timer").style.zIndex = "1";
       count_num_airpump_timer = 1;
+      airpump_timer_popup.style.zIndex = "1";
     });
 
 
@@ -807,6 +1021,7 @@
       document.getElementById("airpump_timer_form").submit();
       document.getElementById("div_sw_light_timer_debug").style.zIndex = "1";
       document.getElementById("btn-light-timer").style.zIndex = "1";
+      airpump_timer_popup.style.zIndex = "1";
       count_num_airpump_timer = 1;
     });
 
@@ -861,6 +1076,77 @@
     });
 
 
+    // -------------------------- PH Automation Popup --------------------------
+    document.getElementById("btn-ph-auto").addEventListener("click", () => {
+      var ph_auto_popup_frame = document.getElementById("ph_auto_popup");
+      ph_auto_popup_frame.style.display = "block";
+      ph_auto_popup_frame.style.zIndex = "2";
+
+      // Close button PH Auto Popup
+      document.getElementById("close-ph-auto-popup").addEventListener("click", () => {
+        ph_auto_popup_frame.style.display = "none";
+        ph_auto_popup_frame.style.zIndex = "1";
+      });
+
+      // Submit button PH Auto Popup
+      document.getElementById("submit-ph-auto-popup").addEventListener("click", () => {
+        ph_auto_popup_frame.style.display = "none";
+        ph_auto_popup_frame.style.zIndex = "1";
+
+
+
+        // Check valid value PH Automation
+        var value_ph_auto_start_decimal = document.forms["ph_auto"]["ph_start_decimal_select"].value;
+        var value_ph_auto_start_dot = document.forms["ph_auto"]["ph_start_dot_select"].value;
+        var value_ph_auto_end_decimal = document.forms["ph_auto"]["ph_end_decimal_select"].value;
+        var value_ph_auto_end_dot = document.forms["ph_auto"]["ph_end_dot_select"].value;
+        if (Number(value_ph_auto_end_decimal) + Number(value_ph_auto_end_dot) <= Number(value_ph_auto_start_decimal) + Number(value_ph_auto_start_dot)) {
+          alert("😥 You entered the pH value incorrectly.");
+          return false;
+        }
+
+        document.getElementById("ph_auto_form").submit();
+        location.reload(true);
+
+      });
+
+    });
+
+    // -------------------------- EC Automation Popup --------------------------
+    document.getElementById("btn-ec-auto").addEventListener("click", () => {
+      var ec_auto_popup_frame = document.getElementById("ec_auto_popup");
+      ec_auto_popup_frame.style.display = "block";
+      ec_auto_popup_frame.style.zIndex = "2";
+
+      // Close button PH Auto Popup
+      document.getElementById("close-ec-auto-popup").addEventListener("click", () => {
+        ec_auto_popup_frame.style.display = "none";
+        ec_auto_popup_frame.style.zIndex = "1";
+      });
+
+      // Submit button PH Auto Popup
+      document.getElementById("submit-ec-auto-popup").addEventListener("click", () => {
+        ec_auto_popup_frame.style.display = "none";
+        ec_auto_popup_frame.style.zIndex = "1";
+
+
+
+        // Check valid value PH Automation
+        var value_ec_auto_start_decimal = document.forms["ec_auto"]["ec_start_decimal_select"].value;
+        var value_ec_auto_start_dot = document.forms["ec_auto"]["ec_start_dot_select"].value;
+        var value_ec_auto_end_decimal = document.forms["ec_auto"]["ec_end_decimal_select"].value;
+        var value_ec_auto_end_dot = document.forms["ec_auto"]["ec_end_dot_select"].value;
+        if (Number(value_ec_auto_end_decimal) + Number(value_ec_auto_end_dot) <= Number(value_ec_auto_start_decimal) + Number(value_ec_auto_start_dot)) {
+          alert("😥 You entered the EC value incorrectly.");
+          return false;
+        }
+
+        document.getElementById("ec_auto_form").submit();
+        location.reload(true);
+
+      });
+
+    });
 
   </script>
 </body>

@@ -7,13 +7,16 @@
   --red: #ef476f;
   --green: #5cb334;
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+html {
+	-webkit-font-smoothing: antialiased;
+}
 
 body {
-  font-family: "Nunito", sans-serif !important;
+  font-family: "Nunito", sans-serif;
   background-color: var(--bg-light);
 }
+
+
 
 /* width */
 ::-webkit-scrollbar {
@@ -292,8 +295,28 @@ a.button6{
       font-family: "Nunito", sans-serif;
     }
 
+    form#ph_auto_form {
+      max-width: 600px;
+      min-width: 300px;
+      padding: 10px 50px;
+      border: 2px solid gray;
+      border-radius: 2em;
+      background-color: var(--bg-light);
+      font-family: "Nunito", sans-serif;
+    }
+
+    form#ec_auto_form {
+      max-width: 600px;
+      min-width: 300px;
+      padding: 10px 50px;
+      border: 2px solid gray;
+      border-radius: 2em;
+      background-color: var(--bg-light);
+      font-family: "Nunito", sans-serif;
+    }
+
     /* Control Popup */
-    #light_timer_popup, #airpump_timer_popup {
+    #light_timer_popup, #airpump_timer_popup, #ph_auto_popup, #ec_auto_popup {
       width: 100%;
       height: 100%;
       opacity: 0.98;
@@ -306,7 +329,7 @@ a.button6{
       overflow: auto;
     }
 
-    #main_light_timer_popup, #main_airpump_timer_popup {
+    #main_light_timer_popup, #main_airpump_timer_popup, #main_ph_auto_popup, #main_ec_auto_popup {
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -320,10 +343,11 @@ a.button6{
     }
 
 
-    .title_form_light {
+    .title_form_light, .title_form_ph_auto, .title_form_ec_auto {
       color: var(--txt-main);
       font-weight: bolder;
       text-shadow: -1px 3px 6px rgba(122, 122, 122, 0.29);
+      text-align: center;
     }
 
     .timer_number {
@@ -355,7 +379,7 @@ a.button6{
       opacity: 0.9;
     }
 
-    .btn_light_submit_close,.btn_airpump_submit_close {
+    .btn_form_submit_close{
       display: flex;
       justify-content: center;
       align-items: center;
@@ -374,9 +398,47 @@ a.button6{
       justify-content: center;
     }
 
-    .display_light_timer_data{
+    .display_light_timer_data, .display_ph_auto_data, .display_ec_auto_data{
       margin: 0;
       font-size: 1.85em;
+    }
+
+    .display_ph_auto{
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 0.7em 0;
+      width: 100%;
+    }
+
+    .display_ec_auto {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      margin: 0.7em 0;
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .select_menu {
+      display: flex;
+      flex-direction: row;
+     /* background-color: rosybrown; */
+      justify-content: center;
+      align-items: center;
+    }
+
+    .input_box {
+    color: var(--txt-main);
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+    width: 3em;
+    font-weight: bold;
+    font-family: "Nunito", sans-serif;
+    text-align: center;
     }
 
     
@@ -790,7 +852,7 @@ div#popup-data {
   border: 0.05px solid var(--txt_light);
 }
 
-.plant-input {
+.plant-input{
   color: var(--txt_light);
   margin-top: 30px;
   border: 1px solid #c4c4c4;
