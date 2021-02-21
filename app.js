@@ -203,10 +203,19 @@ app.post('/light_timer', (req, res) => {
   sw_light_json.set("light_end_time_4", light_end_time_4);
   sw_light_json.save();
 
-
+  io.sockets.emit("display_light_timer",
+    { light_start_time_1: light_start_time_1 },
+    { light_end_time_1: light_end_time_1 },
+    { light_start_time_2: light_start_time_2 },
+    { light_end_time_2: light_end_time_2 },
+    { light_start_time_3: light_start_time_3 },
+    { light_end_time_3: light_end_time_3 },
+    { light_start_time_4: light_start_time_4 },
+    { light_end_time_4: light_end_time_4 },
+  );
 });
 
-// Route Air Pump Timer
+// Route Air Pump Timerl
 app.post('/airpump_timer', (req, res) => {
   // Receive Start & End Timer
   airpump_start_time_1 = req.body.airpump_start_time_1;
@@ -228,6 +237,16 @@ app.post('/airpump_timer', (req, res) => {
   sw_airpump_json.set("airpump_start_time_4", airpump_start_time_4);
   sw_airpump_json.set("airpump_end_time_4", airpump_end_time_4);
   sw_airpump_json.save();
+  io.sockets.emit("display_airpump_timer",
+    { airpump_start_time_1: airpump_start_time_1 },
+    { airpump_end_time_1: airpump_end_time_1 },
+    { airpump_start_time_2: airpump_start_time_2},
+    { airpump_end_time_2: airpump_end_time_2 },
+    { airpump_start_time_3: airpump_start_time_3 },
+    { airpump_end_time_3: airpump_end_time_3 },
+    { airpump_start_time_4: airpump_start_time_4 },
+    { airpump_end_time_4: airpump_end_time_4 },
+);
 
 });
 
@@ -238,6 +257,11 @@ app.post('/ph_auto',(req,res)=> {
     ph_auto_json.set("ph_start_range",ph_start_range);
     ph_auto_json.set("ph_end_range",ph_end_range);
     ph_auto_json.save();
+
+    io.sockets.emit("display_ph_auto",
+    { ph_start_range: ph_start_range },
+    { ph_end_range: ph_end_range}
+  );
     
   } catch (error) {
     console.log(error);
@@ -251,6 +275,11 @@ app.post('/ec_auto',(req,res)=> {
     ec_auto_json.set("ec_start_range",ec_start_range);
     ec_auto_json.set("ec_end_range",ec_end_range);
     ec_auto_json.save();
+
+    io.sockets.emit("display_ec_auto",
+    { ec_start_range: ec_start_range },
+    { ec_end_range: ec_end_range }
+  );
     
   } catch (error) {
     console.log(error);
@@ -711,17 +740,32 @@ app.get("/nutrient-pump", (req, res) => {
 
 // ---------------------------------------------- Charts Process Route ----------------------------------------------
 app.post("/graph_days_process", (req, res) => {
+  var months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
   data_date = req.body.date_charts.split("-");
   year_charts = data_date[0];
-  month_charts = data_date[1];
+  month_charts = months[Number(data_date[1])-1];
   day_charts = data_date[2];
   console.log("Year: " + year_charts + " Month: " + month_charts + " Days: " + day_charts);
   MongoClient.connect(url, function (err, db) {
     if (err) throw err;
     var dbo = db.db("hydroplant");
-    var query = { timestamp: new RegExp('^' + Number(day_charts) + "-" + Number(month_charts) + "-" + Number(year_charts)) };
+    var query = { timestamp: new RegExp('.*'+month_charts+' '+day_charts+' '+year_charts+'.*')};
     console.log(query);
-    var projection = { projection: { _id: 0, temp: 1, hum: 1, ph: 1, ec: 1, timestamp: 1 } }
+    // var query = { timestamp: new RegExp('^' + Number(day_charts) + "-" + Number(month_charts) + "-" + Number(year_charts)) };
+    var projection = { projection: { _id: 0,ph:1, temp: 1, hum: 1, ph: 1,ec_mscm:1, water_temp:1, light:1, water_level:1, timestamp: 1 } }
     dbo.collection("sensors").find(query, projection).toArray(function (err, result) {
       if (err) throw err;
       console.log(result);

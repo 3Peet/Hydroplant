@@ -449,13 +449,15 @@ a.button6{
   margin-right: 10% !important;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.1fr 0.1fr 1fr 1fr;
+  grid-template-rows: 0.1fr 0.1fr 1fr 1fr 1fr 1fr;
   gap: .4em 2em;
   grid-template-areas:
-  "main_title   main_title"
-  "input_form   input_form"
-  "temp_graph   ph_graph"
-  "ec_graph     hum_graph"
+  "main_title       main_title"
+  "input_form       input_form"
+  "all_graph        all_graph"
+  "temp_graph       ph_graph"
+  "ec_graph         hum_graph"
+  "watertemp_graph  light_graph"
 }
 
 .chart_main_title {
@@ -486,6 +488,18 @@ a.button6{
 
 #ec_graph {
   grid-area: ec_graph;
+}
+
+#water_temp_graph {
+  grid-area: watertemp_graph;
+}
+
+#light_graph {
+  grid-area: light_graph;
+}
+
+#sensors_graph {
+  grid-area: all_graph;
 }
 
 .chart_input{

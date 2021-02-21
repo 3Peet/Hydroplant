@@ -65,10 +65,8 @@
 
         <div class="select_query_d_w_m">
           <h3 id="title_select_query_d_w_m">Showing data for :</h3>
-          <a href="#/" class="button6 btn_form_smaller" id="select-days"
-            style="background-color: #4e9af1 ;">Days</a>
-          <a href="#/" class="button6 btn_form_smaller" id="select-week"
-            style="background-color: #4e9af1 ;">Week</a>
+          <a href="#/" class="button6 btn_form_smaller" id="select-days" style="background-color: #4e9af1 ;">Days</a>
+          <a href="#/" class="button6 btn_form_smaller" id="select-week" style="background-color: #4e9af1 ;">Week</a>
           <a href="#/" class="button6 btn_form_smaller" id="select-months"
             style="background-color: #4e9af1 ;">Months</a>
         </div>
@@ -77,7 +75,8 @@
         <iframe name="dummyframe" id="dummyframe" style="display: none"></iframe>
 
         <div class="select_query_days" id="select_query_days">
-          <form action="/graph_days_process" method="POST" name="days_query_form" id="days_query_form" target="dummyframe">
+          <form action="/graph_days_process" method="POST" name="days_query_form" id="days_query_form"
+            target="dummyframe">
             <label for="date_charts" class="label_select_form">Select Days : </label>
             <input type="date" name="date_charts" id="date_charts">
             <a href="#/" class="button6 btn_form_smaller" id="submit-days"
@@ -85,10 +84,11 @@
           </form>
         </div>
 
-        
+
 
         <div class="select_query_week" id="select_query_week">
-          <form action="/graph_week_process" method="POST" name="week_query_form" id="week_query_form" target="dummyframe">
+          <form action="/graph_week_process" method="POST" name="week_query_form" id="week_query_form"
+            target="dummyframe">
             <label for="week_charts" class="label_select_form">Select Week : </label>
             <input type="week" name="week_charts" id="week_charts">
             <a href="#/" class="button6 btn_form_smaller" id="submit-week"
@@ -97,7 +97,8 @@
         </div>
 
         <div class="select_query_months" id="select_query_months">
-          <form action="/graph_months_process" method="POST" name="months_query_form" id="months_query_form" target="dummyframe">
+          <form action="/graph_months_process" method="POST" name="months_query_form" id="months_query_form"
+            target="dummyframe">
             <label for="months_charts" class="label_select_form">Select Months : </label>
             <input type="month" name="months_charts" id="months_charts">
             <a href="#/" class="button6 btn_form_smaller" id="submit-months"
@@ -117,7 +118,9 @@
       <div id="hum_graph"></div>
       <div id="ph_graph"></div>
       <div id="ec_graph"></div>
-      <div id="graph_chart"></div>
+      <div id="water_temp_graph"></div>
+      <div id="light_graph"></div>
+      <div id="sensors_graph"></div>
 
 
 
@@ -133,54 +136,345 @@
 <script type="text/javascript">
   var socket = io();
 
+  //------------------------------------- Update Charts data -------------------------------------
+
   socket.on("charts_process", (data) => {
     var data = data.value
-    console.log(data);
-    graph_temp.appendData([
-      {
-        data: [{ x: '00:00', y: data[0].temp }, { x: '01:00', y: data[1].temp }, { x: '02:00', y: data[2].temp }, { x: '03:00', y: data[3].temp },
-        { x: '04:00', y: data[4].temp }, { x: '05:00', y: data[5].temp }, { x: '06:00', y: data[6].temp }, { x: '07:00', y: data[7].temp },
-        { x: '08:00', y: data[8].temp }, { x: '09:00', y: data[9].temp }, { x: '10:00', y: data[10].temp }, { x: '11:00', y: data[11].temp },
-        { x: '12:00', y: data[12].temp }, { x: '13:00', y: data[13].temp }, { x: '14:00', y: data[14].temp }, { x: '15:00', y: data[15].temp },
-        { x: '16:00', y: data[16].temp }, { x: '17:00', y: data[17].temp }, { x: '18:00', y: data[18].temp }, { x: '19:00', y: data[19].temp },
-        { x: '20:00', y: data[20].temp }, { x: '21:00', y: data[21].temp }, { x: '22:00', y: data[22].temp }, { x: '23:00', y: data[23].temp },
-        ],
-      },
-    ]);
+    console.log();
+    try {
+      graph_temp.appendData([
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].temp },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].temp },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].temp },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].temp },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].temp },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].temp },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].temp },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].temp },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].temp },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].temp },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].temp },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].temp },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].temp },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].temp },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].temp },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].temp },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].temp },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].temp },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].temp },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].temp },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].temp },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].temp },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].temp },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].temp },
+          ],
+        },
+      ]);
+      graph_ph.appendData([
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].ph },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].ph },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].ph },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].ph },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].ph },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].ph },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].ph },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].ph },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].ph },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].ph },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].ph },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].ph },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].ph },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].ph },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].ph },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].ph },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].ph },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].ph },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].ph },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].ph },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].ph },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].ph },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].ph },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].ph },
+          ],
+        },
+      ]);
+      graph_ec.appendData([
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[0].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[1].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[2].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[3].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[4].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[5].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[6].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[7].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[8].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[9].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[10].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[11].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[12].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[13].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[14].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[15].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[16].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[17].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[18].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[19].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[20].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[21].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[22].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[23].ec_mscm * 100) / 100).toFixed(2) },
+          ],
+        }
+      ]);
+      graph_hum.appendData([
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].hum },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].hum },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].hum },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].hum },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].hum },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].hum },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].hum },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].hum },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].hum },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].hum },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].hum },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].hum },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].hum },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].hum },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].hum },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].hum },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].hum },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].hum },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].hum },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].hum },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].hum },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].hum },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].hum },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].hum },
+          ],
+        },
+      ]);
+      graph_water_temp.appendData([
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].water_temp },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].water_temp },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].water_temp },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].water_temp },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].water_temp },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].water_temp },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].water_temp },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].water_temp },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].water_temp },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].water_temp },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].water_temp },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].water_temp },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].water_temp },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].water_temp },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].water_temp },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].water_temp },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].water_temp },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].water_temp },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].water_temp },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].water_temp },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].water_temp },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].water_temp },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].water_temp },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].water_temp },
+          ],
+        },
+      ]);
+      graph_light.appendData([
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].light },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].light },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].light },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].light },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].light },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].light },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].light },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].light },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].light },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].light },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].light },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].light },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].light },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].light },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].light },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].light },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].light },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].light },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].light },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].light },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].light },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].light },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].light },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].light },
+          ],
+        },
+      ]);
+      graph_sensors.appendData([
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].temp },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].temp },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].temp },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].temp },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].temp },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].temp },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].temp },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].temp },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].temp },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].temp },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].temp },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].temp },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].temp },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].temp },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].temp },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].temp },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].temp },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].temp },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].temp },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].temp },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].temp },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].temp },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].temp },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].temp },
+          ]
+        },
 
-    graph_ph.appendData([
-      {
-        data: [{ x: '00:00', y: data[0].ph }, { x: '01:00', y: data[1].ph }, { x: '02:00', y: data[2].ph }, { x: '03:00', y: data[3].ph },
-        { x: '04:00', y: data[4].ph }, { x: '05:00', y: data[5].ph }, { x: '06:00', y: data[6].ph }, { x: '07:00', y: data[7].ph },
-        { x: '08:00', y: data[8].ph }, { x: '09:00', y: data[9].ph }, { x: '10:00', y: data[10].ph }, { x: '11:00', y: data[11].ph },
-        { x: '12:00', y: data[12].ph }, { x: '13:00', y: data[13].ph }, { x: '14:00', y: data[14].ph }, { x: '15:00', y: data[15].ph },
-        { x: '16:00', y: data[16].ph }, { x: '17:00', y: data[17].ph }, { x: '18:00', y: data[18].ph }, { x: '19:00', y: data[19].ph },
-        { x: '20:00', y: data[20].ph }, { x: '21:00', y: data[21].ph }, { x: '22:00', y: data[22].ph }, { x: '23:00', y: data[23].ph },
-        ],
-      },
-    ]);
-    graph_ec.appendData([
-      {
-        data: [{ x: '00:00', y: data[0].ec }, { x: '01:00', y: data[1].ec }, { x: '02:00', y: data[2].ec }, { x: '03:00', y: data[3].ec },
-        { x: '04:00', y: data[4].ec }, { x: '05:00', y: data[5].ec }, { x: '06:00', y: data[6].ec }, { x: '07:00', y: data[7].ec },
-        { x: '08:00', y: data[8].ec }, { x: '09:00', y: data[9].ec }, { x: '10:00', y: data[10].ec }, { x: '11:00', y: data[11].ec },
-        { x: '12:00', y: data[12].ec }, { x: '13:00', y: data[13].ec }, { x: '14:00', y: data[14].ec }, { x: '15:00', y: data[15].ec },
-        { x: '16:00', y: data[16].ec }, { x: '17:00', y: data[17].ec }, { x: '18:00', y: data[18].ec }, { x: '19:00', y: data[19].ec },
-        { x: '20:00', y: data[20].ec }, { x: '21:00', y: data[21].ec }, { x: '22:00', y: data[22].ec }, { x: '23:00', y: data[23].ec },
-        ],
-      },
-    ]);
-    graph_hum.appendData([
-      {
-        data: [{ x: '00:00', y: data[0].hum }, { x: '01:00', y: data[1].hum }, { x: '02:00', y: data[2].hum }, { x: '03:00', y: data[3].hum },
-        { x: '04:00', y: data[4].hum }, { x: '05:00', y: data[5].hum }, { x: '06:00', y: data[6].hum }, { x: '07:00', y: data[7].hum },
-        { x: '08:00', y: data[8].hum }, { x: '09:00', y: data[9].hum }, { x: '10:00', y: data[10].hum }, { x: '11:00', y: data[11].hum },
-        { x: '12:00', y: data[12].hum }, { x: '13:00', y: data[13].hum }, { x: '14:00', y: data[14].hum }, { x: '15:00', y: data[15].hum },
-        { x: '16:00', y: data[16].hum }, { x: '17:00', y: data[17].hum }, { x: '18:00', y: data[18].hum }, { x: '19:00', y: data[19].hum },
-        { x: '20:00', y: data[20].hum }, { x: '21:00', y: data[21].hum }, { x: '22:00', y: data[22].hum }, { x: '23:00', y: data[23].hum },
-        ],
-      },
-    ]);
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].ph },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].ph },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].ph },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].ph },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].ph },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].ph },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].ph },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].ph },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].ph },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].ph },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].ph },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].ph },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].ph },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].ph },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].ph },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].ph },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].ph },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].ph },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].ph },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].ph },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].ph },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].ph },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].ph },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].ph },
+          ]
+        },
+
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[0].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[1].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[2].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[3].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[4].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[5].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[6].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[7].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[8].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[9].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[10].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[11].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[12].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[13].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[14].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[15].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[16].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[17].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[18].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[19].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[20].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[21].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[22].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[23].ec_mscm * 100) / 100).toFixed(2) },
+          ],
+        },
+
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].hum },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].hum },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].hum },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].hum },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].hum },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].hum },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].hum },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].hum },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].hum },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].hum },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].hum },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].hum },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].hum },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].hum },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].hum },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].hum },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].hum },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].hum },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].hum },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].hum },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].hum },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].hum },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].hum },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].hum },
+          ],
+        },
+
+        {
+          data: [
+            { x: data[0].timestamp.split(" ")[4].substr(0, 5), y: data[0].water_temp },
+            { x: data[1].timestamp.split(" ")[4].substr(0, 5), y: data[1].water_temp },
+            { x: data[2].timestamp.split(" ")[4].substr(0, 5), y: data[2].water_temp },
+            { x: data[3].timestamp.split(" ")[4].substr(0, 5), y: data[3].water_temp },
+            { x: data[4].timestamp.split(" ")[4].substr(0, 5), y: data[4].water_temp },
+            { x: data[5].timestamp.split(" ")[4].substr(0, 5), y: data[5].water_temp },
+            { x: data[6].timestamp.split(" ")[4].substr(0, 5), y: data[6].water_temp },
+            { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: data[7].water_temp },
+            { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: data[8].water_temp },
+            { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: data[9].water_temp },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: data[10].water_temp },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: data[11].water_temp },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: data[12].water_temp },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: data[13].water_temp },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: data[14].water_temp },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: data[15].water_temp },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: data[16].water_temp },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: data[17].water_temp },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: data[18].water_temp },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: data[19].water_temp },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: data[20].water_temp },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: data[21].water_temp },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: data[22].water_temp },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: data[23].water_temp },
+          ],
+        }
+
+
+      ]);
+    
+    } catch (error) {
+      console.log(error)
+      alert("😔 Database ERROR !");
+    }
 
   });
 
@@ -394,6 +688,190 @@
     },
   };
 
+  var graph_options_water_temp = {
+    chart: {
+      height: 350,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Water Temp",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ],
+      },
+    ],
+    title: {
+      text: "Water Temperature",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 23,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+
+  var graph_options_light = {
+    chart: {
+      height: 350,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Light",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ],
+      },
+    ],
+    title: {
+      text: "Light",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 23,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+ 
+  var graph_options_sensors = {
+    chart: {
+      height: 350,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Temperature",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ]
+      },
+      {
+        name: "pH",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ]
+      },
+      {
+        name: "EC",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ]
+      },
+      {
+        name: "Humidity",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ]
+      },
+      {
+        name: "Water Temperature",
+        data: [{ x: '00:00', y: 0 }, { x: '01:00', y: 0 }, { x: '02:00', y: 0 }, { x: '03:00', y: 0 }, { x: '04:00', y: 0 }, { x: '05:00', y: 0 }, { x: '06:00', y: 0 }, { x: '07:00', y: 0 },
+        { x: '08:00', y: 0 }, { x: '09:00', y: 0 }, { x: '10:00', y: 0 }, { x: '11:00', y: 0 }, { x: '12:00', y: 0 }, { x: '13:00', y: 0 }, { x: '14:00', y: 0 }, { x: '15:00', y: 0 },
+        { x: '16:00', y: 0 }, { x: '17:00', y: 0 }, { x: '18:00', y: 0 }, { x: '19:00', y: 0 }, { x: '20:00', y: 0 }, { x: '21:00', y: 0 }, { x: '22:00', y: 0 }, { x: '23:00', y: 0 },
+        ]
+      },
+    ],
+    title: {
+      text: "Sensors Data",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 23,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+
   // ------------------------------------- Generate Graph -------------------------------------
   var graph_temp = new ApexCharts(
     document.querySelector("#temp_graph"),
@@ -419,104 +897,122 @@
   );
   graph_ec.render();
 
-        //Set Clock | timezone
-        display_ct(); // <- Call function
-      function display_c() {
-        var refresh = 1000; // Refresh rate in milli seconds
-        mytime = setTimeout("display_ct()", refresh);
-      }
+  var graph_water_temp = new ApexCharts(
+    document.querySelector("#water_temp_graph"),
+    graph_options_water_temp
+  );
+  graph_water_temp.render();
 
-      function display_ct() {
-        var x = new Date();
+  var graph_light = new ApexCharts(
+    document.querySelector("#light_graph"),
+    graph_options_light
+  );
+  graph_light.render();
 
-        var hour = x.getHours();
-        var minute = x.getMinutes();
-        var second = x.getSeconds();
-        if (hour < 10) {
-          hour = "0" + hour;
-        }
-        if (minute < 10) {
-          minute = "0" + minute;
-        }
-        if (second < 10) {
-          second = "0" + second;
-        }
+  var graph_sensors = new ApexCharts(
+    document.querySelector("#sensors_graph"),
+    graph_options_sensors
+  );
+  graph_sensors.render();
 
-        var x1 = x.getDate() + " " + month_now() + " " + x.getFullYear();
-        x1 = x1 + " | " + day_now() + " " + hour + ":" + minute + ":" + second;
-        document.getElementById("ct").innerHTML = x1;
-        display_c();
-      }
+  //Set Clock | timezone
+  display_ct(); // <- Call function
+  function display_c() {
+    var refresh = 1000; // Refresh rate in milli seconds
+    mytime = setTimeout("display_ct()", refresh);
+  }
 
-      function month_now() {
-        var my_month = new Date();
-        var month_name = new Array(12);
-        month_name[0] = "January";
-        month_name[1] = "February";
-        month_name[2] = "March";
-        month_name[3] = "April";
-        month_name[4] = "May";
-        month_name[5] = "June";
-        month_name[6] = "July";
-        month_name[7] = "August";
-        month_name[8] = "September";
-        month_name[9] = "October";
-        month_name[10] = "November";
-        month_name[11] = "December";
-        return month_name[my_month.getMonth()];
-      }
-      function day_now() {
-        var my_day = new Date();
-        var day_name = new Array(7);
+  function display_ct() {
+    var x = new Date();
 
-        day_name[0] = "Sunday";
-        day_name[1] = "Monday";
-        day_name[2] = "Tuesday";
-        day_name[3] = "Wednesday";
-        day_name[4] = "Thursday";
-        day_name[5] = "Friday";
-        day_name[6] = "Saturday";
-        return day_name[my_day.getDay()];
-      }
+    var hour = x.getHours();
+    var minute = x.getMinutes();
+    var second = x.getSeconds();
+    if (hour < 10) {
+      hour = "0" + hour;
+    }
+    if (minute < 10) {
+      minute = "0" + minute;
+    }
+    if (second < 10) {
+      second = "0" + second;
+    }
 
-document.getElementById("select-days").addEventListener("click",()=>{
-  var div_select_days = document.getElementById("select_query_days");
-  var div_select_week = document.getElementById("select_query_week");
-  var div_select_months = document.getElementById("select_query_months");
-  div_select_days.style.display = "block";
-  div_select_week.style.display = "none";
-  div_select_months.style.display = "none";
-});
+    var x1 = x.getDate() + " " + month_now() + " " + x.getFullYear();
+    x1 = x1 + " | " + day_now() + " " + hour + ":" + minute + ":" + second;
+    document.getElementById("ct").innerHTML = x1;
+    display_c();
+  }
 
-document.getElementById("select-week").addEventListener("click",()=>{
-  var div_select_days = document.getElementById("select_query_days");
-  var div_select_week = document.getElementById("select_query_week");
-  var div_select_months = document.getElementById("select_query_months");
-  div_select_days.style.display = "none";
-  div_select_week.style.display = "block";
-  div_select_months.style.display = "none";
-});
+  function month_now() {
+    var my_month = new Date();
+    var month_name = new Array(12);
+    month_name[0] = "January";
+    month_name[1] = "February";
+    month_name[2] = "March";
+    month_name[3] = "April";
+    month_name[4] = "May";
+    month_name[5] = "June";
+    month_name[6] = "July";
+    month_name[7] = "August";
+    month_name[8] = "September";
+    month_name[9] = "October";
+    month_name[10] = "November";
+    month_name[11] = "December";
+    return month_name[my_month.getMonth()];
+  }
+  function day_now() {
+    var my_day = new Date();
+    var day_name = new Array(7);
 
-document.getElementById("select-months").addEventListener("click",()=>{
-  var div_select_days = document.getElementById("select_query_days");
-  var div_select_week = document.getElementById("select_query_week");
-  var div_select_months = document.getElementById("select_query_months");
-  div_select_days.style.display = "none";
-  div_select_week.style.display = "none";
-  div_select_months.style.display = "block";
-});
+    day_name[0] = "Sunday";
+    day_name[1] = "Monday";
+    day_name[2] = "Tuesday";
+    day_name[3] = "Wednesday";
+    day_name[4] = "Thursday";
+    day_name[5] = "Friday";
+    day_name[6] = "Saturday";
+    return day_name[my_day.getDay()];
+  }
 
-document.getElementById("submit-days").addEventListener("click",()=>{
-  document.getElementById("days_query_form").submit();
-});
+  document.getElementById("select-days").addEventListener("click", () => {
+    var div_select_days = document.getElementById("select_query_days");
+    var div_select_week = document.getElementById("select_query_week");
+    var div_select_months = document.getElementById("select_query_months");
+    div_select_days.style.display = "block";
+    div_select_week.style.display = "none";
+    div_select_months.style.display = "none";
+  });
 
-document.getElementById("submit-week").addEventListener("click",()=>{
-  document.getElementById("week_query_form").submit();
-});
+  document.getElementById("select-week").addEventListener("click", () => {
+    var div_select_days = document.getElementById("select_query_days");
+    var div_select_week = document.getElementById("select_query_week");
+    var div_select_months = document.getElementById("select_query_months");
+    div_select_days.style.display = "none";
+    div_select_week.style.display = "block";
+    div_select_months.style.display = "none";
+  });
 
-document.getElementById("submit-months").addEventListener("click",()=>{
-  document.getElementById("months_query_form").submit();
-});
+  document.getElementById("select-months").addEventListener("click", () => {
+    var div_select_days = document.getElementById("select_query_days");
+    var div_select_week = document.getElementById("select_query_week");
+    var div_select_months = document.getElementById("select_query_months");
+    div_select_days.style.display = "none";
+    div_select_week.style.display = "none";
+    div_select_months.style.display = "block";
+  });
+
+  document.getElementById("submit-days").addEventListener("click", () => {
+    document.getElementById("days_query_form").submit();
+  });
+
+  document.getElementById("submit-week").addEventListener("click", () => {
+    document.getElementById("week_query_form").submit();
+  });
+
+  document.getElementById("submit-months").addEventListener("click", () => {
+    document.getElementById("months_query_form").submit();
+  });
 
 
 </script>
