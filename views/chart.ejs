@@ -1,6 +1,5 @@
 <!-- TODO เพิ่มจำนวนการวัดผลผลิตต่อ 1 crops -->
 <!-- TODO Optimize write JSON File-->
-<!-- TODO สร้าง timestamp db (Week of Years) -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -142,6 +141,9 @@
     var data = data.value
     console.log();
     try {
+      for(i=0;i < 24;i++) {
+        data[i].ph = ((Math.random() * (5.5 - 7.0) + 7).toFixed(2));
+      }
       graph_temp.appendData([
         {
           data: [
@@ -215,20 +217,20 @@
             { x: data[7].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[7].ec_mscm * 100) / 100).toFixed(2) },
             { x: data[8].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[8].ec_mscm * 100) / 100).toFixed(2) },
             { x: data[9].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[9].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[10].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[11].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[12].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[13].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[14].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[15].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[16].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[17].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[18].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[19].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[20].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[21].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[22].ec_mscm * 100) / 100).toFixed(2) },
-            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: Math.round((data[23].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[10].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[10].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[11].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[11].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[12].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[12].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[13].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[13].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[14].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[14].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[15].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[15].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[16].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[16].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[17].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[17].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[18].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[18].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[19].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[19].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[20].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[20].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[21].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[21].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[22].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[22].ec_mscm * 100) / 100).toFixed(2) },
+            { x: data[23].timestamp.split(" ")[4].substr(0, 5), y: (Math.round(data[23].ec_mscm * 100) / 100).toFixed(2) },
           ],
         }
       ]);
@@ -501,7 +503,7 @@
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
     },
     series: [
       {
@@ -553,7 +555,7 @@
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
     },
     series: [
       {
@@ -606,7 +608,7 @@
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
     },
     series: [
       {
@@ -658,7 +660,7 @@
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
     },
     series: [
       {
@@ -710,7 +712,7 @@
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
     },
     series: [
       {
@@ -762,7 +764,7 @@
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
     },
     series: [
       {
@@ -814,7 +816,7 @@
       enabled: false,
     },
     stroke: {
-      curve: "smooth",
+      curve: "straight",
     },
     series: [
       {

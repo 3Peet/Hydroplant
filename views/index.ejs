@@ -506,7 +506,7 @@
           // document.getElementById("start-date-data").innerHTML= plant_start_date;
           chart_process_circle(convert_days_remaining_to_percent(plant_day_remaining));
           socket.emit("schedule_status", "planting");
-          socket.emit("schedule", "planting");
+          // socket.emit("schedule", "planting");
           location.reload(true);
         });
 

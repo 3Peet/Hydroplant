@@ -356,10 +356,9 @@ async function Check_light_airpump_status_timer_manual() {
 
   // ----------------------------------------------  Update Process Schedule ----------------------------------------------
   // Update At midnight
-  if(hour === 0 && minute === 0){
+  if(hour === 0 && minute === 5){
     var start_date_for_update = schedule_farm.get("start_date");
     var plant_status = schedule_farm.get("status");
-
     if (plant_status == "planting") {
       console.log("Updated Day remaining");
       schedule_farm.set(

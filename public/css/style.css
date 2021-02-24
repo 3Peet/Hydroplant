@@ -500,6 +500,7 @@ a.button6{
 
 #sensors_graph {
   grid-area: all_graph;
+  margin: 0 10em 3em 10em;
 }
 
 .chart_input{
@@ -539,136 +540,296 @@ a.button6{
 /* ---------------- Market Page ----------------  */
 .market-main {
   grid-area: main;
-  margin-right: 10% !important;
+  margin-right: 10%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 0.2fr 1fr 1fr 1fr;
-  gap: 20px;
+  grid-template-columns: 3.5fr 2fr;
+  grid-template-rows: .1fr 1fr;
+  column-gap: 2.5%;
   grid-template-areas:
-  "market_name      market_name     market_name"
-  "greenoak         redoak          greencos"
-  "celery           iceberg         parsley"
-  "bunching_onion   butterhead      cabbage"
+  "market_title market_title"
+  "main checkout"
+}
+
+.market_title {
+  grid-area: market_title;
+  color: var(--txt-main);
 }
 
 
-
-p#last-update {
-  color: var(--txt_light);
-  font-size: 1.2rem;
-}
-
-.slot {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  width: 1fr;
-  height: 1fr;
+.menu_frame {
+  grid-area: main;
+  /* background-color: white; */
   border-radius: 20px;
-  background: #fff;
-}
- 
-.slot-data {
   display: grid;
-  grid-template-columns: 1fr 1fr ;
-  grid-template-areas:
-  "img data"
+  row-gap: 4%;
+  column-gap: 2%;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-areas: 
+  "card1 card2 card3 card4"
+  "card5 card6 card7 card8"
+  "card9 card10 card11 card12"
+  "card13 card14 card15 card16"
 }
 
-.img {
-  width: 90%;
-  height: 90%;
-}
-.img-slot-data {
-  grid-area: img;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.data-slot {
-  grid-area: data;
+.card_market {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+}
+.card_butterhead {
+  grid-area: card1;
+}
+.card_cabbage {
+  grid-area: card2;
+}
+.card_cauliflower {
+  grid-area: card3;
+}
+.card_celery {
+  grid-area: card4;
+}
+.card_green_oak {
+  grid-area: card5;
+}
+.card_green_coral {
+  grid-area: card6;
+}
+.card_green_cos {
+  grid-area: card7;
+}
+.card_frillice_ice_berg {
+  grid-area: card8;
+}
+.card_parsley {
+  grid-area: card9;
+}
+.card_red_oak {
+  grid-area: card10;
+}
+.card_rocket_arugula {
+  grid-area: card11;
 }
 
-.veg-name {
-  font-size: 1.4rem;
-  font-weight: bold;
-  color: var(--txt_light);
-}
-
-.veg-prices {
-  font-size: 2rem;
-  font-weight: bolder;
-  color: var(--txt-main);
-  margin: 0;
-}
-
-.veg-unit {
-  font-weight: bold;
-  color: var(--txt_light);
-}
-
-.greenoak {
-  grid-area: greenoak;
-}
-
-.redoak {
-  grid-area: redoak;
-}
-
-.greencos {
-  grid-area: greencos;
-}
-
-.celery {
-  grid-area: celery;
-}
-
-.iceberg {
-  grid-area: iceberg;
-}
-
-.parsley {
-  grid-area: parsley;
-}
-
-.bunching_onion {
-  grid-area: bunching_onion;
-}
-
-.butterhead {
-  grid-area: butterhead;
-}
-
-.cabbage {
-  grid-area: cabbage;
-}
-
-.market_name {
-  grid-area: market_name;
-  margin-top: 20px;
-}
-
-
-
-
-
-
-
-
-/* .page-footer {
-  grid-area: footer;
-  background: #fff;
+.card_bg_color {
+  background-color: var(--bg-white);
   border-radius: 20px;
-  margin-top: 10px;
-} */
+  /* height: 80%; */
+  
+}
 
+
+.checkout {
+  grid-area: checkout;
+  background-color: white;
+  border-radius: 20px;
+  height: 90%;
+  /* overflow: auto; */
+}
+
+.img_salad {
+  padding: 10%;
+  /* background-color:var(--bg-white); */
+  border-radius: 20px;
+  margin: 15%;
+  filter: drop-shadow(10px 10px 4px #ced4da);
+  transition: transform .2s;
+  
+}
+
+.img_salad:hover {
+  /* filter: drop-shadow(20px 20px 8px #ced4da); */
+  cursor: pointer;
+  transform: scale(1.2);
+}
+
+.img_salad:active {
+  transform: translateY(4px);
+}
+
+.name_salad {
+  color: var(--txt_light);
+  font-size: .8em;
+  margin-top: -20%;
+}
+
+.resize_img_market {
+  width: 100%;
+  height: 100%;
+}
+
+.myproduct_title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--txt-main);
+  font-weight: bolder;
+  margin: 0 10%;
+}
+
+.btn_close_products {
+  color: #ef476f;
+  background-color: #ffeaeb;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  transition: transform .2s;
+}
+
+.btn_close_products:hover {
+  transform: scale(1.1);
+  cursor: pointer;
+}
+
+.btn_close_products:active {
+  transform: scale(0.7);
+  cursor: pointer;
+}
+
+.frame_product_list {
+  min-height:0 ;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.product_list {
+  background-color:var(--bg-white);
+  filter: drop-shadow(10px 10px 10px var(--bg-light));
+  border-radius: 20px;
+  margin: 8%;
+  height: 100px;
+  transition: transform .2s;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--txt_light);
+  padding: 0 5%;
+
+}
+
+.product_list:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.total_product {
+  background-color: var(--bg-white);
+  filter: drop-shadow(10px 10px 20px var(--bg-light));
+  border-radius: 20px;
+  margin: 8%;
+  transition: transform .2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--txt-main);
+  height: 20%;
+
+}
+
+.total_product:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+}
+
+.display_total {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5%;
+  color: var(--txt_light)
+  /* background-color: darkblue */
+}
+
+.thb {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mini_img_market {
+  width: 4vw;
+  height: 8vh;
+  margin-top: -10%;
+}
+
+.mini_img_market_frame {
+  /* background-color: #4e9af1; */
+  width: 3.5vw;
+  height: 7vh;
+  display: flex;
+  justify-content: space-between;
+  filter: drop-shadow(3px 3px 4px #ced4da);
+  margin-right: 5%;
+}
+
+.product_detail {
+  width: 10vw;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.prices {
+  display: flex;
+  justify-content: row;
+  align-items: center;
+  width: auto;
+}
+
+.product_count {
+  display: flex;
+  flex-direction: row;
+  justify-content:  center;
+  align-items: center;
+  margin-left: 15%;
+  /* background-color: #4e9af1; */
+  width: 7.4vw;
+  height: 7vh;
+  color: #1a264a;
+}
+
+.btn_add_remove_market_count {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #477ace;
+  border-radius: 50%;
+  background-color: #eaf2ff;
+  height: 25px;
+  width: 25px;
+  transition: transform .2s;
+  margin: 0 10%;
+  font-size: 1.7em;
+}
+
+.btn_add_remove_market_count:hover {
+  transform: scale(1.25);
+  cursor: pointer;
+}
+
+.btn_add_remove_market_count:active {
+  transform: scale(0.95);
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+/* ---------------- Main Page ----------------  */
 #chart {
   padding: 10px;
 }
@@ -677,8 +838,6 @@ p#last-update {
   color: var(--txt_light) !important;
   font-size: 1.2rem;
 }
-
-/* ---------------- Main Page ----------------  */
 
 .env-card.temp {
   grid-area: card_temp;

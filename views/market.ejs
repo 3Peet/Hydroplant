@@ -1,225 +1,381 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HYDROPLANT | Dashboard</title>
-    <link href="/image/fern.png" rel="icon" type="image/x-icon" />
-    <link rel="stylesheet" href="/css/style.css" />
 
-    <!-- Font -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-    />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HYDROPLANT | Dashboard</title>
+  <link href="/image/fern.png" rel="icon" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/style.css" />
 
-    <!-- Bulma -->
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css"
-    />
+  <!-- Uicons -->
+  <link href="/uicons/css/uicons-regular-rounded.css" rel="stylesheet">
 
-    <!-- Chart JS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <!-- Bulma -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-switch@2.0.0/dist/css/bulma-switch.min.css" />
 
-    <!-- APEX Chart -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  </head>
-  <body>
-    <div class="grid">
-      <header class="page-header content">
-        <!-- <h3>Header</h3> -->
-        <nav class="menu-bar">
-          <div class="group">
-            <a class="item title" href="/">🌱 HYDROPLANT</a>
-          </div>
-          <div class="group">
-            <a href="/" class="item">Home</a>
-            <a href="/control" class="item">Control</a>
-            <a href="/chart" class="item">Charts</a>
-            <a href="/market" class="item">Market</a>
-            <a href="/about" class="item">About</a>
-          </div>
-        </nav>
-      </header>
+  <!-- Chart JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
-      <footer class="page-footer content">
-        <!-- <h3>Footer</h3> -->
-      </footer>
+  <!-- APEX Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
 
-      <div class="page-leftbar content">
-        <!-- <h3>Sidebar</h3> -->
-      </div>
-
-      <div class="market-main content">
-
-        <div class="market_name">
-          <h1>Talad Simuang Market</h1>
-          <p id="last-update">Last Update : 18 January 2021</p>
+<body>
+  <div class="grid">
+    <header class="page-header content">
+      <!-- <h3>Header</h3> -->
+      <nav class="menu-bar">
+        <div class="group">
+          <a class="item title" href="/">🌱 HYDROPLANT</a>
         </div>
-
-        <div class="slot greenoak">
-
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://horti-grow.com/wp-content/uploads/2019/12/Plezir-.png" alt="celery" class="img">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Green Oak</p>
-              <p id="greenoak_prices" class="veg-prices">80</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-          
+        <div class="group">
+          <a href="/" class="item">Home</a>
+          <a href="/control" class="item">Control</a>
+          <a href="/chart" class="item">Charts</a>
+          <a href="/market" class="item">Market</a>
+          <a href="/about" class="item">About</a>
         </div>
+      </nav>
+    </header>
 
-        <div class="slot redoak">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://horti-grow.com/wp-content/uploads/2019/12/Lunix.png" alt="celery" class="img">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Red Oak</p>
-              <p id="redoak_prices" class="veg-prices">80.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
+    <footer class="page-footer content">
+      <!-- <h3>Footer</h3> -->
+    </footer>
 
-        <div class="slot greencos">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://lh3.googleusercontent.com/proxy/JZgHvKBmkFaoPOLOfe-_PpC3CALFBSv5iO2xyK2RHIH-xHq-wZ_Afs2Gh8M5ieP2zycH-tfhasg0eLyP7ZPcXF3FR0L20h69MWN21CY_niPWU_mR7Q" alt="celery" class="img">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Green Cos</p>
-              <p id="greencos_prices" class="veg-prices">50.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slot celery">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://lh3.googleusercontent.com/proxy/b1AF9styXjx0AxEW_iMXGjnDBii196XZHgB-h_FxBej3t4tdoVpVzVHpZ9Q2Tzf4pPiIcR4lk37husO-syjSddQcaqCW-5pOdIwUKniSHrbW" alt="celery" class="img">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Celery</p>
-              <p id="greencos_prices" class="veg-prices">50.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slot iceberg">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://5.imimg.com/data5/MN/HM/MY-44851652/iceberg-lettuce-500x500.jpg" alt="celery" class="img" style="width: 80%; height: 80%;">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Iceberg lettuce</p>
-              <p id="redoak_prices" class="veg-prices">50.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slot parsley">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://www.veggycation.com.au/siteassets/veggycationvegetable/parsley-continental.jpg" alt="celery" class="img">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Parsley</p>
-              <p id="redoak_prices" class="veg-prices">80.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slot bunching_onion">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://www.botanicalinterests.com/images/packet-illustrations/0031i_Onion-Bunching-White-Lisbon.jpg" alt="celery" class="img">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Bunching Onion</p>
-              <p id="redoak_prices" class="veg-prices">65.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slot butterhead">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://fbconnect.co.th/pub/media/catalog/product/cache/c687aa7517cf01e65c009f6943c2b1e9/b/u/butterhead_1.jpg" alt="celery" class="img">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Butterhead</p>
-              <p id="redoak_prices" class="veg-prices">80.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="slot cabbage">
-          <div class="slot-data">
-            <div class="img-slot-data">
-              <img src="https://images.heb.com/is/image/HEBGrocery/000374791" alt="celery" class="img" style="scale: 0.7;">
-            </div>
-            <div class="data-slot">
-              <p class="veg-name">Cabbage</p>
-              <p id="redoak_prices" class="veg-prices">20.00</p>
-              <p class="veg-unit">THB/KG</p>
-            </div>
-          </div>
-        </div>
-
-         
-
-        
-
-        
-
-        
-
-        
-
-        
-        
-
-        
-
-
-
-      </div>
-      <button id="scrap" style="display: none;">Scrap 💔</button>
-      <h4 id="greenoak_prices" style="display: none;">I'am Here</h4>
+    <div class="page-leftbar content">
+      <!-- <h3>Sidebar</h3> -->
     </div>
-  </body>
+
+    <div class="market-main content">
+      <h1 class="market_title">Market</h1>
+      <div class="menu_frame">
+
+
+        <div class="card_butterhead card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/006-vegetable.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Butterhead</h2>
+          </div>
+        </div>
+
+        <div class="card_cabbage card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/007-cabbage.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Cabbage</h2>
+          </div>
+
+        </div>
+        <div class="card_cauliflower card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/009-cauliflower.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Cauliflower</h2>
+          </div>
+        </div>
+        <div class="card_celery card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/010-celery.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Celery</h2>
+          </div>
+        </div>
+        <div class="card_green_oak card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/015-lettuce.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Green Oak</h2>
+          </div>
+        </div>
+
+        <div class="card_green_coral card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/016-lettuce.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Green Coral</h2>
+          </div>
+        </div>
+
+        <div class="card_green_cos card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/017-lettuce.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Green Cos</h2>
+          </div>
+        </div>
+
+        <div class="card_frillice_ice_berg  card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/018-lettuce.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Frillice Ice Berg </h2>
+          </div>
+        </div>
+
+        <div class="card_parsley card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/020-lettuce.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Parsley</h2>
+          </div>
+        </div>
+
+
+        <div class="card_red_oak card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/027-lettuce.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Red Oak</h2>
+          </div>
+        </div>
+
+
+        <div class="card_rocket_arugula card_bg_color card_market">
+          <div class="img_salad">
+            <img src="/image/market_img/031-spinach.png" alt="test" class="resize_img_market">
+          </div>
+          <div class="name_salad">
+            <h2>Rocket Arugula</h2>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="checkout">
+        <div class="myproduct_title">
+          <h1>Product</h1>
+          <div class="btn_close_products">
+            <i class="fi-rr-cross-small" style="font-size: 2em; margin-top: 9px;"></i>
+          </div>
+        </div>
+
+        <div class="frame_product_list">
+
+        
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+        <div class="product_list">
+          <div class="mini_img_market_frame">
+            <img src="/image/market_img/020-lettuce.png" alt="ss" class="mini_img_market">
+          </div>
+          <div class="product_detail">
+            <h3 style="margin: 0;">Green Oak</h3>
+            <div class="prices">
+              <h2 style="margin: 0;">60 </h2>
+              <h4 style="margin: 0 5px;">THB</h4>
+            </div>
+          </div>
+          <div class="product_count">
+            <i class="fi-rr-plus-small btn_add_remove_market_count"></i>
+            <h1 style="margin: 0; font-size: 1.5em;">1</h1>
+            <i class="fi-rr-minus-small btn_add_remove_market_count"></i>
+          </div>
+        </div>
+
+      </div>
+
+
+        <div class="total_product">
+          <div class="display_total">
+            <h2>Total</h2>
+            <div class="thb">
+              <h1>999</h1>
+              <h3 style="margin: 10%;">THB</h3>
+            </div>
+
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+</body>
+
 </html>
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
   var socket = io();
 
-  document.getElementById("scrap").addEventListener("click", () => {
-    socket.emit(
-      "GetGreenOakPrices",
-      "https://www.kasetprice.com/%E0%B8%A3%E0%B8%B2%E0%B8%84%E0%B8%B2/%E0%B8%9C%E0%B8%B1%E0%B8%81%E0%B8%AA%E0%B8%A5%E0%B8%B1%E0%B8%94/%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%99%E0%B8%B5%E0%B9%89",
-      '//*[@id="__layout"]/section/div[3]/section[1]/div/div/div[4]/div[1]/div[1]/div[3]'
-    );
-  });
-
-  socket.on("ShowGreenOakPrices", (data) => {
-    document.getElementById("greenoak_prices").innerHTML = data.prices;
-  });
 </script>
