@@ -1,0 +1,12 @@
+# Hydroplant
+### Main
+![alt text](https://i.ibb.co/mGKF6Ck/Screenshot-1.png)
+![alt text](https://i.ibb.co/2NxyVbS/Screenshot-2.png)
+### Control
+![alt text](https://i.ibb.co/3f1rwkx/Screenshot-3.png)
+![alt text](https://i.ibb.co/61TrMQd/Screenshot-4.png)
+### Charts
+![alt text](https://i.ibb.co/YZbyd97/Screenshot-5.png)
+![alt text](https://i.ibb.co/DwN7fx2/Screenshot-6.png)
+### Market
+![alt text](https://i.ibb.co/fxBLYfG/Screenshot-7.png)
