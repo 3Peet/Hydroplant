@@ -1,12 +1,9 @@
 # Hydroplant
 ### Main
-![alt text](https://i.ibb.co/mGKF6Ck/Screenshot-1.png)
-![alt text](https://i.ibb.co/2NxyVbS/Screenshot-2.png)
+![alt text](https://i.ibb.co/6ySDZ1M/screencapture-hydroplant-tk-2021-02-25-13-35-59.png)
 ### Control
-![alt text](https://i.ibb.co/3f1rwkx/Screenshot-3.png)
-![alt text](https://i.ibb.co/61TrMQd/Screenshot-4.png)
+![alt text](https://i.ibb.co/5sgj85m/screencapture-hydroplant-tk-control-2021-02-25-13-38-55.png)
 ### Charts
-![alt text](https://i.ibb.co/YZbyd97/Screenshot-5.png)
-![alt text](https://i.ibb.co/DwN7fx2/Screenshot-6.png)
+![alt text](https://i.ibb.co/qpr87jM/screencapture-hydroplant-tk-chart-2021-02-25-13-39-38.png)
 ### Market
-![alt text](https://i.ibb.co/fxBLYfG/Screenshot-7.png)
+![alt text](https://i.ibb.co/mT4Y0h9/screencapture-localhost-8080-market-2021-02-25-13-40-33.png)
