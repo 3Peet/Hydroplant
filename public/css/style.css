@@ -564,12 +564,11 @@ a.button6{
   row-gap: 4%;
   column-gap: 2%;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas: 
   "card1 card2 card3 card4"
   "card5 card6 card7 card8"
   "card9 card10 card11 card12"
-  "card13 card14 card15 card16"
 }
 
 .card_market {
@@ -624,8 +623,7 @@ a.button6{
   grid-area: checkout;
   background-color: white;
   border-radius: 20px;
-  height: 90%;
-  /* overflow: auto; */
+  min-height: 40vh;
 }
 
 .img_salad {
@@ -692,18 +690,18 @@ a.button6{
 
 .frame_product_list {
   min-height:0 ;
-  max-height: 400px;
-  overflow-y: scroll;
+  max-height: 450px;
+  overflow-y: auto;
 }
 
 .product_list {
   background-color:var(--bg-white);
   filter: drop-shadow(10px 10px 10px var(--bg-light));
   border-radius: 20px;
-  margin: 8%;
+  margin: 4%;
   height: 100px;
   transition: transform .2s;
-  display: flex;
+  display: none;
   justify-content: flex-start;
   align-items: center;
   color: var(--txt_light);
@@ -726,7 +724,6 @@ a.button6{
   justify-content: center;
   align-items: center;
   color: var(--txt-main);
-  height: 20%;
 
 }
 
@@ -822,7 +819,32 @@ a.button6{
   cursor: pointer;
 }
 
+.frame_products_list_and_total {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  min-height: 80vh;
+  /* background-color: yellow; */
+}
 
+.empty_product_list {
+  /* background-color: var(--txt-main); */
+  margin: 7%;
+  border-radius: 20px;
+  height: 50vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.4;
+  filter: grayscale(0.8);
+}
+
+.img_empty_product_list {
+  width: 50%;
+  height: 50%;
+  margin-top: 50px;
+}
 
 
 
