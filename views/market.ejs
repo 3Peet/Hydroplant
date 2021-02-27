@@ -353,7 +353,7 @@
               <div class="product_count">
                 <i id="minus_red_oak" class="fi-rr-minus-small btn_add_remove_market_count"></i>
                 <h1 id="counter_red_oak" style="margin: 0; font-size: 1.5em;">1</h1>
-                <i id="remove_red_oak" class="fi-rr-plus-small btn_add_remove_market_count"></i>
+                <i id="plus_red_oak" class="fi-rr-plus-small btn_add_remove_market_count"></i>
               </div>
             </div>
 
@@ -383,7 +383,7 @@
             <div class="display_total">
               <h2>Total</h2>
               <div class="thb">
-                <h1>999</h1>
+                <h1 id="total_cost_value">0</h1>
                 <h3 style="margin: 10%;">THB</h3>
               </div>
 
@@ -464,7 +464,6 @@
   }
 
   // Counter list Variables
-
   var counter = {
     butterhead: document.getElementById("counter_butterhead"),
     cabbage: document.getElementById("counter_cabbage"),
@@ -492,7 +491,6 @@
     rocket_arugula: 0
   }
 
-
   // Cost list Variable
   var cost = {
     butterhead: document.getElementById("cost_butterhead"),
@@ -507,6 +505,7 @@
     red_oak: document.getElementById("cost_red_oak"),
     rocket_arugula: document.getElementById("cost_rocket_arugula")
   }
+  var total_cost_value = 0
   var cost_value = {
     butterhead: 0,
     cabbage: 0,
@@ -520,108 +519,354 @@
     red_oak: 0,
     rocket_arugula: 0
   }
-
-
-  // Click Event Select Products
-  card.butterhead.addEventListener("click", () => {
-    click_card_market(list.butterhead)
-  });
-
-  card.cabbage.addEventListener("click", () => {
-    click_card_market(list.cabbage)
-  });
-
-  card.cauliflower.addEventListener("click", () => {
-    click_card_market(list.cauliflower)
-  });
-
-  card.celery.addEventListener("click", () => {
-    click_card_market(list.celery)
-  });
-
-  card.green_oak.addEventListener("click", () => {
-    click_card_market(list.green_oak)
-  });
-
-  card.green_coral.addEventListener("click", () => {
-    click_card_market(list.card_green_coral)
-  });
-
-  card.green_cos.addEventListener("click", () => {
-    click_card_market(list.green_cos)
-  });
-
-  card.frillice_ice_berg.addEventListener("click", () => {
-    click_card_market(list.frillice_ice_berg)
-  });
-
-  card.parsley.addEventListener("click", () => {
-    click_card_market(list.parsley)
-  });
-
-  card.red_oak.addEventListener("click", () => {
-    click_card_market(list.red_oak)
-  });
-
-  card.rocket_arugula.addEventListener("click", () => {
-    click_card_market(list.rocket_arugula)
-  });
-
-  // Reset Products
-  document.getElementById('btn_close_lists').addEventListener("click", () => {
-    empty_products.style.display = "flex";
-    Object.keys(list).forEach(function(key, value) {
-    return list[key] = "none";
-})
-    // list_butterhead.style.display = "none"
-    // list_cabbage.style.display = "none"
-    // list_cauliflower.style.display = "none"
-    // list_celery.style.display = "none"
-    // list_green_oak.style.display = "none"
-    // list_green_coral.style.display = "none"
-    // list_green_cos.style.display = "none"
-    // list_frillice_ice_berg.style.display = "none"
-    // list_parsley.style.display = "none"
-    // list_red_oak.style.display = "none"
-    // list_rocket_arugula.style.display = "none"
-    counter_value = {
-      butterhead: 0,
-      cabbage: 0,
-      cauliflower: 0,
-      celery: 0,
-      green_oak: 0,
-      green_coral: 0,
-      green_cos: 0,
-      frillice_ice_berg: 0,
-      parsley: 0,
-      red_oak: 0,
-      rocket_arugula: 0
-    }
-  });
-
-  function click_card_market(list_selected) {
-    empty_products.style.display = "none";
-    list_selected.style.display = "flex";
+  var prices_value = {
+    butterhead: 60,
+    cabbage: 60,
+    cauliflower: 60,
+    celery: 60,
+    green_oak: 60,
+    green_coral: 60,
+    green_cos: 60,
+    frillice_ice_berg: 60,
+    parsley: 60,
+    red_oak: 60,
+    rocket_arugula: 60
   }
-
-  // ADD + REMOVE Products list
-  plus_butterhead.addEventListener("click", () => {
+  var total_cost_value_display = document.getElementById("total_cost_value");
+  // Click card Event
+  card.butterhead.addEventListener("click",()=>{
     counter_value.butterhead++;
-    counter_butterhead.innerHTML = counter_value.butterhead;
+    cost_value.butterhead = (prices_value.butterhead * counter_value.butterhead);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.butterhead,counter_value.butterhead,counter.butterhead);
   });
 
-  minus_butterhead.addEventListener("click", () => {
-    counter_value.butterhead--;
-    if (counter_value.butterhead < 1) {
-      counter_value.butterhead = 0;
-      list_butterhead.style.display = "none"
+  card.cabbage.addEventListener("click",()=>{
+    counter_value.cabbage++;
+    cost_value.cabbage = (prices_value.cabbage * counter_value.cabbage);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.cabbage,counter_value.cabbage,counter.cabbage);
+  });
+
+  card.cauliflower.addEventListener("click",()=>{
+    counter_value.cauliflower++;
+    cost_value.cauliflower = (prices_value.cauliflower * counter_value.cauliflower);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.cauliflower,counter_value.cauliflower,counter.cauliflower);
+  });
+
+  card.celery.addEventListener("click",()=>{
+    counter_value.celery++;
+    cost_value.celery = (prices_value.celery * counter_value.celery);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.celery,counter_value.celery,counter.celery);
+  });
+
+  card.green_oak.addEventListener("click",()=>{
+    counter_value.green_oak++;
+    cost_value.green_oak = (prices_value.green_oak * counter_value.green_oak);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.green_oak,counter_value.green_oak,counter.green_oak);
+  });
+
+  card.green_coral.addEventListener("click",()=>{
+    counter_value.green_coral++;
+    cost_value.green_coral = (prices_value.green_coral * counter_value.green_coral);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.green_coral,counter_value.green_coral,counter.green_coral);
+  });
+
+  card.green_cos.addEventListener("click",()=>{
+    counter_value.green_cos++;
+    cost_value.green_cos = (prices_value.green_cos * counter_value.green_cos);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.green_cos,counter_value.green_cos,counter.green_cos);
+  });
+
+  card.frillice_ice_berg.addEventListener("click",()=>{
+    counter_value.frillice_ice_berg++;
+    cost_value.frillice_ice_berg = (prices_value.frillice_ice_berg * counter_value.frillice_ice_berg);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.frillice_ice_berg,counter_value.frillice_ice_berg,counter.frillice_ice_berg);
+  });
+
+  card.parsley.addEventListener("click",()=>{
+    counter_value.parsley++;
+    cost_value.parsley = (prices_value.parsley * counter_value.parsley);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.parsley,counter_value.parsley,counter.parsley);
+  });
+
+  card.red_oak.addEventListener("click",()=>{
+    counter_value.red_oak++;
+    cost_value.red_oak = (prices_value.red_oak * counter_value.red_oak);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.red_oak,counter_value.red_oak,counter.red_oak);
+  });
+
+  card.rocket_arugula.addEventListener("click",()=>{
+    counter_value.rocket_arugula++;
+    cost_value.rocket_arugula = (prices_value.rocket_arugula * counter_value.rocket_arugula);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+    click_card(list.rocket_arugula,counter_value.rocket_arugula,counter.rocket_arugula);
+  });
+
+function click_card(list_n,counter_value_n,counter_n, prices_value_n,cost_value_n){
+    empty_products.style.display = "none";
+    list_n.style.display = "flex";
+    counter_n.innerHTML = counter_value_n;
+  }
+  // Reset All
+  document.getElementById("btn_close_lists").addEventListener("click",()=>{
+    total_cost_value = 0;
+    total_cost_value_display.innerHTML = total_cost_value;
+    empty_products.style.display = "flex";
+    list.butterhead.style.display = "none";
+    list.cabbage.style.display = "none";
+    list.cauliflower.style.display = "none";
+    list.celery.style.display = "none";
+    list.green_oak.style.display = "none";
+    list.green_coral.style.display = "none";
+    list.green_cos.style.display = "none";
+    list.frillice_ice_berg.style.display = "none";
+    list.parsley.style.display = "none";
+    list.red_oak.style.display = "none";
+    list.rocket_arugula.style.display = "none";
+    counter_value = {
+    butterhead: 0,
+    cabbage: 0,
+    cauliflower: 0,
+    celery: 0,
+    green_oak: 0,
+    green_coral: 0,
+    green_cos: 0,
+    frillice_ice_berg: 0,
+    parsley: 0,
+    red_oak: 0,
+    rocket_arugula: 0
+  }
+    cost_value = {
+    butterhead: 0,
+    cabbage: 0,
+    cauliflower: 0,
+    celery: 0,
+    green_oak: 0,
+    green_coral: 0,
+    green_cos: 0,
+    frillice_ice_berg: 0,
+    parsley: 0,
+    red_oak: 0,
+    rocket_arugula: 0
+  }
+  });
+
+// Plus BTN Event
+plus.butterhead.addEventListener("click",()=>{
+  counter_value.butterhead++;
+  cost_value.butterhead = (prices_value.butterhead * counter_value.butterhead);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.butterhead,counter.butterhead);
+});
+
+plus.cabbage.addEventListener("click",()=>{
+  counter_value.cabbage++;
+  cost_value.cabbage = (prices_value.cabbage * counter_value.cabbage);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.cabbage,counter.cabbage);
+});
+
+plus.cauliflower.addEventListener("click",()=>{
+  counter_value.cauliflower++;
+  cost_value.cauliflower = (prices_value.cauliflower * counter_value.cauliflower);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.cauliflower,counter.cauliflower);
+});
+
+plus.celery.addEventListener("click",()=>{
+  counter_value.celery++;
+  cost_value.celery = (prices_value.celery * counter_value.celery);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.celery,counter.celery);
+});
+
+plus.green_oak.addEventListener("click",()=>{
+  counter_value.green_oak++;
+  cost_value.green_oak = (prices_value.green_oak * counter_value.green_oak);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.green_oak,counter.green_oak);
+});
+
+plus.green_coral.addEventListener("click",()=>{
+  counter_value.green_coral++;
+  cost_value.green_coral = (prices_value.green_coral * counter_value.green_coral);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.green_coral,counter.green_coral);
+});
+
+plus.green_cos.addEventListener("click",()=>{
+  counter_value.green_cos++;
+  cost_value.green_cos = (prices_value.green_cos * counter_value.green_cos);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.green_cos,counter.green_cos);
+});
+
+plus.frillice_ice_berg.addEventListener("click",()=>{
+  counter_value.frillice_ice_berg++;
+  cost_value.frillice_ice_berg = (prices_value.frillice_ice_berg * counter_value.frillice_ice_berg);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.frillice_ice_berg,counter.frillice_ice_berg);
+});
+
+plus.parsley.addEventListener("click",()=>{
+  counter_value.parsley++;
+  cost_value.parsley = (prices_value.parsley * counter_value.parsley);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.parsley,counter.parsley);
+});
+
+plus.red_oak.addEventListener("click",()=>{
+  counter_value.red_oak++;
+  cost_value.red_oak = (prices_value.red_oak * counter_value.red_oak);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.red_oak,counter.red_oak);
+});
+
+plus.rocket_arugula.addEventListener("click",()=>{
+  counter_value.rocket_arugula++;
+  cost_value.rocket_arugula = (prices_value.rocket_arugula * counter_value.rocket_arugula);
+    total_cost_value = sum_obj_num(cost_value);
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  plus_btn_list(counter_value.rocket_arugula,counter.rocket_arugula);
+});
+
+function plus_btn_list(counter_value_n, counter_n) {
+  counter_n.innerHTML = counter_value_n;
+}
+
+// Minus BTN Event
+minus.butterhead.addEventListener("click",()=>{
+  counter_value.butterhead--;
+    total_cost_value -= prices_value.butterhead;
+    total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.butterhead, counter.butterhead, list.butterhead);
+});
+
+minus.cabbage.addEventListener("click",()=>{
+  counter_value.cabbage--;
+  total_cost_value -= prices_value.cabbage;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.cabbage, counter.cabbage, list.cabbage);
+});
+
+minus.cauliflower.addEventListener("click",()=>{
+  counter_value.cauliflower--;
+  total_cost_value -= prices_value.cauliflower;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.cauliflower, counter.cauliflower, list.cauliflower);
+});
+
+minus.celery.addEventListener("click",()=>{
+  counter_value.celery--;
+  total_cost_value -= prices_value.celery;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.celery, counter.celery, list.celery);
+});
+
+minus.green_oak.addEventListener("click",()=>{
+  counter_value.green_oak--;
+  total_cost_value -= prices_value.green_oak;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.green_oak, counter.green_oak, list.green_oak);
+});
+
+minus.green_coral.addEventListener("click",()=>{
+  counter_value.green_coral--;
+  total_cost_value -= prices_value.green_coral;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.green_coral, counter.green_coral, list.green_coral);
+});
+
+minus.green_cos.addEventListener("click",()=>{
+  counter_value.green_cos--;
+  total_cost_value -= prices_value.green_cos;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.green_cos, counter.green_cos, list.green_cos);
+});
+
+minus.frillice_ice_berg.addEventListener("click",()=>{
+  counter_value.frillice_ice_berg--;
+  total_cost_value -= prices_value.frillice_ice_berg;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.frillice_ice_berg, counter.frillice_ice_berg, list.frillice_ice_berg);
+});
+
+minus.parsley.addEventListener("click",()=>{
+  counter_value.parsley--;
+  total_cost_value -= prices_value.parsley;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.parsley, counter.parsley, list.parsley);
+});
+
+minus.red_oak.addEventListener("click",()=>{
+  counter_value.red_oak--;
+  total_cost_value -= prices_value.red_oak;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.red_oak, counter.red_oak, list.red_oak);
+});
+
+minus.rocket_arugula.addEventListener("click",()=>{
+  counter_value.rocket_arugula--;
+  total_cost_value -= prices_value.rocket_arugula;
+  total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
+  minus_btn_list(counter_value.rocket_arugula, counter.rocket_arugula, list.rocket_arugula);
+});
+
+function minus_btn_list(counter_value_n, counter_n, list_n) {
+  if(counter_value_n < 1) {
+    list_n.style.display = "none";
+    if(sum_obj_num(counter_value) <= 0) {
       empty_products.style.display = "flex";
     }
-    else {
-      counter_butterhead.innerHTML = counter_value.butterhead;
+  }
+  else{
+    counter_n.innerHTML = counter_value_n;
+  }
+}
 
+function sum_obj_num( obj ) {
+  var sum = 0;
+  for( var el in obj ) {
+    if( obj.hasOwnProperty( el ) ) {
+      sum += parseFloat( obj[el] );
     }
+  }
+  return sum;
+}
 
-  });
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 
 </script>
