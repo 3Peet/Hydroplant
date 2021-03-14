@@ -250,6 +250,7 @@ app.post('/airpump_timer', (req, res) => {
 
 });
 
+
 app.post('/ph_auto',(req,res)=> {
   try {
     ph_start_range = Number(req.body.ph_start_decimal_select + req.body.ph_start_dot_select);
@@ -322,6 +323,47 @@ async function Check_light_airpump_status_timer_manual() {
     else {
       weekstamp = (String(result_get_week[0] + "-W" + result_get_week[1]));
     }
+
+    // ---------------------------------------------- PH & EC Automation ----------------------------------------------
+    ph_auto_status = ph_auto_json.get("status");
+    ec_auto_status = ec_auto_json.get("status");
+    var ph_start_range = ph_auto_json.get("ph_start_range");
+    var ph_end_range = ph_auto_json.get("ph_end_range");
+    var ec_start_range = ec_auto_json.get("ec_start_range");
+    var ec_end_range = ec_auto_json.get("ec_end_range");
+    // if(minute%5 === 0){
+      if(true && ph_auto_status ){
+      console.log("🎆 PH ->" + ph_start_range+":"+ph_end_range);
+      if(ph_db < ph_start_range){
+        console.log("PH UP | TURN ON");
+        client.publish("web/control/ph_up","ON");
+        setTimeout(function(){ client.publish("web/control/ph_up","OFF"); }, 4000);
+      }
+
+      if(ph_db > ph_end_range){
+        console.log("PH DOWN | TURN ON");
+        client.publish("web/control/ph_down","ON");
+        setTimeout(function(){ client.publish("web/control/ph_down","OFF"); }, 4000);
+
+      }
+    }
+
+    if(true && ec_auto_status ){
+      console.log("🎍 EC ->" + ec_start_range+":"+ec_end_range);
+      if(ec_mscm_db < ec_start_range){
+        console.log("EC UP | TURN ON");
+        client.publish("web/control/nutrientpump","ON");
+        setTimeout(function(){ client.publish("web/control/nutrientpump","OFF"); }, 4000);
+      }
+
+      if(ec_mscm_db > ec_end_range){
+        console.log("EC DOWN | TURN ON");
+        client.publish("web/control/waterpump","ON");
+        setTimeout(function(){ client.publish("web/control/waterpump","OFF"); }, 4000);
+
+      }
+    }
+   
 
     // ---------------------------------------------- MongoDB Management ----------------------------------------------
     if(minute === 59) {
@@ -988,18 +1030,19 @@ client.on('connect', function () {
 
 });
 
-var temp_db, hum_db, ec_ppm_db, ec_mscm_db, water_temp_db, water_level_db, light_db = 0;
+var temp_db, hum_db, ec_ppm_db, ec_mscm_db, water_temp_db, water_level_db, light_db, ph_db = 0;
 
 // Receive Message and print on terminal
 client.on('message', function (topic, message) {
   try {
     var esp32_obj = JSON.parse(message);
     if(topic === "esp32/sensors") {
-      console.log("[Topic 🎐 => " + topic + "] [Date =>"+ message)+"]";
+      console.log("[Topic 📧 => " + topic + "] [Date =>"+ message)+"]";
       temp_db = Number(esp32_obj.temp);
       hum_db = Number(esp32_obj.hum);
       ec_ppm_db = Number(esp32_obj.ec) * 500 / 1000;
       ec_mscm_db = Number(esp32_obj.ec) / 1000;
+      ph_db = Number(esp32_obj.ph);
       water_temp_db = Number(esp32_obj.watertemp);
       water_level_db = ultrasonic_mm_percent(esp32_obj.ultrasonic);
       light_db = 1200;
@@ -1016,13 +1059,13 @@ client.on('message', function (topic, message) {
       { temp_data: esp32_obj.temp },
       { hum_data: esp32_obj.hum },
       { ec_data: esp32_obj.ec },
-      { ph_data: 6.5 }
+      { ph_data: esp32_obj.ph }
     );
 
     io.sockets.emit("tempdata", { value: esp32_obj.temp + "  °C" });
     io.sockets.emit("humdata", { value: esp32_obj.hum + " %" });
     io.sockets.emit("ecdata", { value: ((Number(esp32_obj.ec)) / 1000).toFixed(2) + " mS/cm" });
-    io.sockets.emit("phdata", { value: 6.5 });
+    io.sockets.emit("phdata", { value: esp32_obj.ph.toFixed(1) });
     io.sockets.emit("water_lvl", { value: ultrasonic_mm_percent(esp32_obj.ultrasonic) + " %" });
     io.sockets.emit("lightdata", { value: esp32_obj.watertemp.toFixed(1) + "  °C" });
 
