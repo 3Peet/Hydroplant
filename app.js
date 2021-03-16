@@ -637,6 +637,14 @@ io.on("connect", function (socket) {
     nutrient_pump_json.save();
   });
 
+  socket.on("phup_pump", function (data) {
+    client.publish("web/control/ph_up", data ? "ON" : "OFF");
+  });
+
+  socket.on("phdown_pump", function (data) {
+    client.publish("web/control/ph_down", data ? "ON" : "OFF");
+  });
+
   
   socket.on("state_ph_auto", function (data) {
     ph_auto_json.set("status", data);

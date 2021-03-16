@@ -8,7 +8,7 @@
   "light_end_time_3": "",
   "light_start_time_4": "",
   "light_end_time_4": "",
-  "manual_value": true,
+  "manual_value": false,
   "timer_value": false,
-  "value": true
+  "value": false
 }

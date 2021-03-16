@@ -766,6 +766,70 @@
       }
     });
 
+    // -------------------------- pH UP 5s. --------------------------
+    document.getElementById("phup-btn").addEventListener("click", () => {
+      socket.emit("phup_pump", true);
+      status_phup = true;
+      phup_delay_counter = 0;
+
+      var phup_btn = document.getElementById("phup-btn");
+      var phup_btn_disable = document.getElementById("phup-btn-disable")
+
+      phup_btn.style.display = "none";
+      phup_btn_disable.style.display = "block";
+
+
+      var phup_delay = setInterval(start_phup_delay, 1000);
+
+      function stop_phup_delay() {
+        clearInterval(phup_delay);
+      }
+
+      function start_phup_delay() {
+        phup_delay_counter++;
+        if (phup_delay_counter == 5) {
+          socket.emit("phup_pump", false);
+          phup_delay_counter = 0;
+          status_phup = false;
+          stop_phup_delay();
+          phup_btn.style.display = "block";
+          phup_btn_disable.style.display = "none";
+        }
+      }
+    });
+
+    // -------------------------- pH UP 5s. --------------------------
+    document.getElementById("phdown-btn").addEventListener("click", () => {
+      socket.emit("phdown_pump", true);
+      status_phdown = true;
+      phdown_delay_counter = 0;
+
+      var phdown_btn = document.getElementById("phdown-btn");
+      var phdown_btn_disable = document.getElementById("phdown-btn-disable")
+
+      phdown_btn.style.display = "none";
+      phdown_btn_disable.style.display = "block";
+
+
+      var phdown_delay = setInterval(start_phdown_delay, 1000);
+
+      function stop_phdown_delay() {
+        clearInterval(phdown_delay);
+      }
+
+      function start_phdown_delay() {
+        phdown_delay_counter++;
+        if (phdown_delay_counter == 5) {
+          socket.emit("phdown_pump", false);
+          phdown_delay_counter = 0;
+          status_phdown = false;
+          stop_phdown_delay();
+          phdown_btn.style.display = "block";
+          phdown_btn_disable.style.display = "none";
+        }
+      }
+    });
+
     // -------------------------- Light Timer Popup --------------------------
     document.getElementById("btn-light-timer").addEventListener("click", () => {
       var light_timer_popup = document.getElementById("light_timer_popup");
