@@ -521,15 +521,15 @@
   }
   var prices_value = {
     butterhead: 60,
-    cabbage: 60,
-    cauliflower: 60,
+    cabbage: 45,
+    cauliflower: 32,
     celery: 60,
-    green_oak: 60,
+    green_oak: 80,
     green_coral: 60,
     green_cos: 60,
     frillice_ice_berg: 60,
-    parsley: 60,
-    red_oak: 60,
+    parsley: 70,
+    red_oak: 80,
     rocket_arugula: 60
   }
   var total_cost_value_display = document.getElementById("total_cost_value");
@@ -540,6 +540,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.butterhead,counter_value.butterhead,counter.butterhead);
+    cost.butterhead.innerHTML = prices_value.butterhead;
   });
 
   card.cabbage.addEventListener("click",()=>{
@@ -548,6 +549,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.cabbage,counter_value.cabbage,counter.cabbage);
+    cost.cabbage.innerHTML = prices_value.cabbage;
   });
 
   card.cauliflower.addEventListener("click",()=>{
@@ -556,6 +558,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.cauliflower,counter_value.cauliflower,counter.cauliflower);
+    cost.cauliflower.innerHTML = prices_value.cauliflower;
   });
 
   card.celery.addEventListener("click",()=>{
@@ -564,6 +567,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.celery,counter_value.celery,counter.celery);
+    cost.celery.innerHTML = prices_value.celery;
   });
 
   card.green_oak.addEventListener("click",()=>{
@@ -572,6 +576,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.green_oak,counter_value.green_oak,counter.green_oak);
+    cost.green_oak.innerHTML = prices_value.green_oak;
   });
 
   card.green_coral.addEventListener("click",()=>{
@@ -580,6 +585,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.green_coral,counter_value.green_coral,counter.green_coral);
+    cost.green_coral.innerHTML = prices_value.green_coral;
   });
 
   card.green_cos.addEventListener("click",()=>{
@@ -588,6 +594,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.green_cos,counter_value.green_cos,counter.green_cos);
+    cost.green_cos.innerHTML = prices_value.green_coral;
   });
 
   card.frillice_ice_berg.addEventListener("click",()=>{
@@ -596,6 +603,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.frillice_ice_berg,counter_value.frillice_ice_berg,counter.frillice_ice_berg);
+    cost.frillice_ice_berg.innerHTML = prices_value.frillice_ice_berg;
   });
 
   card.parsley.addEventListener("click",()=>{
@@ -604,6 +612,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.parsley,counter_value.parsley,counter.parsley);
+    cost.parsley.innerHTML = prices_value.parsley;
   });
 
   card.red_oak.addEventListener("click",()=>{
@@ -612,6 +621,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.red_oak,counter_value.red_oak,counter.red_oak);
+    cost.red_oak.innerHTML = prices_value.red_oak;
   });
 
   card.rocket_arugula.addEventListener("click",()=>{
@@ -620,6 +630,7 @@
     total_cost_value = sum_obj_num(cost_value);
     total_cost_value_display.innerHTML = numberWithCommas(total_cost_value);
     click_card(list.rocket_arugula,counter_value.rocket_arugula,counter.rocket_arugula);
+    cost.rocket_arugula.innerHTML = prices_value.rocket_arugula;
   });
 
 function click_card(list_n,counter_value_n,counter_n, prices_value_n,cost_value_n){

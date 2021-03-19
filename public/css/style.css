@@ -125,9 +125,11 @@ a.item.title {
   margin-right: 10% !important;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: .2fr .1fr .2fr 1fr .2fr 1fr .2fr 1fr;
+  grid-template-rows: .2fr 1.4fr .2fr .8fr .2fr .8fr .2fr .7fr .2fr .7fr;
   gap: 10px;
   grid-template-areas:
+  "main_title    main_title     main_title"
+  "monitor_graph  monitor_graph   monitor_graph"
   "light_title    light_title     light_title"
   "light_manual            light_timer             light_timer"
   "air_pump_title  air_pump_title   air_pump_title"
@@ -137,6 +139,27 @@ a.item.title {
   "ec_title  ec_title   ec_title"
   "ec_auto  ec_up   ec_down"
 
+}
+
+.main_title {
+  grid-area: main_title;
+}
+
+
+.monitor_graph {
+  grid-area: monitor_graph;
+  display: flex;
+  flex-direction: row;
+  /* background: #000; */
+  justify-content: space-between;
+}
+
+#graph_chart_ph {
+  width: 600px;
+}
+
+#graph_chart_ec {
+  width: 600px;
 }
 
 .light_title {
@@ -1100,6 +1123,46 @@ div#popup-data {
 
 .plant-name-main {
   font-size: 1rem;
+}
+
+/* ---------------- About Page ----------------  */
+.about-main {
+  grid-area: main;
+  margin-right: 10%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  column-gap: 2.5%;
+  grid-template-areas:
+  "chart_height"
+  "chart_length"
+  "chart_number"
+}
+
+.card_chart {
+  border-radius: 20px;
+  background: #fff;
+}
+
+.chart_height {
+  grid-area: chart_height;
+  width: 900px;
+  height: 400px;
+  margin-top: 40px;
+}
+
+.chart_length {
+  grid-area: chart_length;
+  width: 900px;
+  height: 400px;
+  margin-top: 40px;
+}
+
+.chart_number {
+  grid-area: chart_number;
+  width: 900px;
+  height: 400px;
+  margin-top: 40px;
 }
 
 

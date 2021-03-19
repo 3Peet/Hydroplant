@@ -20,7 +20,6 @@ const bodyParser = require("body-parser");
 var MongoClient = require('mongodb').MongoClient;
 var url = "mongodb://localhost:27017/";
 
-
 //For write json file
 const editJsonFile = require("edit-json-file");
 const { getUnpackedSettings } = require("http2");
@@ -324,6 +323,19 @@ async function Check_light_airpump_status_timer_manual() {
       weekstamp = (String(result_get_week[0] + "-W" + result_get_week[1]));
     }
 
+    hour_min_format = timestamp.split(" ");
+
+    // ---------------------------------------------- Update Charts Control EC + PH ----------------------------------------------
+    if(true){
+      io.sockets.emit(
+        "Update_ec_ph_ctrl",
+        { ec_data: ph_db },
+        { ph_data: ec_mscm_db },
+        { timestamp: hour_min_format[4].substring(0,5)}
+      );
+    }
+    
+
     // ---------------------------------------------- PH & EC Automation ----------------------------------------------
     ph_auto_status = ph_auto_json.get("status");
     ec_auto_status = ec_auto_json.get("status");
@@ -331,8 +343,7 @@ async function Check_light_airpump_status_timer_manual() {
     var ph_end_range = ph_auto_json.get("ph_end_range");
     var ec_start_range = ec_auto_json.get("ec_start_range");
     var ec_end_range = ec_auto_json.get("ec_end_range");
-    // if(minute%5 === 0){
-      if(true && ph_auto_status ){
+    if(minute%5 === 0 && ph_auto_status){
       console.log("🎆 PH ->" + ph_start_range+":"+ph_end_range);
       if(ph_db < ph_start_range){
         console.log("PH UP | TURN ON");

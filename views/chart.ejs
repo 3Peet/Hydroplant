@@ -139,7 +139,6 @@
 
   socket.on("charts_process", (data) => {
     var data = data.value
-    console.log();
     try {
       for(i=0;i < 24;i++) {
         data[i].ph = ((Math.random() * (5.5 - 7.0) + 7).toFixed(2));

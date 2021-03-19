@@ -57,27 +57,239 @@
         <!-- <h3>Sidebar</h3> -->
       </div>
 
-      <div class="chart-main content">
-        <h1>Hardware</h1>
-        <img
-          src="/image/demo2.jpg"
-          alt="demo2"
-          style="width: 50%; height: auto"
-        />
+      <div class="about-main content">
+        <div class="chart_height card_chart" id="graph_height"></div>
+        <div class="chart_length card_chart" id="graph_length"></div>
+        <div class="chart_number card_chart" id="graph_number"></div>
+
+        
+        
       </div>
 
-    <p style="font-weight: lighter; font-size: 3em;">Light</p>
-    <br>
-    <p style="font-weight: normal; font-size: 3em;">Regular</p>
-    <br>
-    <p style="font-weight: bold; font-size: 3em;">Bold</p>
-    <br>
-    <p style="font-weight: 5000; font-size: 3em;">Bolder</p>
+
       
     </div>
 
     
   </body>
+  <script type="text/javascript">
+  var graph_options_height = {
+    chart: {
+      height: 400,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Env Control System",
+        data: [
+          {x:"10/02/21",y:5}, {x:"12/02/21",y:5}, {x:"14/02/21",y:5}, {x:"17/02/21",y:6},
+          {x:"19/02/21",y:7}, {x:"22/02/21",y:8}, {x:"24/02/21",y:9},{x:"26/02/21",y:9.5}, 
+          {x:"01/03/21",y:10.5}, {x:"05/03/21",y:12},
+        ],
+      },
+
+      {
+        name: "Normal System",
+        data: [
+          {x:"10/02/21",y:5}, {x:"12/02/21",y:5}, {x:"14/02/21",y:5}, {x:"17/02/21",y:6},
+          {x:"19/02/21",y:6}, {x:"22/02/21",y:7}, {x:"24/02/21",y:8},{x:"26/02/21",y:8},
+           {x:"01/03/21",y:8.75}, {x:"05/03/21",y:9.5},
+        ],
+      },
+
+    ],
+    title: {
+      text: "Plants Height (cm)",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 9,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+
+  var graph_options_length = {
+    chart: {
+      height: 400,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Env Control System",
+        data: [
+          {x:"10/02/21",y:5}, {x:"12/02/21",y:5}, {x:"14/02/21",y:5.5}, {x:"17/02/21",y:6.5},
+          {x:"19/02/21",y:6.75}, {x:"22/02/21",y:7.85}, {x:"24/02/21",y:8.45},{x:"26/02/21",y:10.5}, 
+          {x:"01/03/21",y:11}, {x:"05/03/21",y:12},
+        ],
+      },
+
+      {
+        name: "Normal System",
+        data: [
+          {x:"10/02/21",y:5}, {x:"12/02/21",y:5}, {x:"14/02/21",y:5}, {x:"17/02/21",y:6.5},
+          {x:"19/02/21",y:6.5}, {x:"22/02/21",y:7.5}, {x:"24/02/21",y:7.75},{x:"26/02/21",y:9},
+           {x:"01/03/21",y:9}, {x:"05/03/21",y:9.5},
+        ],
+      },
+    ],
+    title: {
+      text: "Leaf length (cm)",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 9,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+
+
+  var graph_options_num_leaves = {
+    chart: {
+      height: 400,
+      type: "line",
+      fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+      toolbar: {
+        show: false,
+      },
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: "smooth",
+    },
+    series: [
+      {
+        name: "Env Control System",
+        data: [
+          {x:"10/02/21",y:6}, {x:"12/02/21",y:7}, {x:"14/02/21",y:7}, {x:"17/02/21",y:8},
+          {x:"19/02/21",y:9}, {x:"22/02/21",y:10}, {x:"24/02/21",y:11},{x:"26/02/21",y:11}, 
+          {x:"01/03/21",y:12}, {x:"05/03/21",y:12},
+        ],
+      },
+
+      {
+        name: "Normal System",
+        data: [
+          {x:"10/02/21",y:6}, {x:"12/02/21",y:6}, {x:"14/02/21",y:7}, {x:"17/02/21",y:7},
+          {x:"19/02/21",y:7}, {x:"22/02/21",y:8}, {x:"24/02/21",y:8},{x:"26/02/21",y:9},
+           {x:"01/03/21",y:9}, {x:"05/03/21",y:10},
+        ],
+      },
+    ],
+    title: {
+      text: "Number of leaves",
+      align: "center",
+      style: {
+        fontSize: '20px',
+      }
+    },
+    markers: {
+      size: 0,
+    },
+    xaxis: {
+      range: 9,
+      tickAmount: 10,
+    },
+    legend: {
+      show: true,
+    },
+  };
+  
+
+  
+  
+  
+  
+  
+  
+  
+  var graph_height = new ApexCharts(
+    document.querySelector("#graph_height"),
+    graph_options_height
+  );
+  graph_height.render();
+
+  var graph_length = new ApexCharts(
+    document.querySelector("#graph_length"),
+    graph_options_length
+  );
+  graph_length.render();
+
+  var graph_number = new ApexCharts(
+    document.querySelector("#graph_number"),
+    graph_options_num_leaves
+  );
+  graph_number.render();
+
+  
+  </script>
+
 
   <!-- TODO Update Process Charts Time to harvest every 24 Hrs-->
   <!-- TODO Responsive Web Mobile -->

@@ -51,6 +51,16 @@
     </div>
 
     <div class="control-main content">
+
+    <div class="main_title">
+      <h1 class="txt_main_color">Environment Control</h1>
+    </div>
+
+    <div class="monitor_graph">
+      <div id="graph_chart_ph" class="ctrl-card"></div>
+      <div id="graph_chart_ec" class="ctrl-card"></div>
+    </div>
+
       <div class="light_title">
         <h2 class="txt_main_color">Light Control</h2>
       </div>
@@ -721,7 +731,7 @@
 
       function start_fertilizer_delay() {
         fertilizer_delay_counter++;
-        if (fertilizer_delay_counter == 5) {
+        if (fertilizer_delay_counter == 3) {
           socket.emit("nutrient_pump", false);
           fertilizer_delay_counter = 0;
           status_fertilizer = false;
@@ -755,7 +765,7 @@
 
       function start_water_delay() {
         water_delay_counter++;
-        if (water_delay_counter == 5) {
+        if (water_delay_counter == 2) {
           socket.emit("water_pump", false);
           water_delay_counter = 0;
           status_water = false;
@@ -787,7 +797,7 @@
 
       function start_phup_delay() {
         phup_delay_counter++;
-        if (phup_delay_counter == 5) {
+        if (phup_delay_counter == 2) {
           socket.emit("phup_pump", false);
           phup_delay_counter = 0;
           status_phup = false;
@@ -798,7 +808,7 @@
       }
     });
 
-    // -------------------------- pH UP 5s. --------------------------
+    // -------------------------- pH Down 5s. --------------------------
     document.getElementById("phdown-btn").addEventListener("click", () => {
       socket.emit("phdown_pump", true);
       status_phdown = true;
@@ -819,7 +829,7 @@
 
       function start_phdown_delay() {
         phdown_delay_counter++;
-        if (phdown_delay_counter == 5) {
+        if (phdown_delay_counter == 2) {
           socket.emit("phdown_pump", false);
           phdown_delay_counter = 0;
           status_phdown = false;
@@ -1208,9 +1218,137 @@
 
     });
 
+    // Chart Realtime
+    var graph_options_ph = {
+      chart: {
+        height: 350,
+        type: "line",
+        fontFamily: "Nunito, sans-serif",
+        animations: {
+          easing: "linear",
+          dynamicAnimation: {
+            speed: 1510,
+          },
+        },
+        toolbar: {
+          show: false,
+        },
+        zoom: {
+          enabled: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "smooth",
+      },
+      series: [
+      {
+        name: "pH",
+        data: [{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },
+        { x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },
+        { x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },{ x: '00:00', y: 7 },
+        ],
+      },
+      ],
+      title: {
+        text: "PH",
+        align: "center",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        range: 10,
+        tickAmount: 10,
+      },
+      legend: {
+        show: true,
+      },
+    };
+
+    var graph_chart_ph = new ApexCharts(
+      document.querySelector("#graph_chart_ph"),
+      graph_options_ph
+    );
+    graph_chart_ph.render();
+
+
+    var graph_options_ec = {
+      chart: {
+        height: 350,
+        type: "line",
+        fontFamily: "Nunito, sans-serif",
+        animations: {
+          easing: "linear",
+          dynamicAnimation: {
+            speed: 1510,
+          },
+        },
+        toolbar: {
+          show: false,
+        },
+        zoom: {
+          enabled: false,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        curve: "smooth",
+      },
+      series: [
+      {
+        name: "EC",
+        data: [{ x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 },
+        { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 },{ x: '00:00', y: 0.78 },
+        { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 }, { x: '00:00', y: 0.78 },{ x: '00:00', y: 0.78 }
+        ],
+      },
+      ],
+      title: {
+        text: "EC",
+        align: "center",
+      },
+      markers: {
+        size: 0,
+      },
+      xaxis: {
+        range: 10,
+        tickAmount: 10,
+      },
+      legend: {
+        show: true,
+      },
+    };
+
+    var graph_chart_ec = new ApexCharts(
+      document.querySelector("#graph_chart_ec"),
+      graph_options_ec
+    );
+    graph_chart_ec.render();
+
+    socket.on("Update_ec_ph_ctrl", (data1,data2,data3) => {
+      console.log(data1.ec);
+      console.log(data2.ph);
+      console.log(data3.timestamp);
+      
+      graph_chart_ec.appendData([
+        {
+          data:[{x:data3.timestamp, y:Number(data1.ec_data).toFixed(2)}],
+        },
+      ])
+
+      graph_chart_ph.appendData([
+        {
+          data:[{x:data3.timestamp, y:Number(data2.ph_data).toFixed(2)}],
+        },
+      ])
+
+    })
+   
   </script>
 </body>
-
 </html>
-
-<!-- TODO Optimize + - (add & remove Timer) -->
