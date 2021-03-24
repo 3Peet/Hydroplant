@@ -1,5 +1,5 @@
 {
-  "status": false,
-  "ph_start_range": 5.5,
-  "ph_end_range": 6.5
+  "status": true,
+  "ph_start_range": 1,
+  "ph_end_range": 8
 }

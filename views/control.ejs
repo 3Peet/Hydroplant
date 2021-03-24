@@ -214,7 +214,7 @@
                 <a href="#/" class="button6 btn_form_smaller" id="close-airpump-timer-popup"
                   style="background-color:  #ef476f;">Close</a>
               </div>
-              <input type="submit">
+              <!-- <input type="submit"> -->
             </form>
 
 
@@ -453,6 +453,7 @@
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
+                <option value="3">3</option>
 
               </select>
               <select name="ec_start_dot_select" id="ec_start_dot_select" class="input_box">
@@ -474,6 +475,7 @@
                 <option value="0">0</option>
                 <option value="1">1</option>
                 <option value="2">2</option>
+                <option value="3">3</option>
 
               </select>
               <select name="ec_end_dot_select" id="ec_end_dot_select" class="input_box">
@@ -623,15 +625,15 @@
     });
 
     socket.on("display_ph_auto", (data1, data2) => {
-      var ph_start_range = data1.ph_start_range;
-      var ph_end_range = data2.ph_end_range;
+      var ph_start_range = Number(data1.ph_start_range);
+      var ph_end_range = Number(data2.ph_end_range);
       document.getElementById("ph_auto_start_range").innerHTML = (Math.round(ph_start_range * 100) / 100).toFixed(1);
       document.getElementById("ph_auto_end_range").innerHTML = (Math.round(ph_end_range * 100) / 100).toFixed(1);
     });
 
     socket.on("display_ec_auto", (data1, data2) => {
-      var ec_start_range = data1.ec_start_range;
-      var ec_end_range = data2.ec_end_range;
+      var ec_start_range =Number(data1.ec_start_range);
+      var ec_end_range = Number(data2.ec_end_range);
       document.getElementById("ec_auto_start_range").innerHTML = (Math.round( ec_start_range * 100) / 100).toFixed(1);
       document.getElementById("ec_auto_end_range").innerHTML = (Math.round( ec_end_range * 100) / 100).toFixed(1);
     });

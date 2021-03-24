@@ -61,6 +61,9 @@
         <div class="chart_height card_chart" id="graph_height"></div>
         <div class="chart_length card_chart" id="graph_length"></div>
         <div class="chart_number card_chart" id="graph_number"></div>
+        <div class="chart_timeline card_chart" id="chart-timeline"></div>
+
+        
 
         
         
@@ -72,7 +75,9 @@
 
     
   </body>
+  <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
+  var socket = io();
   var graph_options_height = {
     chart: {
       height: 400,
@@ -288,6 +293,160 @@
   graph_number.render();
 
   
+  socket.on("graph_pv", (data) => {
+    
+      
+    console.log(data.graph_pv)
+    temp_split = data.graph_pv.split("-");
+    console.log(temp_split);
+    for (i = 0; i < temp_split.length; i++) {
+      chart_pv.appendData([
+        {
+          data: [{ x:i,y:temp_split[i] },]
+        },
+      ]);
+      console.log(i + " - " + temp_split[i])
+      
+  
+}
+  });
+
+  var options_pv = {
+          series: [{
+          data: 
+          [
+          ]
+        }],
+          chart: {
+          id: 'area-datetime',
+          type: 'area',
+          fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+          height: 350,
+          zoom: {
+            autoScaleYaxis: false,
+          },
+          toolbar: {
+        show: false,
+      },
+        },
+
+
+
+        annotations: {
+          yaxis: [{
+            y: 35,
+            borderColor: '#00E396',
+            label: {
+              borderColor: '#00E396',
+              show: true,
+              text: 'Break-even point',
+              style: {
+                color: "#fff",
+                background: '#00E396'
+              }
+            }
+          }],
+
+        },
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          size: 0,
+          style: 'hollow',
+        },
+        xaxis: {
+          tickAmount: 6,
+        },
+        // tooltip: {
+        //   x: {
+        //     format: 'dd MMM yyyy'
+        //   }
+        // },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100]
+          }
+        },
+        };
+
+        var chart_pv = new ApexCharts(document.querySelector("#chart-timeline"), options_pv);
+        chart_pv.render();
+      
+      
+      //   var resetCssClasses = function(activeEl) {
+      //   var els = document.querySelectorAll('button')
+      //   Array.prototype.forEach.call(els, function(el) {
+      //     el.classList.remove('active')
+      //   })
+      
+      //   activeEl.target.classList.add('active')
+      // }
+      
+      // document
+      //   .querySelector('#one_month')
+      //   .addEventListener('click', function(e) {
+      //     resetCssClasses(e)
+      
+      //     chart.zoomX(
+      //       new Date('28 Jan 2013').getTime(),
+      //       new Date('27 Feb 2013').getTime()
+      //     )
+      //   })
+      
+      // document
+      //   .querySelector('#six_months')
+      //   .addEventListener('click', function(e) {
+      //     resetCssClasses(e)
+      
+      //     chart.zoomX(
+      //       new Date('27 Sep 2012').getTime(),
+      //       new Date('27 Feb 2013').getTime()
+      //     )
+      //   })
+      
+      // document
+      //   .querySelector('#one_year')
+      //   .addEventListener('click', function(e) {
+      //     resetCssClasses(e)
+      //     chart.zoomX(
+      //       new Date('27 Feb 2012').getTime(),
+      //       new Date('27 Feb 2013').getTime()
+      //     )
+      //   })
+      
+      // document.querySelector('#ytd').addEventListener('click', function(e) {
+      //   resetCssClasses(e)
+      
+      //   chart.zoomX(
+      //     new Date('01 Jan 2013').getTime(),
+      //     new Date('27 Feb 2013').getTime()
+      //   )
+      // })
+      
+      // document.querySelector('#all').addEventListener('click', function(e) {
+      //   resetCssClasses(e)
+      
+      //   chart.zoomX(
+      //     new Date('23 Jan 2012').getTime(),
+      //     new Date('27 Feb 2013').getTime()
+      //   )
+      // })
+      
+    
+
+
+
   </script>
 
 

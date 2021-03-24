@@ -108,7 +108,7 @@ a.item.title {
   margin-right: 10% !important;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: minmax(auto, 0.4fr) 1fr 1fr 0.4fr 1fr 1fr;
+  grid-template-rows: minmax(auto, 0.4fr) 1fr 1fr minmax(auto, 0.4fr) 1fr 1fr minmax(auto, 0.4fr) 1fr 1fr;
   gap: 10px;
   grid-template-areas:
     "title      title     title       title       title"
@@ -117,7 +117,34 @@ a.item.title {
     "topic1     topic1    topic1      topic1      topic1"
     "process     process  process_txt  process_txt  process_txt"
     "process     process  process_txt  process_txt  process_txt"
+    "title_pv    title_pv   title_pv     title_pv     title_pv"
+    "graph_pv    graph_pv     graph_pv   card_1   card_3 "
+    "graph_pv    graph_pv     graph_pv   card_2   card_4"
 }
+
+.title_pv {
+  grid-area: title_pv;
+  color: var(--txt-main);
+}
+
+.graph_pv {
+  grid-area: graph_pv;
+}
+
+.card1 {
+  grid-area: card_1;
+}
+.card2 {
+  grid-area: card_2;
+}
+.card3 {
+  grid-area: card_3;
+}
+.card4 {
+  grid-area: card_4;
+}
+
+
 
 /* ---------------- Control Page ----------------  */
 .control-main {
@@ -1012,6 +1039,64 @@ a.button-harvest:hover {
   
 } */
 
+/* POP-UP Harvest */
+#popup-harvest-card {
+  width: 100%;
+  height: 100%;
+  opacity: 0.98;
+  top: 0;
+  left: 0;
+  display: none;
+  position: fixed;
+  background-color: #313131;
+  overflow: auto;
+}
+
+div#popup-harvest-data {
+  margin-top: 100px;
+  position: absolute;
+  left: 50%;
+  top: 17%;
+  margin-left: -202px;
+}
+
+#popup-harvest-data form {
+  max-width: 300px;
+  min-width: 250px;
+  height: 200px;
+  padding: 10px 50px;
+  border: 2px solid gray;
+  border-radius: 10px;
+  background-color: var(--bg-light);
+  font-family: "Nunito", sans-serif;
+}
+
+.form_input_harvest {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.number_data_form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.box_input_harvest {
+  color: var(--txt-main);
+  margin: 0 20px;
+    border: 1px solid #c4c4c4;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+    width: 3.5rem;
+    font-weight: bold;
+    font-family: "Nunito", sans-serif;
+    text-align: center;
+}
+
 
 /* POP-UP */
 #popup-card {
@@ -1053,6 +1138,7 @@ div#popup-data {
   "plant7   plant8  plant9"
 }
 
+
 .plant-card {
   /* grid-area: card1; */
   display: flex;
@@ -1063,6 +1149,7 @@ div#popup-data {
   height: 1fr;
   border-radius: 20px;
   background: var(--bg-white);
+  padding: 10px;
 }
 
 .plant-card.selected-card {
@@ -1083,14 +1170,16 @@ div#popup-data {
 }
 
 
-.plant-item,.plant-item-none {
+.plant-item {
   width: 70%;
   height: 70%;
+  transition: transform .2s;
+  
 }
 
 .plant-item:hover {
   cursor:pointer;
-  filter: drop-shadow(.5px .5px 1.5px gray);
+  transform: scale(1.15);
 }
 
 .none:hover,.plant-item-none:hover {
@@ -1137,6 +1226,12 @@ div#popup-data {
   "chart_height"
   "chart_length"
   "chart_number"
+  "chart_timeline"
+}
+
+.chart_timeline {
+  margin-top: 50px;
+  grid-area: chart_timeline;
 }
 
 .card_chart {

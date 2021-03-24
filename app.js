@@ -11,7 +11,7 @@ const MQTT_USER = "ksrafjrd";
 const MQTT_PASSWORD = "GYWNFZXJgUOZ";
 
 // Web scraping
-// const puppeteer = require("puppeteer");
+const puppeteer = require("puppeteer");
 
 var express = require("express");
 const bodyParser = require("body-parser");
@@ -33,6 +33,8 @@ let water_pump_json = editJsonFile(`${__dirname}/src/json/water_pump.json`);
 let nutrient_pump_json = editJsonFile(`${__dirname}/src/json/nutrient_pump.json`);
 let ph_auto_json = editJsonFile(`${__dirname}/src/json/ph_auto.json`);
 let ec_auto_json = editJsonFile(`${__dirname}/src/json/ec_auto.json`);
+let set_ph_ec_auto = editJsonFile(`${__dirname}/src/json/ec_ph_control_auto.json`);
+let graph_pv = editJsonFile(`${__dirname}/src/json/price_value.json`);
 
 
 function timeConverter(UNIX_timestamp) {
@@ -119,6 +121,22 @@ app.get("/about", (req, res) => {
 });
 
 // ---------------------------------------------- Schedule Process ----------------------------------------------
+app.post("/harvest_data",(req,res)=> {
+  console.log("🎡" + req.body.num_plant);
+  console.log("🎡" + req.body.plant_weight);
+  cost = Number(req.body.plant_weight)*60;
+  current_data = graph_pv.get("data")
+  temp_cost = current_data.split("-");
+  console.log(temp_cost[temp_cost.length-1]);
+  cost = Number(temp_cost[temp_cost.length-1]) + cost;
+  graph_pv.set("data",current_data+"-"+cost);
+  console.log("🎈"+current_data+"-"+cost)
+  graph_pv.save();
+
+});
+
+
+// ---------------------------------------------- Schedule Process ----------------------------------------------
 
 app.post("/start_date_data", (req, res) => {
   if (req.body.start_date == "") {
@@ -134,7 +152,12 @@ app.post("/start_date_data", (req, res) => {
       cal_days_remaining(cal_unix_harvest_time(data))
     );
     schedule_farm.save();
-
+    day_remain_temp = cal_days_remaining(cal_unix_harvest_time(data));
+    if(day_remain_temp === 0) {
+      schedule_farm.set("status", "harvest");
+      schedule_farm.save();
+    }
+   
     console.log("Schedule Status : " + schedule_farm.get("status"));
     console.log("Start date : " + data);
     console.log("End date : " + timeConverter(cal_unix_harvest_time(data)));
@@ -258,6 +281,9 @@ app.post('/ph_auto',(req,res)=> {
     ph_auto_json.set("ph_end_range",ph_end_range);
     ph_auto_json.save();
 
+    set_ph_ec_auto.set("ph",ph_start_range+"-"+ph_end_range);
+    set_ph_ec_auto.save();
+
     io.sockets.emit("display_ph_auto",
     { ph_start_range: ph_start_range },
     { ph_end_range: ph_end_range}
@@ -275,6 +301,9 @@ app.post('/ec_auto',(req,res)=> {
     ec_auto_json.set("ec_start_range",ec_start_range);
     ec_auto_json.set("ec_end_range",ec_end_range);
     ec_auto_json.save();
+
+    set_ph_ec_auto.set("ec",ec_start_range+"-"+ec_end_range);
+    set_ph_ec_auto.save();
 
     io.sockets.emit("display_ec_auto",
     { ec_start_range: ec_start_range },
@@ -413,7 +442,6 @@ async function Check_light_airpump_status_timer_manual() {
     var start_date_for_update = schedule_farm.get("start_date");
     var plant_status = schedule_farm.get("status");
     if (plant_status == "planting") {
-      console.log("Updated Day remaining");
       schedule_farm.set(
         "day_remaining",
         cal_days_remaining(cal_unix_harvest_time(start_date_for_update))
@@ -667,6 +695,12 @@ io.on("connect", function (socket) {
     ec_auto_json.save();
   });
 
+  socket.on("set_ph_ec_auto", function (data1,data2) {
+    set_ph_ec_auto.set("ph", data1);
+    set_ph_ec_auto.set("ec", data2);
+    set_ph_ec_auto.save();
+  });
+
   // MQTT Light Timer
   socket.on("mqtt_light_timer", function (data) {
     control_timer(data, "NULL");
@@ -690,13 +724,19 @@ io.on("connect", function (socket) {
   );
 
   io.sockets.emit("display_ph_auto",
-    { ph_start_range: ph_auto_json.get("ph_start_range") },
-    { ph_end_range: ph_auto_json.get("ph_end_range") }
+    // { ph_start_range: ph_auto_json.get("ph_start_range") },
+    // { ph_end_range: ph_auto_json.get("ph_end_range") }
+    { ph_start_range: set_ph_ec_auto.get("ph").split("-")[0] },
+    { ph_end_range: set_ph_ec_auto.get("ph").split("-")[1] }
+
   );
 
   io.sockets.emit("display_ec_auto",
-    { ec_start_range: ec_auto_json.get("ec_start_range") },
-    { ec_end_range: ec_auto_json.get("ec_end_range") }
+    // { ec_start_range: ec_auto_json.get("ec_start_range") },
+    // { ec_end_range: ec_auto_json.get("ec_end_range") }
+
+    { ec_start_range: set_ph_ec_auto.get("ec").split("-")[0] },
+    { ec_end_range: set_ph_ec_auto.get("ec").split("-")[1] }
   );
 
   io.sockets.emit("display_light_timer",
@@ -727,25 +767,56 @@ io.on("connect", function (socket) {
     { start_date: schedule_farm.get("start_date") },
     { days_remaining: schedule_farm.get("day_remaining") }
   );
+
+  // console.log(graph_pv.get("data").split("-"))
+  io.sockets.emit("graph_pv",{ graph_pv: graph_pv.get("data")}
+    );
+
+  var current_data = graph_pv.get("data")
+  var temp_cost = current_data.split("-");
+  var profit = Number(temp_cost[temp_cost.length-1])-2250;
+  var current_pv = Number(temp_cost[temp_cost.length-1])
+  var last_pv = Number(temp_cost[temp_cost.length-2])
+  var grow = ((current_pv-last_pv)/current_pv *100).toFixed(1)
+  io.sockets.emit("pv_profit",{ profit: profit}
+    );
+    io.sockets.emit("pv_grow",{ grow: grow}
+    );
+
   // console.log("Status : " + schedule_farm.get("status"));
 
-  // Get salad Prices XXX DON't DELETE XXX
-  // async function getPrice(url, Xpath) {
-  //   const browser = await puppeteer.launch();
-  //   const page = await browser.newPage();
-  //   await page.goto(url);
 
-  //   const [el] = await page.$x(Xpath); //Get Xpath
-  //   const txt = await el.getProperty("textContent");
-  //   const price = await txt.jsonValue();
+  async function getPrice(url, Xpath) {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    await page.goto(url);
 
-  //   browser.close();
+    const [el] = await page.$x(Xpath); //Get Xpath
+    const txt = await el.getProperty("textContent");
+    const price = await txt.jsonValue();
 
-  //   return price.trim();
-  // }
+    browser.close();
+
+    return price.trim();
+  }
+
+  var prices_value = {
+    butterhead: 60,
+    cabbage: 45,
+    cauliflower: 32,
+    celery: 60,
+    green_oak: 80,
+    green_coral: 60,
+    green_cos: 60,
+    frillice_ice_berg: 60,
+    parsley: 70,
+    red_oak: 80,
+    rocket_arugula: 60
+  }
 
   socket.on("GetGreenOakPrices", async function (url, Xpath) {
-    var price_greenoak = await getPrice(url, Xpath);
+    var price_greenoak = await getPrice(url,Xpath);
+    prices_value.green_oak = price_greenoak;
     console.log("Green Oak Price : " + price_greenoak + " THB");
     market_json.set("green_oak", price_greenoak);
     market_json.save();

@@ -49,7 +49,34 @@
       <!-- <h3>Sidebar</h3> -->
     </div>
 
+    
+
     <div class="page-main content">
+      <div class="env-card card1">
+        <h4 class="env-name">Cost</h4>
+        <h1 class="env-value">2,250</h1>
+        <h4 class="env-name">THB</h4>
+      </div>
+      
+      <div class="env-card card2">
+        <h4 class="env-name">Profit</h4>
+        <h1 class="env-value" id="profit_pv"></h1>
+        <h4 class="env-name">THB</h4>
+      </div>
+
+      <div class="env-card card3">
+        <h4 class="env-name">Crop</h4>
+        <h1 class="env-value" id="crop_no"></h1>
+      </div>
+
+      <div class="env-card card4">
+        <h4 class="env-name">Grow</h4>
+        <h1 class="env-value" id="grow_pv"></h1>
+      </div>
+
+      <div class="env-card graph_pv">
+        <div id="chart-timeline" style="padding-right: 10px;"></div>
+      </div>
       <div class="env-title">
         <h1 style="font-weight: bolder;">Dashboard</h1>
         <P id="ct"></P>
@@ -101,11 +128,11 @@
       <div class="env-card process-data">
         <div id="start-date-data">
           <div class="count-time" id="display_day_remaining">
-            <p style="font-weight: bold">Harvested in</p>
+            <p style="font-weight: bold">Harvest in</p>
             <h2 id="days_remaining"></h2>
-            <img class="plant-item-main" src="/image/lettuce.svg" alt="lettuce" />
+            <img class="plant-item-main" src="/image/index_img/015-lettuce.svg" alt="lettuce" />
 
-            <h2 class="plant-name-main">Green Oak Lettuce</h2>
+            <h2 class="plant-name-main" id="plant_name">Green Oak Lettuce</h2>
           </div>
         </div>
 
@@ -124,46 +151,47 @@
         <iframe name="dummyframe" id="dummyframe" style="display: none"></iframe>
 
         <!-- POPUP FORM -->
-
         <div id="popup-card">
           <div id="popup-data">
             <form action="/start_date_data" method="POST" name="plant_form" target="dummyframe">
               <h2>Select your plant</h2>
               <div class="main-card-plant">
-                <div class="plant-card selected-card">
-                  <img class="plant-item" src="/image/lettuce.svg" alt="lettuce" />
+
+                <!-- class = selected-card -->
+                <div class="plant-card" id="card1">
+                  <img class="plant-item" src="/image/index_img/015-lettuce.svg" alt="lettuce" />
                 </div>
 
-                <div class="plant-card">
-                  <img class="plant-item-none" src="/image/broccoli.svg" alt="broccoli" />
+                <div class="plant-card" id="card2">
+                  <img class="plant-item" src="/image/index_img/017-lettuce.svg" alt="broccoli" />
                 </div>
 
-                <div class="plant-card">
-                  <img class="plant-item-none" src="/image/celery.svg" alt="celery" />
+                <div class="plant-card" id="card3">
+                  <img class="plant-item" src="/image/index_img/006-vegetable.svg" alt="celery" />
                 </div>
 
-                <div class="plant-card">
-                  <img class="plant-item-none" src="/image/salad1.svg" alt="salad1" />
+                <div class="plant-card" id="card4">
+                  <img class="plant-item" src="/image/index_img/007-cabbage.svg" alt="salad1" />
                 </div>
 
-                <div class="plant-card">
-                  <img class="plant-item-none" src="/image/spinach.svg" alt="salad2" />
+                <div class="plant-card" id="card5">
+                  <img class="plant-item" src="/image/index_img/031-spinach.svg" alt="salad2" />
                 </div>
 
-                <div class="plant-card">
-                  <img class="plant-item-none" src="/image/salad2.svg" alt="celery" />
+                <div class="plant-card" id="card6">
+                  <img class="plant-item" src="/image/index_img/010-celery.svg" alt="celery" />
                 </div>
 
-                <div class="plant-card none">
-                  <h2>X</h2>
+                <div class="plant-card" id="card7">
+                  <img class="plant-item" src="/image/index_img/018-lettuce.svg" alt="celery" />
                 </div>
 
-                <div class="plant-card none">
-                  <h2>X</h2>
+                <div class="plant-card" id="card8">
+                  <img class="plant-item" src="/image/index_img/027-lettuce.svg" alt="celery" />
                 </div>
 
-                <div class="plant-card none">
-                  <h2>X</h2>
+                <div class="plant-card" id="card9">
+                  <img class="plant-item" src="/image/index_img/009-cauliflower.svg" alt="celery" />
                 </div>
               </div>
 
@@ -178,357 +206,751 @@
             </form>
           </div>
         </div>
+
+        <div id="popup-harvest-card">
+          <div id="popup-harvest-data">
+            <form action="/harvest_data" method="POST" name="harvest_form" target="dummyframe">
+              <h2 style="color: #1a264a;">Summary</h2>
+
+              <div class="form_input_harvest">
+
+                <div class="number_data_form">
+                  <h4 style="margin: 0;">Number of plants</h4>
+                  <input type="text" class="box_input_harvest" id="num_plant" name="num_plant">
+                </div>
+
+                <div class="number_data_form">
+                  <h4 style="margin: 0;">Weight</h4>
+                  <h4 style="margin: 0; color: #f5f7fd;">_</h4>
+                  <h6 style="margin: 5px 0 0 0;">(KG)</h6>
+                  <h4 style="margin: 0; color: #f5f7fd;">_.____</h4>
+                  <input type="text" class="box_input_harvest" id="plant_weight" name="plant_weight">
+                </div>
+
+
+                
+                <input class="submit" id="harvest_submit" style="margin-top: 20px;" type="submit" value="Submit" />
+              </div>
+
+
+
+
+            </form>
+
+          </div>
+        </div>
       </div>
+
+      <div class="title_pv">
+        <h2>Product Value</h2>
+      </div>
+
+      
+
+
+
+
+
+
+
     </div>
-  </div>
-
-  <script src="/socket.io/socket.io.js"></script>
-
-  <script type="text/javascript">
-    // Socket.io
-
-    var socket = io();
-
-    socket.on("Update_Realtime_charts",(data1,data2,data3,data4)=>{
-      var temp_data = Number(data1.temp_data).toFixed(2);
-      var hum_data = Number(data2.hum_data).toFixed(2);
-      var ec_data = ((Number(data3.ec_data))/1000).toFixed(2);
-      var ph_data = Number(data4.ph_data).toFixed(2);
-
-      graph_chart.appendData([
-        {
-          data: [temp_data],
-        },
-        {
-          data: [ph_data],
-        },
-        {
-          data: [ec_data],
-        },
-        {
-          data: [hum_data],
-        },
-      ]);
-
-    });
-
-
-    socket.on("tempdata", (data) => {
-      document.getElementById("env-temp").innerHTML = data.value;
-    });
-
-    socket.on("humdata", (data) => {
-      document.getElementById("env-hum").innerHTML = data.value;
-    });
-
-    socket.on("lightdata", (data) => {
-      document.getElementById("env-light").innerHTML = data.value;
-    });
-
-    socket.on("ecdata", (data) => {
-      document.getElementById("env-ec").innerHTML = data.value;
-    });
-
-    socket.on("phdata", (data) => {
-      document.getElementById("env-ph").innerHTML = data.value;
-    });
-
-    socket.on("water_lvl", (data) => {
-      document.getElementById("env-water").innerHTML = data.value;
-    });
 
 
 
-    //Set Clock | timezone
-    display_ct(); // <- Call function
-    function display_c() {
-      var refresh = 1000; // Refresh rate in milli seconds
-      mytime = setTimeout("display_ct()", refresh);
-    }
 
-    function display_ct() {
-      var x = new Date();
 
-      var hour = x.getHours();
-      var minute = x.getMinutes();
-      var second = x.getSeconds();
-      if (hour < 10) {
-        hour = "0" + hour;
-      }
-      if (minute < 10) {
-        minute = "0" + minute;
-      }
-      if (second < 10) {
-        second = "0" + second;
-      }
 
-      var x1 = x.getDate() + " " + month_now() + " " + x.getFullYear();
-      x1 = x1 + " | " + day_now() + " " + hour + ":" + minute + ":" + second;
-      document.getElementById("ct").innerHTML = x1;
-      display_c();
-    }
 
-    function month_now() {
-      var my_month = new Date();
-      var month_name = new Array(12);
-      month_name[0] = "January";
-      month_name[1] = "February";
-      month_name[2] = "March";
-      month_name[3] = "April";
-      month_name[4] = "May";
-      month_name[5] = "June";
-      month_name[6] = "July";
-      month_name[7] = "August";
-      month_name[8] = "September";
-      month_name[9] = "October";
-      month_name[10] = "November";
-      month_name[11] = "December";
-      return month_name[my_month.getMonth()];
-    }
-    function day_now() {
-      var my_day = new Date();
-      var day_name = new Array(7);
+    <!-- Manual Scrap -->
+    <button id="scrap_test" style="display: none;">Hello World !</button>
 
-      day_name[0] = "Sunday";
-      day_name[1] = "Monday";
-      day_name[2] = "Tuesday";
-      day_name[3] = "Wednesday";
-      day_name[4] = "Thursday";
-      day_name[5] = "Friday";
-      day_name[6] = "Saturday";
-      return day_name[my_day.getDay()];
-    }
+    <script src="/socket.io/socket.io.js"></script>
 
-    // Calculate Percent time remaining plant for process charts.
-    function convert_days_remaining_to_percent(days_remaining) {
-      duration = 45; // Duration of Saland 45 days
-      var result = Math.round(((duration - days_remaining) * 100) / duration);
-      if (result >= 100) return 100;
-      else return result;
-    }
+    <script type="text/javascript">
+      // Socket.io
 
-    // Chart Process
-    function chart_process_circle(percent) {
-      var process_options = {
-        chart: {
-          height: 280,
-          type: "radialBar",
-          fontFamily: "Nunito, sans-serif",
-        },
-        series: [percent],
+      var socket = io();
 
-        plotOptions: {
-          radialBar: {
-            hollow: {
-              margin: 15,
-              size: "70%",
-            },
-
-            dataLabels: {
-              showOn: "always",
-              name: {
-                offsetY: -10,
-                show: true,
-                color: "#888",
-                fontSize: "13px",
-              },
-              value: {
-                color: "#111",
-                fontSize: "30px",
-                fontWeight: "bold",
-                show: true,
-              },
-            },
-          },
-        },
-
-        stroke: {
-          lineCap: "round",
-        },
-        labels: ["Progress"],
-      };
-      var process_chart = new ApexCharts(
-        document.querySelector("#process_chart"),
-        process_options
-      );
-      process_chart.render();
-    }
-
-    // Chart Realtime
-    var graph_options = {
-      chart: {
-        height: 350,
-        type: "line",
-        fontFamily: "Nunito, sans-serif",
-        animations: {
-          easing: "linear",
-          dynamicAnimation: {
-            speed: 1510,
-          },
-        },
-        toolbar: {
-          show: false,
-        },
-        zoom: {
-          enabled: false,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-      },
-      series: [
-        {
-          name: "Tempurature",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        },
-        {
-          name: "pH",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        },
-        {
-          name: "EC",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        },
-        {
-          name: "Humidity",
-          data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        },
-      ],
-      title: {
-        text: " Sensors data",
-        align: "left",
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        range: 10,
-        tickAmount: 10,
-      },
-      legend: {
-        show: true,
-      },
-    };
-
-    var graph_chart = new ApexCharts(
-      document.querySelector("#graph_chart"),
-      graph_options
-    );
-    graph_chart.render();
-
-    // POP-UP
-    var date = new Date(document.getElementById("plant-input-form").value);
-
-    var plant_day_remaining = 0;
-
-    socket.on("schedule", (data1, data2, data3) => {
-
-      var plant_status = data1.status;
-      var plant_start_date = data2.start_date;
-      plant_day_remaining = data3.days_remaining;
-
-      document.getElementById("days_remaining").innerHTML =
-        String(plant_day_remaining) + " Days";
-
-      var start_btn = document.getElementById("btn-start");
-      var cancel_btn = document.getElementById("btn-cancel");
-      var start_date_data = document.getElementById("start-date-data");
-      var display_day_remaining = document.getElementById("display_day_remaining");
-
-      if (plant_status == "ready") {
-        start_btn.style.display = "block";
-        cancel_btn.style.display = "none";
-        start_date_data.style.display = "none";
-        chart_process_circle(0);
-
-        document
-          .getElementById("button-start")
-          .addEventListener("click", () => {
-            var popup_main = document.getElementById("popup-card");
-            popup_main.style.display = "block";
-          });
-      } else if (plant_status == "planting") {
-        start_btn.style.display = "none";
-        display_day_remaining.style.display = "block";
-        cancel_btn.style.display = "block";
-        start_date_data.style.display = "block";
-        chart_process_circle(
-          convert_days_remaining_to_percent(plant_day_remaining)
-        );
-      } // <-- End else if here
-
-      document.getElementById("close-popup").addEventListener("click", () => {
-        var popup_main = document.getElementById("popup-card");
-        popup_main.style.display = "none";
+      document.getElementById("scrap_test").addEventListener("click",()=>{
+        socket.emit("GetGreenOakPrices","https://www.taladsrimuang.com/product/report_v2.php","/html/body/table[4]/tbody/tr/td/table/tbody/tr[1]/td/table/tbody/tr[3]/td/table/tbody/tr[4]/td/table/tbody/tr[1]/td/table/tbody/tr[53]/td[2]/div")
       });
 
-      document
-        .getElementById("submit-and-close")
-        .addEventListener("click", () => {
-          var popup_main = document.getElementById("popup-card");
-          var start_btn = document.getElementById("btn-start");
-          var cancel_btn = document.getElementById("btn-cancel");
-          var start_date_data = document.getElementById("start-date-data");
-          var plant_form_data = document.forms["plant_form"]["start_date"].value;
-          var display_day_remaining = document.getElementById("display_day_remaining");
+      socket.on("Update_Realtime_charts", (data1, data2, data3, data4) => {
+        var temp_data = Number(data1.temp_data).toFixed(2);
+        var hum_data = Number(data2.hum_data).toFixed(2);
+        var ec_data = ((Number(data3.ec_data)) / 1000).toFixed(2);
+        var ph_data = Number(data4.ph_data).toFixed(2);
 
-          // Check null 
+        graph_chart.appendData([
+          {
+            data: [temp_data],
+          },
+          {
+            data: [ph_data],
+          },
+          {
+            data: [ec_data],
+          },
+          {
+            data: [hum_data],
+          },
+        ]);
 
-          if (plant_form_data !== "") {
-            plant_date = plant_form_data.split("-");
-            var date_now = new Date();
-            var year = date_now.getFullYear();
-            var month = date_now.getMonth() + 1;
-            var days = date_now.getDate();
+      });
 
-            compare_date_now = year * 1000 + month * 100 + days;
-            compare_date_form = Number(plant_date[0]) * 1000 + Number(plant_date[1]) * 100 + Number(plant_date[2]);
 
-            if (compare_date_form > compare_date_now) {
-              alert("😥 You entered the wrong date.")
-              return false;
-            }
-          }
+      socket.on("tempdata", (data) => {
+        document.getElementById("env-temp").innerHTML = data.value;
+      });
 
-          if (plant_form_data === "") {
-            console.log(plant_form_data);
-            console.log(typeof (plant_form_data));
-            alert("Start date must be filled out !");
-            return false;
-          }
+      socket.on("humdata", (data) => {
+        document.getElementById("env-hum").innerHTML = data.value;
+      });
 
-          popup_main.style.display = "none";
-          start_btn.style.display = "none";
-          display_day_remaining.style.display = "block"
-          // document.getElementById("start-date-data").innerHTML= plant_start_date;
-          chart_process_circle(convert_days_remaining_to_percent(plant_day_remaining));
-          socket.emit("schedule_status", "planting");
-          // socket.emit("schedule", "planting");
-          location.reload(true);
-        });
+      socket.on("lightdata", (data) => {
+        document.getElementById("env-light").innerHTML = data.value;
+      });
 
-      document
-        .getElementById("button-cancel")
-        .addEventListener("click", () => {
-          var start_btn = document.getElementById("btn-start");
-          var cancel_btn = document.getElementById("btn-cancel");
-          var display_day_remaining = document.getElementById("display_day_remaining");
+      socket.on("ecdata", (data) => {
+        document.getElementById("env-ec").innerHTML = data.value;
+      });
 
-          display_day_remaining.style.display = "none";
+      socket.on("phdata", (data) => {
+        document.getElementById("env-ph").innerHTML = data.value;
+      });
+
+      socket.on("water_lvl", (data) => {
+        document.getElementById("env-water").innerHTML = data.value;
+      });
+
+
+
+      //Set Clock | timezone
+      display_ct(); // <- Call function
+      function display_c() {
+        var refresh = 1000; // Refresh rate in milli seconds
+        mytime = setTimeout("display_ct()", refresh);
+      }
+
+      function display_ct() {
+        var x = new Date();
+
+        var hour = x.getHours();
+        var minute = x.getMinutes();
+        var second = x.getSeconds();
+        if (hour < 10) {
+          hour = "0" + hour;
+        }
+        if (minute < 10) {
+          minute = "0" + minute;
+        }
+        if (second < 10) {
+          second = "0" + second;
+        }
+
+        var x1 = x.getDate() + " " + month_now() + " " + x.getFullYear();
+        x1 = x1 + " | " + day_now() + " " + hour + ":" + minute + ":" + second;
+        document.getElementById("ct").innerHTML = x1;
+        display_c();
+      }
+
+      function month_now() {
+        var my_month = new Date();
+        var month_name = new Array(12);
+        month_name[0] = "January";
+        month_name[1] = "February";
+        month_name[2] = "March";
+        month_name[3] = "April";
+        month_name[4] = "May";
+        month_name[5] = "June";
+        month_name[6] = "July";
+        month_name[7] = "August";
+        month_name[8] = "September";
+        month_name[9] = "October";
+        month_name[10] = "November";
+        month_name[11] = "December";
+        return month_name[my_month.getMonth()];
+      }
+      function day_now() {
+        var my_day = new Date();
+        var day_name = new Array(7);
+
+        day_name[0] = "Sunday";
+        day_name[1] = "Monday";
+        day_name[2] = "Tuesday";
+        day_name[3] = "Wednesday";
+        day_name[4] = "Thursday";
+        day_name[5] = "Friday";
+        day_name[6] = "Saturday";
+        return day_name[my_day.getDay()];
+      }
+
+      // Calculate Percent time remaining plant for process charts.
+      function convert_days_remaining_to_percent(days_remaining) {
+        duration = 45; // Duration of Saland 45 days
+        var result = Math.round(((duration - days_remaining) * 100) / duration);
+        if (result >= 100) return 100;
+        else return result;
+      }
+
+      // Chart Process
+      function chart_process_circle(percent) {
+        var process_options = {
+          chart: {
+            height: 280,
+            type: "radialBar",
+            fontFamily: "Nunito, sans-serif",
+          },
+          series: [percent],
+
+          plotOptions: {
+            radialBar: {
+              hollow: {
+                margin: 15,
+                size: "70%",
+              },
+
+              dataLabels: {
+                showOn: "always",
+                name: {
+                  offsetY: -10,
+                  show: true,
+                  color: "#888",
+                  fontSize: "13px",
+                },
+                value: {
+                  color: "#111",
+                  fontSize: "30px",
+                  fontWeight: "bold",
+                  show: true,
+                },
+              },
+            },
+          },
+
+          stroke: {
+            lineCap: "round",
+          },
+          labels: ["Progress"],
+        };
+        var process_chart = new ApexCharts(
+          document.querySelector("#process_chart"),
+          process_options
+        );
+        process_chart.render();
+      }
+
+      // Chart Realtime
+      var graph_options = {
+        chart: {
+          height: 350,
+          type: "line",
+          fontFamily: "Nunito, sans-serif",
+          animations: {
+            easing: "linear",
+            dynamicAnimation: {
+              speed: 1510,
+            },
+          },
+          toolbar: {
+            show: false,
+          },
+          zoom: {
+            enabled: false,
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        stroke: {
+          curve: "smooth",
+        },
+        series: [
+          {
+            name: "Tempurature",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+          {
+            name: "pH",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+          {
+            name: "EC",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+          {
+            name: "Humidity",
+            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+          },
+        ],
+        title: {
+          text: " Sensors data",
+          align: "left",
+        },
+        markers: {
+          size: 0,
+        },
+        xaxis: {
+          range: 10,
+          tickAmount: 10,
+        },
+        legend: {
+          show: true,
+        },
+      };
+
+      var graph_chart = new ApexCharts(
+        document.querySelector("#graph_chart"),
+        graph_options
+      );
+      graph_chart.render();
+
+      // POP-UP
+      var date = new Date(document.getElementById("plant-input-form").value);
+
+      var plant_day_remaining = 0;
+
+      socket.on("schedule", (data1, data2, data3) => {
+
+        var plant_status = data1.status;
+        var plant_start_date = data2.start_date;
+        plant_day_remaining = data3.days_remaining;
+
+        if (Number(plant_day_remaining) === 0 && plant_status === "planting") {
+          socket.emit("schedule_status", "harvest");
+        };
+
+        document.getElementById("days_remaining").innerHTML =
+          String(plant_day_remaining) + " Days";
+
+        var start_btn = document.getElementById("btn-start");
+        var cancel_btn = document.getElementById("btn-cancel");
+        var harvest_btn = document.getElementById("btn-harvest");
+        var start_date_data = document.getElementById("start-date-data");
+        var display_day_remaining = document.getElementById("display_day_remaining");
+
+        if (plant_status == "ready") {
           start_btn.style.display = "block";
           cancel_btn.style.display = "none";
+          start_date_data.style.display = "none";
           chart_process_circle(0);
 
-          socket.emit("schedule_status", "ready");
-          location.reload(true);
+          document
+            .getElementById("button-start")
+            .addEventListener("click", () => {
+              var popup_main = document.getElementById("popup-card");
+              popup_main.style.display = "block";
+            });
+        } else if (plant_status == "planting") {
+          start_btn.style.display = "none";
+          display_day_remaining.style.display = "block";
+          cancel_btn.style.display = "block";
+          start_date_data.style.display = "block";
+          chart_process_circle(convert_days_remaining_to_percent(plant_day_remaining));
+        }
+
+        else if (plant_status == "harvest") {
+          start_btn.style.display = "none";
+          display_day_remaining.style.display = "block";
+          cancel_btn.style.display = "none";
+          harvest_btn.style.display = "block";
+          start_date_data.style.display = "block";
+          chart_process_circle(convert_days_remaining_to_percent(plant_day_remaining));
+
+        }
+
+
+
+
+        // <-- End else if here
+
+        document.getElementById("close-popup").addEventListener("click", () => {
+          var popup_main = document.getElementById("popup-card");
+          popup_main.style.display = "none";
         });
-    });
+
+        document
+          .getElementById("submit-and-close")
+          .addEventListener("click", () => {
+            var popup_main = document.getElementById("popup-card");
+            var start_btn = document.getElementById("btn-start");
+            var cancel_btn = document.getElementById("btn-cancel");
+            var start_date_data = document.getElementById("start-date-data");
+            var plant_form_data = document.forms["plant_form"]["start_date"].value;
+            var display_day_remaining = document.getElementById("display_day_remaining");
+
+            // Check null 
+
+            if (plant_form_data !== "") {
+              plant_date = plant_form_data.split("-");
+              var date_now = new Date();
+              var year = date_now.getFullYear();
+              var month = date_now.getMonth() + 1;
+              var days = date_now.getDate();
+
+              compare_date_now = year * 1000 + month * 100 + days;
+              compare_date_form = Number(plant_date[0]) * 1000 + Number(plant_date[1]) * 100 + Number(plant_date[2]);
+
+              if (compare_date_form > compare_date_now) {
+                alert("😥 You entered the wrong date.")
+                return false;
+              }
+            }
+
+            if (plant_form_data === "") {
+              console.log(plant_form_data);
+              console.log(typeof (plant_form_data));
+              alert("Start date must be filled out !");
+              return false;
+            }
+
+            popup_main.style.display = "none";
+            start_btn.style.display = "none";
+            display_day_remaining.style.display = "block"
+            // document.getElementById("start-date-data").innerHTML= plant_start_date;
+            chart_process_circle(convert_days_remaining_to_percent(plant_day_remaining));
+            socket.emit("schedule_status", "planting");
+            // socket.emit("schedule", "planting");
+            location.reload(true);
+          });
+
+        document
+          .getElementById("button-cancel")
+          .addEventListener("click", () => {
+            var start_btn = document.getElementById("btn-start");
+            var cancel_btn = document.getElementById("btn-cancel");
+            var display_day_remaining = document.getElementById("display_day_remaining");
+
+            display_day_remaining.style.display = "none";
+            start_btn.style.display = "block";
+            cancel_btn.style.display = "none";
+            chart_process_circle(0);
+
+            socket.emit("schedule_status", "ready");
+            location.reload(true);
+          });
+      });
 
 
-  </script>
+      document.getElementById("btn-harvest").addEventListener("click", () => {
+        var start_btn = document.getElementById("btn-start");
+        var cancel_btn = document.getElementById("btn-cancel");
+        var display_day_remaining = document.getElementById("display_day_remaining");
+        var popup_harvest = document.getElementById("popup-harvest-card");
+
+        popup_harvest.style.display = "block";
+
+        // display_day_remaining.style.display = "none";
+        // start_btn.style.display = "block";
+        // cancel_btn.style.display = "none";
+        // chart_process_circle(0);
+
+        // socket.emit("schedule_status", "ready");
+        // location.reload(true);
+      });
+
+      var card1 = document.getElementById("card1");
+      var card2 = document.getElementById("card2");
+      var card3 = document.getElementById("card3");
+      var card4 = document.getElementById("card4");
+      var card5 = document.getElementById("card5");
+      var card6 = document.getElementById("card6");
+      var card7 = document.getElementById("card7");
+      var card8 = document.getElementById("card8");
+      var card9 = document.getElementById("card9");
+      var plant_name = document.getElementById("plant_name");
+
+
+      // Pop-Up selection card animation
+
+      // Green Oak
+      card1.addEventListener("click", () => {
+        card1.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "5.5-6.5", "1.2-1.6");
+        plant_name.innerHTML = "Green Oak";
+      });
+
+      // Green Cos
+      card2.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "5.5-6.5", "1.2-1.6");
+        plant_name.innerHTML = "Green Cos";
+      });
+
+      // BUtterhead
+      card3.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "5.5-6.5", "1.2-1.6");
+        plant_name.innerHTML = "Butterhead";
+      });
+
+      // Cabbage
+      card4.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "6.0-6.5", "0.8-1.2");
+        plant_name.innerHTML = "Cabbage";
+      });
+
+      // Rocket
+      card5.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "5.5-6.5", "1.2-1.6");
+        plant_name.innerHTML = "Rocket Arugula";
+      });
+
+      // Celery
+      card6.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "6.0-6.5", "2.5-3.0");
+        plant_name.innerHTML = "Celery";
+      });
+
+      //Ice berg
+      card7.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "5.5-6.5", "1.2-1.6");
+        plant_name.innerHTML = "Frillice Ice Berg";
+      });
+
+      // Red Oak
+      card8.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        card9.style.boxShadow = "none";
+        socket.emit("set_ph_ec_auto", "5.5-6.5", "1.2-1.6");
+        plant_name.innerHTML = "Red Oak";
+      });
+
+      //Cautiflower
+      card9.addEventListener("click", () => {
+        card1.style.boxShadow = "none";
+        card2.style.boxShadow = "none";
+        card3.style.boxShadow = "none";
+        card4.style.boxShadow = "none";
+        card5.style.boxShadow = "none";
+        card6.style.boxShadow = "none";
+        card7.style.boxShadow = "none";
+        card8.style.boxShadow = "none";
+        card9.style.boxShadow = "0px 0px 0px 3px rgba(151, 177, 202, 0.25)";
+        socket.emit("set_ph_ec_auto", "6.0-6.5", "2.5-3.0");
+        plant_name.innerHTML = "Cauliflower";
+      });
+
+
+      document.getElementById("harvest_submit").addEventListener("click", () => {
+        var plant_weight_form = document.forms["harvest_form"]["plant_weight"].value;
+        var num_plant_form = document.forms["harvest_form"]["num_plant"].value;
+
+        var start_btn = document.getElementById("btn-start");
+        var cancel_btn = document.getElementById("btn-cancel");
+        var display_day_remaining = document.getElementById("display_day_remaining");
+        var popup_harvest = document.getElementById("popup-harvest-card");
+
+        
+
+        if (plant_weight_form === "" || num_plant_form === "") {
+          alert("Please enter your information.");
+        }
+        
+        else{
+          // console.log("Uncomment Below pls");
+          popup_harvest.style.display = "none";
+          display_day_remaining.style.display = "none";
+            start_btn.style.display = "block";
+            cancel_btn.style.display = "none";
+            chart_process_circle(0);
+            socket.emit("schedule_status", "ready");
+            location.reload(true);
+        }
+
+
+
+        
+
+
+
+      });
+
+      socket.on("pv_profit", (data) => {
+        document.getElementById("profit_pv").innerHTML = numberWithCommas(data.profit);
+        
+      });
+
+      socket.on("pv_grow", (data) => {
+        document.getElementById("grow_pv").innerHTML = data.grow + " %" ;
+        
+      });
+
+      socket.on("graph_pv", (data) => {
+    
+      
+    console.log(data.graph_pv)
+    temp_split = data.graph_pv.split("-");
+    console.log(temp_split);
+    document.getElementById("crop_no").innerHTML = temp_split.length-1;
+    for (i = 0; i < temp_split.length; i++) {
+      chart_pv.appendData([
+        {
+          data: [{ x:i,y:temp_split[i] },]
+        },
+      ]);
+      console.log(i + " - " + temp_split[i])
+      
+  
+}
+  });
+
+  var options_pv = {
+          series: [{
+          name: "Income(THB)",
+          data: 
+          [
+          ]
+        }],
+          chart: {
+          id: 'area-datetime',
+          type: 'area',
+          fontFamily: "Nunito, sans-serif",
+      animations: {
+        easing: "linear",
+        dynamicAnimation: {
+          speed: 1000,
+        },
+      },
+          height: 350,
+          zoom: {
+            show: false,
+          },
+          toolbar: {
+        show: false,
+      },
+        },
+
+
+
+        annotations: {
+          yaxis: [{
+            y: 2250,
+            borderColor: '#00E396',
+            label: {
+              borderColor: '#00E396',
+              show: true,
+              text: 'Break-even point',
+              style: {
+                color: "#fff",
+                background: '#00E396'
+              }
+            }
+          }],
+
+        },
+        dataLabels: {
+          enabled: false
+        },
+        markers: {
+          size: 0,
+          style: 'hollow',
+        },
+        xaxis: {
+          tickAmount: 6,
+        },
+        yaxis: {
+          min:0,
+          max:3000
+        },
+        // tooltip: {
+        //   x: {
+        //     format: 'dd MMM yyyy'
+        //   }
+        // },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.7,
+            opacityTo: 0.9,
+            stops: [0, 100]
+          }
+        },
+        };
+
+        var chart_pv = new ApexCharts(document.querySelector("#chart-timeline"), options_pv);
+        chart_pv.render();
+
+        socket.on("pv_data", (data1, data2, data3) => {
+
+
+        })
+
+        function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+
+
+    </script>
 </body>
 
 </html>
